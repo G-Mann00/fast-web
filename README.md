@@ -1,8 +1,21 @@
-# React + Vite
+# Aplicacion Web para proyecto FAST
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Uso del proyecto
 
-Currently, two official plugins are available:
+Este proyecto fue creado con **Vite** y hace uso de las siguientes tecnologias:
+- Tailwind CSS
+- React Router
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Instalar dependencias
+
+Para poder instalar las dependencias necesarias para este proyecto, se debe utilizar el siguiente comando:
+```bash
+npm install
+```
+
+### Ejecutar interfaz de Vite
+
+React se ejecutara en http://localhost:5173
+```bash
+npm run dev
+```
