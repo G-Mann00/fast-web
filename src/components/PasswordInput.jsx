@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types'; // Import PropTypes
 import closedEye from '../assets/img/eye-closed.svg';
 import openEye from '../assets/img/eye-open.svg';
 import { useState } from "react";
 
-const PasswordInput = () => {
+const PasswordInput = ({ onPasswordChange, register }) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -15,6 +16,8 @@ const PasswordInput = () => {
           className="absolute size-full rounded-lg bg-[#A0A5BA]/[0] p-3"
           type={passwordVisible ? 'text' : 'password'}
           placeholder="* * * * * * * *"
+          {...register("password", { required: true })} // Register the password field
+          onChange={(e) => onPasswordChange(e.target.value)} // Handle password change
         />
         <button type="button" onClick={togglePasswordVisibility} className="absolute right-4 top-[11px]"> 
           <img 
@@ -25,6 +28,14 @@ const PasswordInput = () => {
         </button>
       </div>
     );
-  };
+};
+
+
+
+// Define prop types for PasswordInput
+PasswordInput.propTypes = {
+    onPasswordChange: PropTypes.func.isRequired, // Ensure onPasswordChange is a function and required
+    register: PropTypes.func.isRequired, // Ensure register is a function and required
+};
 
 export default PasswordInput;
