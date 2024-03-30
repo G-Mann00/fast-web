@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Navbar underline hover */
+@layer utilities {
+	ul li {
+		@apply relative tracking-[1px] font-semibold text-[#333] hover:text-FAST-Orange cursor-pointer transition-all duration-300;
+	}
+	ul li::after {
+		@apply content-[''] bg-FAST-Orange h-[3px] w-[0%] left-0 -bottom-[5px] rounded-xl absolute duration-300;
+	}
+	ul li:hover::after {
+		@apply w-[100%];
+	}
+}
