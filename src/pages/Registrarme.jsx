@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/img/fast-logo.svg";
 
 const handleClick = () => {
@@ -9,9 +10,11 @@ const Registro = () => {
     <main className="flex justify-between align-center h-screen w-screen bg-FAST-DarkBlue px-2 py-6 sm:px-8 sm:py-10">
       
       {/*logo*/}
-      <div className="place-self-start">
-        <img className='w-fit max-w-[220px] h-fit max-h-[60px]' src={logo} alt="Fast logo" />
-      </div>
+      <Link to="/">
+        <div className="place-self-start">
+          <img className='w-fit max-w-[220px] h-fit max-h-[60px]' src={logo} alt="Fast logo" />
+        </div>
+      </Link>
       {/* Register Container */}
       <div className="place-self-center space-y-2">
         {/* Register and data message */}

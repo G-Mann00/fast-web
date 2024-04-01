@@ -23,7 +23,7 @@ return (
         {/* Hero Calls for action */}
         <div className='flex justify-center my-10'>
             <a
-            href="#"
+            href="/Registrarme"
             className="bg-FAST-Orange text-xl font-medium text-FAST-WhiteCream py-3 px-4 mx-3 rounded-lg hover:bg-[#ed6d1f]"
             >
             Registrate ya

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import logo from "../assets/img/fast-logo.svg";
 import ImageUpload from "../components/ImageUpload";
 import kioskImage from '../assets/img/kiosko.png';
+import { Link } from 'react-router-dom';
 
 const RegisterKiosk = () => {
   // State to store the image URL
@@ -21,9 +22,12 @@ const RegisterKiosk = () => {
 
   return (
     <main className="flex justify-between align-center h-screen w-screen bg-FAST-DarkBlue px-2 py-6 sm:px-8 sm:py-10">
-      <div className="place-self-start">
-        <img className='w-fit max-w-[220px] h-fit max-h-[60px]' src={logo} alt="Fast logo" />
-      </div>
+      
+      <Link to="/">
+        <div className="place-self-start">
+          <img className='w-fit max-w-[220px] h-fit max-h-[60px]' src={logo} alt="Fast logo" />
+        </div>
+      </Link>
       
       <div className="place-self-center space-y-2">
         <p className="text-FAST-WhiteCream text-2xl font-bold sm:text-3xl text-center">Registrate para administrar tu kiosko</p>
