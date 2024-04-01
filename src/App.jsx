@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
 import Registro from "./pages/Registrarme";
+import RegisterKiosk from "./pages/RegisterKiosk";
 
 function App() {
 
@@ -15,6 +16,9 @@ function App() {
 
       {/* Enrutamiento a la página de Registro */}
       <Route path="/Registrarme" element={<Registro />}></Route>
+      
+      {/* Enrutamiento a la página de Registro de Kiosko*/}
+      <Route path="/RegisterKiosk" element={<RegisterKiosk />}></Route>
     </Routes>
   )
 }
