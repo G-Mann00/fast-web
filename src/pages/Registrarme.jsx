@@ -1,5 +1,9 @@
 import logo from "../assets/img/fast-logo.svg";
 
+const handleClick = () => {
+  window.location.href = '/RegisterKiosk';
+};
+
 const Registro = () => {
   return (
     <main className="flex justify-between align-center h-screen w-screen bg-FAST-DarkBlue px-2 py-6 sm:px-8 sm:py-10">
@@ -8,45 +12,45 @@ const Registro = () => {
       <div className="place-self-start">
         <img className='w-fit max-w-[220px] h-fit max-h-[60px]' src={logo} alt="Fast logo" />
       </div>
-      {/* Contenedor del registro */}
+      {/* Register Container */}
       <div className="place-self-center space-y-2">
-        {/* Mensaje de registro y datos */}
+        {/* Register and data message */}
         <p className="text-FAST-WhiteCream text-2xl font-bold sm:text-3xl text-center">Registrate para administrar tu kiosko</p>
         <p className="text-FAST-WhiteCream font-bold text-lg text-center">Datos Personales</p>
         {/* Formulario de registro */}
         <form className="w-full h-full rounded-3xl bg-FAST-WhiteCream p-5">
-          {/* Etiquetas de nombre completo y nombre de usuario */}
+           {/* Complete Name and User name label */}
            <div className="grid grid-cols-2 gap-5">
            <h2 className="text-left font-bold">Nombre Completo</h2>
            <h2 className="text-left font-bold">Nombre de Usuario</h2>
            </div>
-           {/* Campos de nombre completo y nombre de usuario */}
+            {/* Complete name and user name input*/}
            <div className="mt-1 grid grid-cols-2 gap-5">
             <input className="h-[40px] w-72 rounded-lg bg-[#A0A5BA]/20 p-3" type="firstName" placeholder="John" />
             <input className="h-[40px] w-72 rounded-lg bg-[#A0A5BA]/20 p-3" type="lastName" placeholder="Smith" />
            </div>
-            {/* Etiqueta y campo de correo electrónico */}
+            {/* Label and Email Input */}
            <div className="mt-5"> 
              <h2 className="text-left pb-1 font-bold">Correo electrónico</h2>
              <input className="h-[40px] w-full rounded-lg bg-[#A0A5BA]/20 p-3" type="email" placeholder="fast@gmail.com" />
            </div>
-            {/* Etiqueta de contraseña y confirmar contraseña */}
+            {/* Password label*/}
             <div className="mt-5 grid grid-cols-2 gap-5">
              <h2 className="text-left font-bold">Contraseña</h2>
              <h2 className="text-left font-bold">Confirmar Contraseña</h2>
             </div>
-            {/* Campos de contraseña y confirmar contraseña */}
+            {/* Password Input */}
              <div className="mt-1 grid grid-cols-2 gap-5">
              <input className="h-[40px] w-72 rounded-lg bg-[#A0A5BA]/20 p-3" type="password"placeholder="* * * * * * * *" />
             <input className="h-[40px] w-72 rounded-lg bg-[#A0A5BA]/20 p-3" type="lastName" placeholder="* * * * * * * *" />
            </div>
-           {/*Botón de siguiente para ir al próximo formulario*/}
+           {/*Button*/}
            <div className="mt-5 flex justify-center"> 
-              <button className="w-72 h-10 bg-FAST-Orange text-FAST-WhiteCream cursor-pointer hover:bg-[#ed6d1f] font-bold uppercase rounded-lg">Siguiente</button>
+              <button type="button" className="w-72 h-10 bg-FAST-Orange text-FAST-WhiteCream cursor-pointer hover:bg-[#ed6d1f] font-bold uppercase rounded-lg"onClick={handleClick}>Siguiente</button>
            </div>
         </form>
       </div>
-        {/* Enlace para iniciar sesión */}
+      {/* Link to Login page */}
       <div className="flex justify-self-end">
         <p className="text-FAST-WhiteCream font-bold">¿Ya tienes una cuenta?</p>
         <a href="/Login" className="font-bold uppercase text-FAST-Orange pl-1 cursor-pointer hover:underline">Iniciar sesión →</a>

@@ -15,7 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const {register, handleSubmit} = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const isLoggedIn = pb.authStore.model.isValid;
+  const isLoggedIn = pb.authStore && pb.authStore.model && pb.authStore.model.isValid;
  
 
   const handlePasswordChange = (newPassword) => {
@@ -52,7 +52,7 @@ const [showErrorMessage, setErrorMessage] = useState(false);
 
           {/*Contenedor del login*/ }
           <form className="flex size-full flex-col items-center justify-around rounded-3xl bg-FAST-WhiteCream p-5 text-left" onSubmit={handleSubmit(login)}>
-          <p className={`left-0 text-left text-[#FF0400] ${showErrorMessage ? '' : 'hidden'}`}>Nombre de usuario o clave inválidos</p>
+          <p className={`left-0 text-left text-[#FF0400] ${showErrorMessage ? '' : 'hidden'}`}>Correo o clave inválidos</p>
 
                {/*Campo de correo electronico*/}
             <div className="flex w-full flex-col">
