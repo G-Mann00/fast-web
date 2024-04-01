@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
 import Registro from "./pages/Registrarme";
 import RegisterKiosk from "./pages/RegisterKiosk";
+import Error404 from "./pages/Error404";
 
 function App() {
 
@@ -19,6 +20,9 @@ function App() {
       
       {/* Enrutamiento a la página de Registro de Kiosko*/}
       <Route path="/RegisterKiosk" element={<RegisterKiosk />}></Route>
+
+      {/* Enrutamiento a la página de error 404*/}
+      <Route path="*" element={<Error404 />}></Route>
     </Routes>
   )
 }

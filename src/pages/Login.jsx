@@ -47,7 +47,9 @@ const [showErrorMessage, setErrorMessage] = useState(false);
     <>
       <main className="flex h-svh bg-FAST-DarkBlue justify-center px-2 py-6 sm:px-8 sm:py-10">
         <div className="flex max-h-[500px] flex-col items-center space-y-6">
-          <img className='w-fit max-w-[220px] h-fit max-h-[60px]' src={logo} alt="Fast logo"/>
+          <Link to="/">
+            <img className='w-fit max-w-[220px] h-fit max-h-[60px]' src={logo} alt="Fast logo"/>
+          </Link>
           <p className="text-FAST-WhiteCream text-2xl font-bold sm:text-3xl">Te damos la bienvenida</p>
 
           {/*Contenedor del login*/ }
