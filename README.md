@@ -2,9 +2,11 @@
 
 ## Uso del proyecto
 
-Este proyecto fue creado con **Vite** y hace uso de las siguientes tecnologias:
+Este proyecto fue creado con **Vite** y hace uso de las siguientes librerias:
 - Tailwind CSS
 - React Router
+- React Icons
+- Classnames
 
 ### Instalar dependencias
 
