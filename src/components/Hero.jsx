@@ -8,7 +8,7 @@ return (
         {/* Hero Header */}
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-medium text-center tracking-wide">
             Transforma tu experiencia de ordenes de comida con 
-            <span className="bg-FAST-ORANGE">
+            <span className="text-FAST-Orange">
                 {" "}
                 FAST!
             </span>
