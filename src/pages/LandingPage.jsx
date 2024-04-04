@@ -1,9 +1,9 @@
-import Hero from "../components/Hero"
-import Navbar from "../components/Navbar"
-import Partners from "../components/Partners"
-import Services from "../components/Services"
+import Hero from "../components/landing/Hero"
+import Navbar from "../components/landing/Navbar"
+import Partners from "../components/landing/Partners"
+import Services from "../components/landing/Services"
 import download from '../assets/img/download-section.png';
-import Footer from "../components/Footer";
+import Footer from "../components/landing/Footer";
 
 const LandingPage = () => {
   return (

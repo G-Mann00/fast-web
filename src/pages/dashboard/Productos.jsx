@@ -1,4 +1,4 @@
-import DocumentTitle from "../components/DocumentTitle";
+import DocumentTitle from "../../components/DocumentTitle";
 
 const Productos = () => {
   DocumentTitle("FAST - Productos");

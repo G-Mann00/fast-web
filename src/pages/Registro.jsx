@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/img/fast-logo.svg";
+import DocumentTitle from "../components/DocumentTitle";
 
 const handleClick = () => {
-  window.location.href = '/RegisterKiosk';
+  window.location.href = '/RegistroKiosko';
 };
 
 const Registro = () => {
+  DocumentTitle("Registro de usuario");
   return (
     <main className="flex justify-between align-center h-screen w-screen bg-FAST-DarkBlue px-2 py-6 sm:px-8 sm:py-10">
       

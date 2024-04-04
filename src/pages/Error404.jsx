@@ -1,8 +1,10 @@
+import DocumentTitle from "../components/DocumentTitle";
 import alert from "../assets/img/triangulo-alerta.png";
 import { useNavigate } from "react-router-dom";
 
 const Error404 = () => {
-    const navigate = useNavigate();
+  DocumentTitle("Error 404 (Not Found)");
+  const navigate = useNavigate();
 
   return (
     <main className="flex h-svh bg-FAST-DarkBlue justify-center px-2 py-6 sm:px-8 sm:py-10">

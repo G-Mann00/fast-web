@@ -1,6 +1,6 @@
-import firstCard from '../assets/img/services-img-one.png'
-import secondCard from '../assets/img/services-img-two.png'
-import thirdCard from '../assets/img/services-img-three.png'
+import firstCard from '../../assets/img/services-img-one.png'
+import secondCard from '../../assets/img/services-img-two.png'
+import thirdCard from '../../assets/img/services-img-three.png'
 
 const Services = () => {
   return (

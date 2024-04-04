@@ -1,15 +1,15 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
-import Registro from "./pages/Registrarme";
-import RegisterKiosk from "./pages/RegisterKiosk";
+import Registro from "./pages/Registro";
+import RegistroKiosko from "./pages/RegistroKiosko";
 import Error404 from "./pages/Error404";
 import MainLayout from "./layouts/MainLayout";
-import Inicio from "./pages/Inicio";
-import Productos from "./pages/Productos";
-import Ordenes from "./pages/Ordenes";
-import ConfigKiosko from "./pages/ConfigKiosko";
-import Ajustes from "./pages/Ajustes";
+import Inicio from "./pages/dashboard/Inicio";
+import Productos from "./pages/dashboard/Productos";
+import Ordenes from "./pages/dashboard/Ordenes";
+import ConfigKiosko from "./pages/dashboard/AjustesKiosko";
+import Ajustes from "./pages/dashboard/Ajustes";
 
 function App() {
 
@@ -22,10 +22,10 @@ function App() {
       <Route path="/Login" element={<Login />}></Route>
 
       {/* Enrutamiento a la página de Registro */}
-      <Route path="/Registrarme" element={<Registro />}></Route>
+      <Route path="/Registro" element={<Registro />}></Route>
       
       {/* Enrutamiento a la página de Registro de Kiosko*/}
-      <Route path="/RegisterKiosk" element={<RegisterKiosk />}></Route>
+      <Route path="/RegistroKiosko" element={<RegistroKiosko />}></Route>
 
       {/* Enrutamiento a la página de error 404*/}
       <Route path="*" element={<Error404 />}></Route>
