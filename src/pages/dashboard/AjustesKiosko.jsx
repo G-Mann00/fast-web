@@ -1,7 +1,7 @@
-import DocumentTitle from "../components/DocumentTitle";
+import DocumentTitle from "../../components/DocumentTitle";
 
 const ConfigKiosko = () => {
-  DocumentTitle("FAST - Configuracion de Kiosko");
+  DocumentTitle("FAST - Ajustes del Kiosko");
   return (
     <div>Esta es la pagina de configuracion de info del kiosko</div>
   )

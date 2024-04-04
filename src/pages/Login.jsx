@@ -1,11 +1,11 @@
 import DocumentTitle from "../components/DocumentTitle";
 import logo from "../assets/img/fast-logo.svg";
 import PasswordInput from "../components/PasswordInput";
-import pb from "../database/pocketbase";
+import pb from "../lib/database/pocketbase";
 import { useForm } from "react-hook-form";
 import { useState } from 'react';
 import { Link} from "react-router-dom";
-import Registro from "./Registrarme";
+import Registro from "./Registro";
 
 
 const Login = () => {
@@ -75,7 +75,7 @@ const [showErrorMessage, setErrorMessage] = useState(false);
             {/*Registro de nueva cuenta*/}
             <div className="flex justify-center">
               <p className="text-base text-[#646982] pb-1.5">¿No tienes una cuenta?</p>
-              <Link to="/Registrarme" element={<Registro/>} className="font-bold uppercase text-FAST-Orange pl-1 hover:underline cursor-pointer ">Registrate</Link>
+              <Link to="/Registro" element={<Registro/>} className="font-bold uppercase text-FAST-Orange pl-1 hover:underline cursor-pointer ">Registrate</Link>
             </div>
           </form>
         </div>

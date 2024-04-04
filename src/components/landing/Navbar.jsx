@@ -1,4 +1,4 @@
-import logo from "../assets/img/fast-logo.svg";
+import logo from "../../assets/img/fast-logo.svg";
 
 const Navbar = () => {
   return (
@@ -21,8 +21,8 @@ const Navbar = () => {
 
                 {/* Navbar Buttons */}
                 <div className="hidden lg:flex justify-center space-x-12 items-center">
-                    <a href="/login" className="bg-FAST-DarkBlue text-xl font-medium text-FAST-WhiteCream py-2 px-3 border rounded-lg hover:bg-[#2B3045]">Iniciar Sesion</a>
-                    <a href="/Registrarme" className="bg-FAST-Orange text-xl font-medium text-FAST-WhiteCream py-2 px-3 border rounded-lg hover:bg-[#ed6d1f]">Crea una Cuenta</a>
+                    <a href="/Login" className="bg-FAST-DarkBlue text-xl font-medium text-FAST-WhiteCream py-2 px-3 border rounded-lg hover:bg-[#2B3045]">Iniciar Sesion</a>
+                    <a href="/Registro" className="bg-FAST-Orange text-xl font-medium text-FAST-WhiteCream py-2 px-3 border rounded-lg hover:bg-[#ed6d1f]">Crea una Cuenta</a>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@ import logo from "../assets/img/fast-logo.svg";
 import ImageUpload from "../components/ImageUpload";
 import kioskImage from '../assets/img/kiosko.png';
 import { Link } from 'react-router-dom';
+import DocumentTitle from "../components/DocumentTitle";
 
 const RegisterKiosk = () => {
   // State to store the image URL
@@ -20,6 +21,7 @@ const RegisterKiosk = () => {
     };
   }, []);
 
+  DocumentTitle("Registro de Kiosko");
   return (
     <main className="flex justify-between align-center h-screen w-screen bg-FAST-DarkBlue px-2 py-6 sm:px-8 sm:py-10">
       

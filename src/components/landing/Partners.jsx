@@ -1,7 +1,7 @@
-import multicentro from '../assets/img/multicentro-las-americas.svg';
-import metrocentro from '../assets/img/metrocentro.svg';
-import galerias from '../assets/img/galerias.svg';
-import ccmanagua from '../assets/img/centro-comercial-managua.svg';
+import multicentro from '../../assets/img/multicentro-las-americas.svg';
+import metrocentro from '../../assets/img/metrocentro.svg';
+import galerias from '../../assets/img/galerias.svg';
+import ccmanagua from '../../assets/img/centro-comercial-managua.svg';
 
 const Partners = () => {
   return (
