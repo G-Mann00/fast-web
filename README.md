@@ -17,6 +17,7 @@ Una versión web complementaria de FAST (Food Accessible for Swift Takeout) desa
 
 Este proyecto fue creado mediante la herramienta de construccion (build tool) **Vite** y hace uso de las siguientes librerias:
 - Tailwind CSS
+- PocketBase
 - React Router
 - React Icons
 - Classnames
