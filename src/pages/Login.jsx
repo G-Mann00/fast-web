@@ -5,7 +5,7 @@ import pb from "../lib/database/pocketbase";
 import { useForm } from "react-hook-form";
 import { useState } from 'react';
 import { Link} from "react-router-dom";
-import Registro from "./Registro";
+import RegistroCompleto from "./RegistroCompleto";
 
 
 const Login = () => {
@@ -75,7 +75,7 @@ const [showErrorMessage, setErrorMessage] = useState(false);
             {/*Registro de nueva cuenta*/}
             <div className="flex justify-center">
               <p className="text-base text-[#646982] pb-1.5">¿No tienes una cuenta?</p>
-              <Link to="/Registro" element={<Registro/>} className="font-bold uppercase text-FAST-Orange pl-1 hover:underline cursor-pointer ">Registrate</Link>
+              <Link to="/Registro" element={<RegistroCompleto/>} className="font-bold uppercase text-FAST-Orange pl-1 hover:underline cursor-pointer ">Registrate</Link>
             </div>
           </form>
         </div>

@@ -27,11 +27,11 @@ const ImageUpload = ({ defaultImageUrl, onChange }) => {
   }, [onChange]);
 
   return (
-    <div className="mt-5">
+    <div className=" w-80 pt-6 pb-[35px] grid justify-items-center">
       <img className='w-fit max-w-[220px] h-[220px] rounded-full mb-6' src={imageUrl || defaultImageUrl} alt="Uploaded" />
-      <label htmlFor="fileInput" className="inline-block w-full h-10 bg-FAST-Orange text-FAST-WhiteCream cursor-pointer hover:bg-[#ed6d1f] font-bold uppercase rounded-lg relative">
-        <span className="absolute left-0 right-0 top-0 bottom-0 z-10 flex items-center justify-center">Upload Image</span>
-        <input id="fileInput" className="absolute opacity-0" type="file" accept="image/jpeg, image/png, image/jpg" />
+      <label htmlFor="fileInput" className="inline-block w-72 h-10 bg-FAST-Orange text-FAST-WhiteCream cursor-pointer hover:bg-[#ed6d1f] font-bold uppercase rounded-lg relative">
+        <span className="absolute left-0 right-0 top-0 bottom-0 z-10 flex items-center justify-center">Subir imagen del kiosko</span>
+        <input id="fileInput" className="pb-3 absolute opacity-0" type="file" accept="image/jpeg, image/png, image/jpg" />
       </label>
     </div>
   );
