@@ -2,7 +2,7 @@
 
 ## Descripcion
 
-Una versión web complementaria de FAST (Food Accessible for Swift Takeout), ofreciendo a los propietarios de kioskos herramientas administrativas avanzadas, el usuario que administra el kiosko puede realizar las siguientes funciones:
+Una versión web complementaria de FAST (Food Accessible for Swift Takeout) desarrollada con React y Tailwind CSS, ofreciendo a los propietarios de kioskos herramientas administrativas avanzadas, el usuario que administra el kiosko puede realizar las siguientes funciones:
 - Gestion del catalogo del kiosko (Productos)
 - Gestion de ordenes
 - Gestion de los datos del kiosko
