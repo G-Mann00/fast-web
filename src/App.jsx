@@ -1,8 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
-import Registro from "./pages/Registro";
-import RegistroKiosko from "./pages/RegistroKiosko";
+import RegistroCompleto from "./pages/RegistroCompleto";
 import Error404 from "./pages/Error404";
 import MainLayout from "./layouts/MainLayout";
 import Inicio from "./pages/dashboard/Inicio";
@@ -22,10 +21,7 @@ function App() {
       <Route path="/Login" element={<Login />}></Route>
 
       {/* Enrutamiento a la página de Registro */}
-      <Route path="/Registro" element={<Registro />}></Route>
-      
-      {/* Enrutamiento a la página de Registro de Kiosko*/}
-      <Route path="/RegistroKiosko" element={<RegistroKiosko />}></Route>
+      <Route path="/Registro" element={<RegistroCompleto />}></Route>
 
       {/* Enrutamiento a la página de error 404*/}
       <Route path="*" element={<Error404 />}></Route>
