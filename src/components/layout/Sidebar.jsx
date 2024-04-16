@@ -52,7 +52,7 @@ const Sidebar = () => {
 }
 
 // Componente para las rutas de la sidebar, recibe un link como parametro
-const SidebarLink = ({link}) => {
+const SidebarLink = (link) => {
 
   // Hook para obtener la ruta actual
   const pathname = useLocation()
