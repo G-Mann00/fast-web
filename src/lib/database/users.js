@@ -3,6 +3,8 @@ import pb from './pocketbase';
 // globally disable auto cancellation
 pb.autoCancellation(false);
 
+//funciones de registro
+
 function generateId() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let id = '';
@@ -97,5 +99,23 @@ export async function isKioskonameAvailable(nombre) {
     } catch (error) {
         console.error('Error checking username availability:', error);
         return false; // En caso de error, asume que el nombre de usuario no está disponible
+    }
+}
+//funciones de login
+
+export async function authenticateUser(email, password) {
+    try {
+        // Authenticate the user with email and password
+        const user = await pb.collection('usersAdmin').authWithPassword(email, password);
+        
+        // If authentication is successful, you can access the authenticated user
+        console.log('User authenticated:', user);
+        
+        // Return the authenticated user
+        return user;
+    } catch (error) {
+        // Handle authentication error
+        console.error('Authentication error:', error);
+        return null;
     }
 }

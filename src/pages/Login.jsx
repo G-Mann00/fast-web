@@ -1,11 +1,11 @@
 import DocumentTitle from "../components/DocumentTitle";
 import logo from "../assets/img/fast-logo.svg";
 import PasswordInput from "../components/PasswordInput";
-import pb from "../lib/database/pocketbase";
 import { useForm } from "react-hook-form";
 import { useState } from 'react';
 import { Link} from "react-router-dom";
 import RegistroCompleto from "./RegistroCompleto";
+import { authenticateUser } from "../lib/database/users";
 
 
 const Login = () => {
@@ -15,33 +15,44 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const {register, handleSubmit} = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const isLoggedIn = pb.authStore && pb.authStore.model && pb.authStore.model.isValid;
+  const [showErrorMessage, setErrorMessage] = useState(false);
  
 
   const handlePasswordChange = (newPassword) => {
     setPassword(newPassword);
-
 };
-const [showErrorMessage, setErrorMessage] = useState(false);
-  async function login(data) {
-    setIsLoading(true);
-    try{
-      console.log(data);
-      console.log(pb);
-      setErrorMessage(false)
-      // eslint-disable-next-line no-unused-vars
-      const authData = await pb.collection('usersAdmin').authWithPassword(data.email, data.password);
-      window.open("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7jmwoYw40828KRP7F49YTdtifEEjxn6JZ41PdwTWRfA&s", "_blank");
 
-    } catch (error) {
-      setErrorMessage(true);
-    }
-    setIsLoading(false);
+const onSubmit = async (data) => {
+  // Set loading and error state
+  setIsLoading(true);
+  setErrorMessage(false);
+  
+  try {
+      // Attempt to find a user with the provided email and password
+      const user = await authenticateUser(data.email, password);
+      // Check if user was found
+      if (user) {
+          
+          console.log('Usuario encontrado:', user);
+          // Set loading to false
+          setIsLoading(false);
+          // Redirect to the dashboard
+           // Open the dashboard in a new tab/window
+            window.open('/dashboard', '_blank');
+      } else {
+          console.log('Usuario no encontrado');
+          // Set error message and loading to false
+          setErrorMessage(true);
+          setIsLoading(false);
+      }
+  } catch (error) {
+      // Handle any errors that occurred during the process
+      console.error('Authentication error:', error);
+      // Set loading to false in case of error
+      setIsLoading(false);
   }
+};
 
-  if (isLoggedIn) {
-    return alert(pb.authStore.model.email);
-  }
 
   return (
     <>
@@ -53,14 +64,13 @@ const [showErrorMessage, setErrorMessage] = useState(false);
           <p className="text-FAST-WhiteCream text-2xl font-bold sm:text-3xl">Te damos la bienvenida</p>
 
           {/*Contenedor del login*/ }
-          <form className="flex size-full flex-col items-center justify-around rounded-3xl bg-FAST-WhiteCream p-5 text-left" onSubmit={handleSubmit(login)}>
+          <form className="flex size-full flex-col items-center justify-around rounded-3xl bg-FAST-WhiteCream p-5 text-left" onSubmit={handleSubmit(onSubmit)}>
           <p className={`left-0 text-left text-[#FF0400] ${showErrorMessage ? '' : 'hidden'}`}>Correo o clave inválidos</p>
 
                {/*Campo de correo electronico*/}
             <div className="flex w-full flex-col">
               <h2 className="text-left pb-1 font-bold">Correo electrónico</h2>
-              <input className="h-[40px] w-full rounded-lg bg-[#A0A5BA]/20 p-3" placeholder="fast@gmail.com" {...register("email", { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}/>
-
+              <input className="h-[40px] w-full rounded-lg bg-[#A0A5BA]/20 p-3" placeholder="fast@gmail.com" {...register("email")}/>
             </div>
 
             {/*Campo de clave*/ }
