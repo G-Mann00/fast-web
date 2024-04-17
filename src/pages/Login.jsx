@@ -3,9 +3,10 @@ import logo from "../assets/img/fast-logo.svg";
 import PasswordInput from "../components/PasswordInput";
 import { useForm } from "react-hook-form";
 import { useState } from 'react';
-import { Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RegistroCompleto from "./RegistroCompleto";
-import { authenticateUser } from "../lib/database/users";
+import  {authenticateUser}  from "../lib/database/users";
+import { useUser } from '../context/user';
 
 
 const Login = () => {
@@ -16,7 +17,8 @@ const Login = () => {
   const {register, handleSubmit} = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [showErrorMessage, setErrorMessage] = useState(false);
- 
+  const { loginUser } = useUser(); // Importar el hook `useUser` del contexto de usuario
+  const navigate = useNavigate();
 
   const handlePasswordChange = (newPassword) => {
     setPassword(newPassword);
@@ -32,13 +34,13 @@ const onSubmit = async (data) => {
       const user = await authenticateUser(data.email, password);
       // Check if user was found
       if (user) {
-          
           console.log('Usuario encontrado:', user);
+          loginUser(user);
           // Set loading to false
           setIsLoading(false);
           // Redirect to the dashboard
            // Open the dashboard in a new tab/window
-            window.open('/dashboard', '_blank');
+           navigate('/dashboard');
       } else {
           console.log('Usuario no encontrado');
           // Set error message and loading to false
