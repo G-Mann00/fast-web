@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import NameInput from './NameInput'; // Import your NameIput component
 
-const InputSection = ({ tipo, frase, etiqueta, register = () => {}, name }) => {
+const InputSection = ({ tipo, frase, etiqueta, register = () => { }, name }) => {
     return (
         <div className='pt-6 pb-[22px] w-96'>
             <h2 className="text-left font-bold">{etiqueta}</h2>

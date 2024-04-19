@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { SIDEBAR_LINKS, SIDEBAR_BOTTOM_LINKS } from "../../lib/constants";
 import { HiOutlineLogout } from "react-icons/hi";
 import { buscarRegistroUsuario, generarUrlImagen } from "../../services/database/index";
-import kioskImage from '../../assets/img/kiosko.png';
+import FASTKioskImage from '../../assets/img/FASTKioskImage.png';
 // Importar los hooks useUser y useKiosk 
 import { useUser } from '../../hooks/user';
 import { useKiosk } from '../../hooks/kiosko';
@@ -60,7 +60,7 @@ const Sidebar = () => {
       {/* Perfil del Kiosko */}
       <div className="flex flex-col items-center justify-center p-8 gap-3 h-[31vh]">
         <img
-          src={imageUrl ? imageUrl : kioskImage}
+          src={imageUrl ? imageUrl : FASTKioskImage}
           className="w-40 h-40 object-cover rounded-full ring-8 ring-FAST-Orange"
           alt="Profile"
         />
