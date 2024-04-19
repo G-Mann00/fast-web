@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import logo from "../assets/img/fast-logo.svg";
-import kioskImage from '../assets/img/kiosko.png';
+import FASTKioskImage2 from '../assets/img/FASTKioskImage2.png';
 
 import { DocumentTitle, InputSection, ImageUpload } from "../components/index";
 import { checkUser, checkKiosko, nombreUsuarioValido } from "../services/validacion/index";
@@ -175,7 +175,7 @@ const RegistroCompleto = () => {
             </div>
             <div>
               {/* Use ImageUpload component */}
-              <ImageUpload defaultImageUrl={imageUrl || kioskImage} onChange={handleImageFileChange} register={register} name="foto" />
+              <ImageUpload defaultImageUrl={imageUrl || FASTKioskImage2} onChange={handleImageFileChange} register={register} name="foto" />
             </div>
           </div>
           {/*Button*/}
