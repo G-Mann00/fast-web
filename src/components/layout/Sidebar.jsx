@@ -1,12 +1,14 @@
-import { Link, useLocation , useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import classNames from 'classnames';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { SIDEBAR_LINKS, SIDEBAR_BOTTOM_LINKS } from "../../lib/constants";
 import { HiOutlineLogout } from "react-icons/hi";
-import { useUser } from '../../context/user';
-import { obtenerImagenUsuario } from "../../lib/database/kioskoData";
-import  kioskImage  from '../../assets/img/kiosko.png';
+import { buscarRegistroUsuario, generarUrlImagen } from "../../services/database/index";
+import kioskImage from '../../assets/img/kiosko.png';
+// Importar los hooks useUser y useKiosk 
+import { useUser } from '../../hooks/user';
+import { useKiosk } from '../../hooks/kiosko';
 
 
 // Estilo general para los links de la sidebar
@@ -16,37 +18,45 @@ const Sidebar = () => {
   // Usar el hook useUser para obtener el usuario almacenado y las funciones de login y logout
   const { user, logoutUser } = useUser();
   const [imageUrl, setImageUrl] = useState(null);
+  const [nombreKiosko, setNombreKiosko] = useState('Kiosko FAST'); // Cambiar por el nombre del kiosko [nombreKiosko
   const navigate = useNavigate();
+  const { loginKiosko, logoutKiosko } = useKiosk();
 
-// Define `logoutUser` con las acciones que quieres realizar
-const handleLogout = () => {
-  // Llamar a la función de cierre de sesión original
-  logoutUser();
-  
-  // Restablecer el estado de `imageUrl` (puedes cambiar `null` por otro valor si lo deseas)
-  setImageUrl(null);
-  
-  // Redirigir al usuario a "/"
-  navigate('/');
-};
 
-  // Esta función se ejecutará cuando `user` cambie.
+  // Define `logoutUser` con las acciones que quieres realizar
+  const handleLogout = () => {
+    // Llamar a la función de cierre de sesión original
+    logoutUser();
+    logoutKiosko();
+    // Restablecer el estado de `imageUrl` (puedes cambiar `null` por otro valor si lo deseas)
+    setImageUrl(null);
+    // Redirigir al usuario a "/"
+    navigate('/');
+  };
+
   useEffect(() => {
     if (user) {
-        obtenerImagenUsuario(user.record.id)
-            .then((url) => {
-                setImageUrl(url);
-                console.log('Imagen del usuario:', url);
-            })
-            .catch((error) => {
-                console.error('Error al obtener la imagen del usuario:', error);
-            });
+      buscarRegistroUsuario(user.id)
+        .then((record) => {
+          if (record) {
+            const imageUrl = generarUrlImagen(record, 'imagen');
+            // Usa loginKiosko para asignar el record al contexto de kiosko
+            loginKiosko(record);
+            setImageUrl(imageUrl);
+            setNombreKiosko(record.nombre);
+          } else {
+            console.error('No se encontró el registro del usuario.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error al buscar el registro del usuario:', error);
+        });
     }
-}, [user]);
+  }, [user, loginKiosko]);
 
   return (
     <div className="bg-FAST-DarkBlue w-60 p-3 flex flex-col text-FAST-WhiteCream">
-      
+
       {/* Perfil del Kiosko */}
       <div className="flex flex-col items-center justify-center p-8 gap-3 h-[31vh]">
         <img
@@ -54,7 +64,7 @@ const handleLogout = () => {
           className="w-40 h-40 object-cover rounded-full ring-8 ring-FAST-Orange"
           alt="Profile"
         />
-        <h1 className="text-xl text-FAST-WhiteCream font-medium text-center pt-2">{user ? user.record.name : "Kiosko FAST"}</h1>
+        <h1 className="text-xl text-FAST-WhiteCream font-medium text-center pt-2">{nombreKiosko ? nombreKiosko : "Kiosko FAST"}</h1>
       </div>
 
       {/* Links de la sidebar */}
