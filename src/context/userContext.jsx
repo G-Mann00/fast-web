@@ -17,9 +17,12 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     const loginUser = (newUser) => {
-        // Guardar la información del usuario en localStorage cuando inicia sesión
-        setUser(newUser);
-        localStorage.setItem('user', JSON.stringify(newUser));
+        // Verifica si el nuevo usuario es diferente del actual antes de actualizar
+        if (JSON.stringify(newUser) !== JSON.stringify(user)) {
+            // Guardar la información del usuario en localStorage cuando inicia sesión
+            setUser(newUser);
+            localStorage.setItem('user', JSON.stringify(newUser));
+        }
     };
 
     const logoutUser = () => {

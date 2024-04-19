@@ -10,6 +10,7 @@ import Ordenes from "./pages/dashboard/Ordenes";
 import ConfigKiosko from "./pages/dashboard/AjustesKiosko";
 import Ajustes from "./pages/dashboard/Ajustes";
 import { UserProvider } from "./context/userContext";
+import { KioskoProvider } from "./context/kioskoContext"; // Importar KioskoProvider
 
 function App() {
   return (
@@ -28,7 +29,11 @@ function App() {
         <Route path="*" element={<Error404 />} />
 
         {/* Enrutamiento al dashboard y sus rutas hijas */}
-        <Route path="/dashboard" element={<MainLayout />}>
+        <Route path="/dashboard" element={
+          <KioskoProvider> {/* Envolver MainLayout con KioskoProvider */}
+            <MainLayout />
+          </KioskoProvider>
+        }>
           <Route index element={<Inicio />} />
           <Route path="/dashboard/productos" element={<Productos />} />
           <Route path="/dashboard/ordenes" element={<Ordenes />} />
