@@ -26,8 +26,8 @@ export const checkKiosko = async (nomKiosko) => {
 };
 
 export function nombreUsuarioValido(nomUsuario) {
-    const esNombreUsuarioValido = nomUsuario.length > 3; // Verifica si el nombre de usuario tiene más de 3 caracteres
-    // Retorna true si ambos son válidos, false en caso contrario
+    // Verifica si el nombre de usuario tiene más de 3 caracteres o contiene espacios
+    const esNombreUsuarioValido = nomUsuario.length < 3 || /\s/.test(nomUsuario);
+    // Retorna true si al menos una de las condiciones es válida, false en caso contrario
     return esNombreUsuarioValido;
 }
-

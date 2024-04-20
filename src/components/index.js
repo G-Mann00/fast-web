@@ -27,5 +27,5 @@ export {
     Services,
     Sidebar,
     Header,
-    Partners
+    Partners,
 }

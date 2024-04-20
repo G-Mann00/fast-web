@@ -6,6 +6,7 @@ import logo from "../assets/img/fast-logo.svg";
 import FASTKioskImage2 from '../assets/img/FASTKioskImage2.png';
 
 import { DocumentTitle, InputSection, ImageUpload } from "../components/index";
+import AlertCustomStyles from '../components/alerta';
 import { checkUser, checkKiosko, nombreUsuarioValido } from "../services/validacion/index";
 import { createUser } from "../services/database/index";
 import { useUser } from '../hooks/user';
@@ -20,10 +21,10 @@ const RegistroCompleto = () => {
   const { register, handleSubmit } = useForm();
   const [passwordTooShort, setPasswordTooShort] = useState(false); //estado para mostrar mensaje de contraseña muy corta
   const [passwordMismatch, setPasswordMismatch] = useState(false); //estado para mostrar mensaje de contraseñas no coinciden
-  const [userExist, setUserExist] = useState(false); //estado para mostrar mensaje de usuario ya existente
+  const [mensajeUser, setMensajeUser] = useState(false); //estado para mostrar mensaje de usuario ya existente
   const [kioskoExist, setKioskoExist] = useState(false); //estado para mostrar mensaje de kiosko ya existente
   const [emailExist, setEmailExist] = useState(false); //estado para mostrar mensaje si el email ya esta relacionado con otro usuario
-  const [formatUser, setFormatUser] = useState(false); //estado para mostrar mensaje si el nombre de usuario no es valido
+  const [userCreated, setUserCreated] = useState(false); //estado para mostrar mensaje si el usuario fue creado correctamente
   const { loginUser } = useUser(); // Importar el hook `useUser` del contexto de usuario
   const navigate = useNavigate();
 
@@ -44,6 +45,16 @@ const RegistroCompleto = () => {
     };
   }, []);
 
+  // Efecto de React para manejar la navegación al dashboard cuando `userCreated` cambie
+  useEffect(() => {
+    if (userCreated) {
+      // Espera un momento antes de redirigir al usuario
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000); // Tiempo en milisegundos (2 segundos)
+    }
+  }, [userCreated, navigate]);
+
   // Función para verificar si todos los campos han sido llenados
   const allFieldsFilled = (data) => {
     return Object.values(data).every(value => value !== '' && value !== null);
@@ -52,11 +63,11 @@ const RegistroCompleto = () => {
   // Función para verificar si las contraseñas coinciden
   function passwordMatch(data) {
     if (data.password.length < 5) {
-      setPasswordTooShort(true);
+      setPasswordTooShort('La contraseña es demasiado corta (mínimo 5 caracteres)');
       setPasswordMismatch(false);
       return false;
     } else if (data.password !== data.confirmarPassword) {
-      setPasswordMismatch(true);
+      setPasswordMismatch('Las contraseñas no coinciden');
       setPasswordTooShort(false);
       return false;
     } else {
@@ -71,14 +82,14 @@ const RegistroCompleto = () => {
     const userAvailable = await checkUser(data.nomUsuario);
     // Si el nombre de usuario ya existe, actualiza el estado de `setUserExist` a `true`
     if (!userAvailable) {
-      setUserExist(true);
+      setMensajeUser("Nombre de usuario no disponible");
     }
 
     // Verifica si el nombre del kiosko está disponible
     const kioskoAvailable = await checkKiosko(data.nomKiosko);
     // Si el nombre del kiosko ya existe, actualiza el estado de `setKioskoExist` a `true`
     if (!kioskoAvailable) {
-      setKioskoExist(true);
+      setKioskoExist('Nombre de kiosko no disponible');
     }
 
     // Retorna `true` solo si ambos `userAvailable` y `kioskoAvailable` son `true`
@@ -97,12 +108,11 @@ const RegistroCompleto = () => {
       const newUser = await createUser(data, file);
       // Si `newUser` se crea con éxito, actualiza el contexto del usuario
       if (newUser) {
-        console.log("aca estoy en newUser", newUser);
         loginUser(newUser);
-        navigate('/dashboard'); // Redirige al dashboard
+        setUserCreated(true);
       } else {
         // Si `createUser` retorna false, cambia el estado de `setEmailExist` a true
-        setEmailExist(true);
+        setEmailExist('Este email ya está relacionado con otro usuario');
       }
     } catch (error) {
       // Si hay un error creando el usuario, muestra un mensaje de error
@@ -110,11 +120,18 @@ const RegistroCompleto = () => {
     }
   };
 
-  const onSubmit = async (data) => {
-    const formatoValido = nombreUsuarioValido(data.nomUsuario);
+  const estadosFalsos = () => {
+    setMensajeUser(false);
+    setKioskoExist(false);
+    setEmailExist(false);
+    setErrorMessage(false);
+  };
 
-    if (!formatoValido) {
-      setFormatUser(true);
+  const onSubmit = async (data) => {
+    estadosFalsos();
+    const formatoValido = nombreUsuarioValido(data.nomUsuario);
+    if (formatoValido) {
+      setMensajeUser("El nombre de usuario debe tener al menos 4 caracteres y no contener espacios");
       return;
     }
 
@@ -150,28 +167,18 @@ const RegistroCompleto = () => {
       </div>
       <section className="pt-4 flex justify-center h-5/6">
         <form className="w-11/12 h-full rounded-3xl bg-FAST-WhiteCream pt-6 pb-9" onSubmit={handleSubmit(onSubmit)}>
+          {userCreated ? <AlertCustomStyles mensaje="Usuario creado correctamente" /> : ''}
           <div className="pl-[75px] grid grid-cols-3 md:grid-cols-3 gap-[70px] w-auto" >
             <div>
-              <p className={`left-0 text-left  text-FAST-WhiteCream ${userExist ? '' : 'hidden'}`}>Nombre de usuario no disponible</p>
-              <p className={`left-0 text-left text-FAST-WhiteCream ${formatUser ? '' : 'hidden'}`}>El nombre de usuario debe tener más de 3 caracteres</p>
               <InputSection tipo="text" frase="Nombre" etiqueta="Nombre Completo" register={register} name="nombreCompleto" />
-              <p className={`left-0 text-left  text-FAST-WhiteCream ${kioskoExist ? '' : 'hidden'}`}>Nombre de kiosko no disponible</p>
-              <p className={`left-0 text-left text-[#FF0400] ${emailExist ? '' : 'hidden'}`}>Este email ya está relacionado con otro usuario</p>
-              <InputSection tipo="email" frase="lia@gmail.com" etiqueta="Correo electrónico" register={register} name="email" />
-              <p className={`left-0 text-left text-[#FF0400] ${passwordTooShort ? '' : 'hidden'}`}>La contraseña es demasiado corta (mínimo 5 caracteres)</p>
-              <p className={`left-0 text-left  text-FAST-WhiteCream ${passwordMismatch ? '' : 'hidden'}`}>Las contraseñas no coinciden</p>
-              <InputSection tipo="password" frase="contraseña" etiqueta="Contraseña" register={register} name="password" />
+              <InputSection tipo="email" frase="lia@gmail.com" etiqueta="Correo electrónico" register={register} name="email" mensaje={emailExist ? emailExist : ''} />
+              <InputSection tipo="password" frase="Contraseña" etiqueta="Contraseña" register={register} name="password" mensaje={passwordTooShort ? passwordTooShort : ''} />
             </div>
             <div>
-              <p className={`left-0 text-left text-[#FF0400] ${userExist ? '' : 'hidden'}`}>Nombre de usuario no disponible</p>
-              <p className={`left-0 text-left text-[#FF0400] ${formatUser ? '' : 'hidden'}`}>El nombre de usuario debe tener más de 3 caracteres</p>
-              <InputSection tipo="text" frase="Ene" etiqueta="Nombre de Usuario" register={register} name="nomUsuario" />
-              <p className={`left-0 text-left text-[#FF0400] ${kioskoExist ? '' : 'hidden'}`}>Nombre de kiosko no disponible</p>
-              <p className={`left-0 text-left text-FAST-WhiteCream ${emailExist ? '' : 'hidden'}`}>Este email ya está relacionado con otro usuario</p>
-              <InputSection tipo="text" frase="Delicias Lia" etiqueta="Nombre del kiosko" register={register} name="nomKiosko" />
-              <p className={`left-0 text-left text-FAST-WhiteCream ${passwordTooShort ? '' : 'hidden'}`}>La contraseña es demasiado corta (mínimo 5 caracteres)</p>
-              <p className={`left-0 text-left text-[#FF0400] ${passwordMismatch ? '' : 'hidden'}`}>Las contraseñas no coinciden</p>
-              <InputSection tipo="password" frase="Contraseña" etiqueta="Confirmar Contraseña" register={register} name="confirmarPassword" />
+
+              <InputSection tipo="text" frase="Ene" etiqueta="Nombre de Usuario" register={register} name="nomUsuario" mensaje={mensajeUser ? mensajeUser : ''} />
+              <InputSection tipo="text" frase="Delicias Lia" etiqueta="Nombre del kiosko" register={register} name="nomKiosko" mensaje={kioskoExist ? kioskoExist : ''} />
+              <InputSection tipo="password" frase="Contraseña" etiqueta="Confirmar Contraseña" register={register} name="confirmarPassword" mensaje={passwordMismatch ? passwordMismatch : ''} />
             </div>
             <div>
               {/* Use ImageUpload component */}
@@ -181,8 +188,8 @@ const RegistroCompleto = () => {
           {/*Button*/}
           <div className="pt-6 flex justify-center">
             <div className="grid items-center ">
-              <p className={`pb-6 left-0 text-left text-[#FF0400] ${showErrorMessage ? '' : 'hidden'}`}>No todos los campos han sido llenados</p>
               <button type="submit" className="w-72 h-[40px] bg-FAST-Orange text-FAST-WhiteCream cursor-pointer hover:bg-[#ed6d1f] font-bold uppercase rounded-lg">Registrarme</button>
+              <p className={`pb-6 left-0 text-left text-[#FF0400] ${showErrorMessage ? '' : 'hidden'}`}>No todos los campos han sido llenados</p>
             </div>
           </div>
 

@@ -1,19 +1,11 @@
 import pb from './pocketbase';
+import { generateId } from '../../utils/randomId';
+
 
 // globally disable auto cancellation
 pb.autoCancellation(false);
 
 //funciones de registro
-
-function generateId() {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let id = '';
-    for (let i = 0; i < 15; i++) {
-        id += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return id;
-}
-
 //// eslint-disable-next-line no-unused-vars
 async function createKioskoDetails(userId, data, file) {
     try {
@@ -25,7 +17,7 @@ async function createKioskoDetails(userId, data, file) {
 
         // Crea un nuevo registro en la colección 'tienda'
         await pb.collection('tienda').create(formData);
-        alert('Kiosko details created successfully');
+        //alert('Kiosko creado exitosamente', 'success');
     } catch (error) {
         console.error('Error creating kiosko details:', error);
         throw error;
@@ -50,7 +42,6 @@ export async function createUser(data, file) {
         };
 
         createdUser = await pb.collection('usersAdmin').create(userDetails);
-        alert('User created successfully');
 
         if (createdUser) {
             // Create kiosko details
@@ -177,5 +168,3 @@ export async function obtenerDatosActualizadosUsuario(userId) {
 }
 
 
-
-//PQ RAYOS NO SE ACTUALIZA EL USUARIO EN EL CONTEXTO AL REFRESCAR
