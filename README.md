@@ -1,11 +1,12 @@
-# Aplicacion Web para proyecto FAST
+# FAST Web
+<img src="https://img.shields.io/badge/STATUS-DEVELOPING%20-green">
 
-## Descripcion
+## Descripción
 
 Una versión web complementaria de FAST (Food Accessible for Swift Takeout) desarrollada con React y Tailwind CSS, ofreciendo a los propietarios de kioskos herramientas administrativas avanzadas, el usuario que administra el kiosko puede realizar las siguientes funciones:
-- Gestion del catalogo del kiosko (Productos)
-- Gestion de ordenes
-- Gestion de los datos del kiosko
+- Gestión del catálogo del kiosko (Productos)
+- Gestión de órdenes
+- Gestión de los datos del kiosko
 - Ajustes del perfil que administra el kiosko
 
 ## Vista Previa
@@ -15,25 +16,27 @@ Una versión web complementaria de FAST (Food Accessible for Swift Takeout) desa
 
 ## Uso del proyecto
 
-Este proyecto fue creado mediante la herramienta de construccion (build tool) **Vite** y hace uso de las siguientes librerias:
+Este proyecto fue creado mediante la herramienta de construcción (build tool) **Vite** y hace uso de las siguientes librerías:
 - Tailwind CSS
 - PocketBase
+- Material Tailwind
 - React Router
 - React Icons
 - Classnames
+- React Hook Form
 
 ### Instalar dependencias
 
 Una vez clonado el repositorio, se deben ejecutar los comandos en la terminal del IDE de su preferencia
 
-Para poder instalar las dependencias necesarias para esta aplicacion, se debe utilizar el siguiente comando:
+Para poder instalar las dependencias necesarias para esta aplicación, se debe utilizar el siguiente comando:
 ```bash
 npm install
 ```
 
 ### Ejecutar interfaz de Vite
 
-React se ejecutara en http://localhost:5173
+React se ejecutará en http://localhost:5173
 ```bash
 npm run dev
 ```
@@ -41,11 +44,7 @@ npm run dev
 ## Autores del proyecto
 
 El proyecto FAST ha sido desarrollado por:
-- Henry Noel Reyes Duarte
-- Luswi Danilo Torres Pomarez
-- Maria Paula Lopez Garcia
-- Emanuel Antonio Leite Hernandez
-
-## Estado del proyecto
-
-En progreso.
+- Henry Noel Reyes Duarte (@Noelby13)
+- Luswi Danilo Torres Pomarez (@G-Mann00)
+- Maria Paula Lopez Garcia (@garcia-lopez)
+- Emanuel Antonio Leite Hernandez (@Nana1423)

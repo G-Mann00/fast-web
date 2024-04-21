@@ -166,7 +166,7 @@ const RegistroCompleto = () => {
         <p className="text-FAST-WhiteCream text-2xl font-bold sm:text-3xl text-center">Registrate para empezar a administrar tu kiosko</p>
       </div>
       <section className="pt-4 flex justify-center h-5/6">
-        <form className="w-11/12 h-full rounded-3xl bg-FAST-WhiteCream pt-6 pb-9" onSubmit={handleSubmit(onSubmit)}>
+        <form className="w-11/12 h-[550px] rounded-3xl bg-FAST-WhiteCream pt-6 pb-9" onSubmit={handleSubmit(onSubmit)}>
           {userCreated ? <AlertCustomStyles mensaje="Usuario creado correctamente" /> : ''}
           <div className="pl-[75px] grid grid-cols-3 md:grid-cols-3 gap-[70px] w-auto" >
             <div>

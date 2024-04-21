@@ -10,7 +10,7 @@ import {
     HiOutlineShoppingCart, 
     HiOutlineOfficeBuilding, 
     HiOutlineCog, 
-    HiOutlineLogout } 
+    HiOutlineQuestionMarkCircle } 
     from "react-icons/hi"
 
 // Rutas principales del sidebar
@@ -48,5 +48,11 @@ export const SIDEBAR_BOTTOM_LINKS = [
         label: "Ajustes de perfil",
         path: "/dashboard/ajustes",
         icon: <HiOutlineCog />
-    }
+    },
+    {
+		key: 'ayuda y soporte',
+		label: 'Ayuda y soporte',
+		path: '/support',
+		icon: <HiOutlineQuestionMarkCircle />
+	}
 ]
