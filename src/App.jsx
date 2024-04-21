@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
 import RegistroCompleto from "./pages/RegistroCompleto";
+import AccesoDenegado from "./pages/AccesoDenegado";
 import Error404 from "./pages/Error404";
 import MainLayout from "./layouts/MainLayout";
 import Inicio from "./pages/dashboard/Inicio";
@@ -27,6 +28,9 @@ function App() {
 
         {/* Enrutamiento a la página de error 404 */}
         <Route path="*" element={<Error404 />} />
+
+        {/* Enrutamiento a la página de acceso denegado */}
+        <Route path="/Denegado" element={<AccesoDenegado />} />
 
         {/* Enrutamiento al dashboard y sus rutas hijas */}
         <Route path="/dashboard" element={

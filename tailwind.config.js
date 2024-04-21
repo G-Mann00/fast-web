@@ -15,7 +15,8 @@ export default {
       "FAST-Grey": "#98A8B8",
       "FAST-DarkGrey": "#6B6E82",
       "FAST-DarkBlue": "#121223",
-      "FAST-WhiteCream": "#F0F5FA"
+      "FAST-WhiteCream": "#F0F5FA",
+      "FAST-Text": "#181C2E"
     },
   },
   plugins: [],
