@@ -19,7 +19,7 @@ const ConfigKiosko = () => {
 
       {/* Encabezado de la pagina */}
       <div className= "flex flex-col">
-        <p2 className= "text-3xl pb-3 text-FAST-Text font-bold">Ajustes del kiosko</p2>
+        <h2 className= "text-2xl pb-3 text-FAST-Text font-bold">Ajustes del kiosko</h2>
         <p className="text-FAST-Text text-xl">Configura la foto del kiosko y sus datos aqui</p>
       </div>
 
