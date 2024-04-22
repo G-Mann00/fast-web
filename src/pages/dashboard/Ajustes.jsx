@@ -24,7 +24,7 @@ const Ajustes = () => {
 
       {/* Encabezado de la pagina */}
       <div className= "flex flex-col">
-        <p2 className= "text-3xl pb-3 text-FAST-Text font-bold">Ajustes de usuario</p2>
+        <h2 className= "text-2xl pb-3 text-FAST-Text font-bold">Ajustes de usuario</h2>
         <p className="text-FAST-Text text-xl">Configura tu foto y datos personales aqui</p>
       </div>
 
