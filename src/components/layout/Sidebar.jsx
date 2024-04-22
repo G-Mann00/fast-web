@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { SIDEBAR_LINKS, SIDEBAR_BOTTOM_LINKS } from "../../lib/constants";
 import { HiOutlineLogout } from "react-icons/hi";
-import { buscarRegistroUsuario, generarUrlImagen } from "../../services/database/index";
+import { buscarRegistroUsuario } from "../../services/database/index";
 import FASTKioskImage from '../../assets/img/FASTKioskImage.png';
+import { generarUrlImagen } from "../../utils/index";
 // Importar los hooks useUser y useKiosk 
 import { useUser } from '../../hooks/user';
 import { useKiosk } from '../../hooks/kiosko';
