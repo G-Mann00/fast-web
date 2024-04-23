@@ -53,7 +53,7 @@ const Sidebar = () => {
           console.error('Error al buscar el registro del usuario:', error);
         });
     }
-  }, [user, loginKiosko]);
+  }, [user, loginKiosko, navigate]);
 
   return (
     <div className="bg-FAST-DarkBlue w-60 p-3 flex flex-col text-FAST-WhiteCream">
