@@ -6,11 +6,11 @@ return (
     <div className="flex flex-col items-center mt-6 lg:mt-20">
 
         {/* Hero Header */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-medium text-center tracking-wide">
-            Transforma tu experiencia de ordenes de comida con 
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-FAST-Text text-center tracking-wide">
+            Transforma tu experiencia con 
             <span className="text-FAST-Orange">
                 {" "}
-                FAST!
+                FAST
             </span>
         </h1>
 
