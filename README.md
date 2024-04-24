@@ -12,6 +12,10 @@ Una versión web complementaria de FAST (Food Accessible for Swift Takeout) desa
 ## Vista Previa
 
 ![fast-landingpage](https://github.com/G-Mann00/fast-web/assets/103607877/f997bde3-47c3-44f9-8487-b653e767b7ab)
+<hr>
+
+![image](https://github.com/G-Mann00/fast-web/assets/103607877/f40e0ae9-5866-4a10-8723-490f05bae195)
+
 
 
 ## Uso del proyecto
@@ -24,6 +28,19 @@ Este proyecto fue creado mediante la herramienta de construcción (build tool) *
 - React Icons
 - Classnames
 - React Hook Form
+
+## Alcance Minimo (24/04/2024)
+- Conexion a la base de datos a travez de una API hosteada
+- Sincronizacion con aplicacion movil de FAST
+- Denegacion de Permiso y Error404 customizado
+- Registro de Kiosko
+- Inicio de Sesion con autentificacion
+- Visualizacion del catalogo del Kiosko
+- Sidebar con opcion de agregar nuevas opciones
+- Pantallas de Producto, Kiosko y Ajuste de Usuario
+
+### Manual de Usuario
+https://drive.google.com/file/d/1PfApvTSsvW93eYTY-rDAgG-ygC0qkg0i/view
 
 ### Instalar dependencias
 
