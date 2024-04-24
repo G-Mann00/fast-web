@@ -25,7 +25,7 @@ const Ajustes = () => {
       {/* Encabezado de la pagina */}
       <div className= "flex flex-col">
         <h2 className= "text-2xl pb-3 text-FAST-Text font-bold">Ajustes de usuario</h2>
-        <p className="text-FAST-Text text-xl">Configura tu foto y datos personales aqui</p>
+        <p className="text-FAST-Text text-xl">Configura tu foto de perfil y datos personales aquí</p>
       </div>
 
       {/* Contenido de la pagina */}
@@ -49,7 +49,7 @@ const Ajustes = () => {
             </div>
 
             <div className="flex flex-col w-[380px]">
-              <h2 className="text-left pb-1 font-bold text-xl">Nombre de usuario</h2>
+              <h2 className="text-left pb-1 font-bold text-xl">Nombre de Usuario</h2>
               <input className="h-[50px] rounded-lg text-xl bg-[#A0A5BA]/20 p-3" placeholder="xXHeisenBergXx"/>
             </div>
 
@@ -59,7 +59,7 @@ const Ajustes = () => {
           <div className="flex items-center pt-10 pb-10">
 
             <div className="flex flex-col pr-12 w-[380px]">
-              <h2 className="text-left pb-1 font-bold text-xl">Correo Electronico</h2>
+              <h2 className="text-left pb-1 font-bold text-xl">Correo Electrónico</h2>
               <input className="h-[50px] rounded-lg text-xl bg-[#A0A5BA]/20 p-3" placeholder="heisenberg@gmail.com"/>
             </div>
 

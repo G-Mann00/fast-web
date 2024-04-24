@@ -4,7 +4,7 @@ import NameInput from './NameInput'; // Import your NameIput component
 const InputSection = ({ tipo, frase, etiqueta, mensaje = ' ', register = () => { }, name, isEditable }) => {
     return (
         <div className='pt-6 pb-[22px] w-96'>
-            <h2 className="text-left font-bold">{etiqueta}</h2>
+            <h2 className="text-left font-bold text-FAST-Text">{etiqueta}</h2>
             <NameInput tipo={tipo} frase={frase} register={register} name={name} mensaje={mensaje} isEditable={isEditable} />
         </div>
     );
