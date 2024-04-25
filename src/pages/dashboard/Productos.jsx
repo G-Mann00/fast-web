@@ -12,6 +12,32 @@ const Productos = () => {
   const { kiosko } = useKiosk();
   const [productosArray, setProductosArray] = useState([]);
   //
+  const [createOpen, setCreateOpen] = useState(false); // Mostrar modal para crear producto
+  const [deleteOpen, setDeleteOpen] = useState(false); // Mostrar modal para eliminar producto
+
+  const modalStates = {
+    createOpen,
+    deleteOpen,
+  };
+
+  const handleModalOpen = (modalType) => {
+    if (modalType === 'create') {
+      setCreateOpen(!createOpen);
+      manejarCargaProductos();
+    } else if (modalType === 'delete') {
+      setDeleteOpen(!deleteOpen);
+      manejarCargaProductos();
+    } else if (modalType === 'openCreate') {
+      setCreateOpen(!createOpen);
+    } else if (modalType === 'openDelete') {
+      setDeleteOpen(!deleteOpen);
+    } else if (modalType === 'canceledCreate') {
+      setCreateOpen(false);
+    } else if (modalType === 'canceledDelete') {
+      setDeleteOpen(false);
+    }
+  };
+
 
   const manejarCargaProductos = useCallback(async () => {
     console.log('Objeto kiosko en productos:', kiosko.id);
@@ -27,6 +53,8 @@ const Productos = () => {
     }
   }, [kiosko, manejarCargaProductos]);
 
+
+
   return (
     <div>
 
@@ -38,9 +66,9 @@ const Productos = () => {
 
       {/* Tabla de productos */}
       <div className="px-4 py-5">
-        <ProductTable tableRows={productosArray} />
+        <ProductTable tableRows={productosArray} handleModalOpen={handleModalOpen} modalStates={modalStates} />
       </div>
-      
+
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { Input } from '@material-tailwind/react';
 const NameInput = ({ tipo, frase, mensaje, register = () => { }, name, isEditable = false }) => (
     <div>
         <Input
-            className="h-[40px] w/[400px] rounded-lg border-[#FFFFFF] p-3 text-[#181C2E] text-lg p-3"
+            className="h-[40px] w/[400px] rounded-lg border-[#FFFFFF]  text-[#181C2E] text-lg p-3"
             type={tipo}
             placeholder={frase}
             {...register(name)}
