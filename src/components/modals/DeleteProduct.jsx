@@ -1,27 +1,18 @@
-import { Dialog, DialogBody, DialogFooter, DialogHeader, Button, ProductoExitoso } from "../index";
+import { Dialog, DialogBody, DialogFooter, DialogHeader, Button } from "../index";
 import { eliminarProducto } from '../../services/database/index'
 import warningIcon from '../../assets/img/triangulo-alerta.png';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 
 
-const DeleteProduct = ({ deleteOpen, handleModalOpen, producto }) => {
-    const [succesOpen, setSuccesOpen] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
-    const handleSuccesOpen = () => {
-        setTimeout(() => {
-            setSuccesOpen(!succesOpen);
-        }, 1000);
-    };
 
-    const handleSuccesClose = () => {
-        handleModalOpen('delete');
-        setSuccesOpen(false);
-    };
+const DeleteProduct = ({ deleteOpen, handleModalOpen, producto, handleSuccessOpen }) => {
+
 
     const handleEliminarProducto = async (producto) => {
         const result = await eliminarProducto(producto.id);
         if (result) {
-            handleSuccesOpen();
+            handleModalOpen('delete');
+            handleSuccessOpen();
         } else {
             console.log('Error al eliminar producto');
         }
@@ -44,7 +35,6 @@ const DeleteProduct = ({ deleteOpen, handleModalOpen, producto }) => {
                 <div className="space-x-8">
                     <Button className="bg-[#ef4444] text-[#FFFFFF] hover:bg-[#FF6B6B]" onClick={() => handleModalOpen('canceledDelete')}>Cancelar</Button>
                     <Button className="bg-FAST-DarkBlue text-[#FFFFFF] hover:bg-[#2B3045]" onClick={() => handleEliminarProducto(producto)} >Confirmar</Button>
-                    <ProductoExitoso exitosoOpen={succesOpen} mensaje="fue eliminado exitosamente" handleExitosoOpen={handleSuccesOpen} handleExitosoClose={handleSuccesClose} productName={producto.nombre} />
                 </div>
             </DialogFooter>
         </Dialog>
@@ -54,7 +44,9 @@ const DeleteProduct = ({ deleteOpen, handleModalOpen, producto }) => {
 DeleteProduct.propTypes = {
     deleteOpen: PropTypes.bool.isRequired,
     handleModalOpen: PropTypes.func.isRequired,
-    producto: PropTypes.object.isRequired
+    producto: PropTypes.object.isRequired,
+    handleSuccessOpen: PropTypes.func.isRequired,
+
 };
 
 export default DeleteProduct;

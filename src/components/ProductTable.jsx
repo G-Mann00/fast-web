@@ -7,12 +7,24 @@ import { MdOutlineLibraryAdd } from "react-icons/md";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit } from "react-icons/fi";
-import { /*InputSection, ImageUpload, Dialog, DialogBody, DialogFooter, DialogHeader, */Button, Card, CardHeader, Typography, CardBody, Input, CreateProduct, DeleteProduct } from "../components/index";
+import { /*InputSection, ImageUpload, Dialog, DialogBody, DialogFooter, DialogHeader, */Button, Card, CardHeader, Typography, CardBody, Input, CreateProduct, DeleteProduct, ProductoExitoso } from "../components/index";
 
 const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destructure tableRows properly here
 
   const TABLE_HEAD = ["Producto", "Descripción", "Precio", "Categoria", ""];
   const [producto, setProducto] = useState({});
+  const [succesOpen, setSuccesOpen] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
+
+  const handleSuccesOpen = () => {
+    setTimeout(() => {
+      setSuccesOpen(!succesOpen);
+    }, 1000);
+  };
+
+  const handleSuccesClose = () => {
+    setSuccesOpen(false);
+  };
+
 
   const handleEliminarOpen = (producto) => {
     console.log('Producto a eliminar:', producto);
@@ -53,7 +65,8 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
                 Agregar Producto</Button>
 
               <CreateProduct stateOpen={modalStates.createOpen} handleModalOpen={handleModalOpen} />
-              <DeleteProduct deleteOpen={modalStates.deleteOpen} handleModalOpen={handleModalOpen} producto={producto} />
+              <DeleteProduct deleteOpen={modalStates.deleteOpen} handleModalOpen={handleModalOpen} producto={producto} handleSuccessOpen={handleSuccesOpen} />
+              <ProductoExitoso exitosoOpen={succesOpen} mensaje="fue eliminado exitosamente" handleExitosoOpen={handleSuccesOpen} handleExitosoClose={handleSuccesClose} productName={producto.nombre} />
             </div>
           </div>
         </CardHeader>
