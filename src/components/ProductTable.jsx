@@ -14,15 +14,31 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
   const TABLE_HEAD = ["Producto", "Descripción", "Precio", "Categoria", ""];
   const [producto, setProducto] = useState({});
   const [succesOpen, setSuccesOpen] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
+  const [succesOpenAdd, setSuccesOpenAdd] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
+  const [mensajeModal, setMensajeModal] = useState(false); //estado para definir el mensaje del modal
+
+
 
   const handleSuccesOpen = () => {
     setTimeout(() => {
       setSuccesOpen(!succesOpen);
+      setMensajeModal('fue eliminado exitosamente');
+    }, 1000);
+  };
+
+  const handleSuccesOpenAgregar = () => {
+    setTimeout(() => {
+      setSuccesOpenAdd(!succesOpenAdd);
+      setMensajeModal('fue agregado exitosamente');
     }, 1000);
   };
 
   const handleSuccesClose = () => {
     setSuccesOpen(false);
+  };
+
+  const handleSuccesCloseAdd = () => {
+    setSuccesOpenAdd(false);
   };
 
 
@@ -34,7 +50,11 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
 
   return (
     <>
-
+      {/* Modales de creacion y eliminacion de productos al igual que los modales de operacion exitosa */}
+      <CreateProduct stateOpen={modalStates.createOpen} handleModalOpen={handleModalOpen} handleSuccessOpen={handleSuccesOpenAgregar} setNombreProd={setProducto} />
+      <ProductoExitoso exitosoOpen={succesOpenAdd} mensaje={mensajeModal} handleExitosoOpen={handleSuccesOpenAgregar} handleExitosoClose={handleSuccesCloseAdd} productName={producto} />
+      <DeleteProduct deleteOpen={modalStates.deleteOpen} handleModalOpen={handleModalOpen} producto={producto} handleSuccessOpen={handleSuccesOpen} />
+      <ProductoExitoso exitosoOpen={succesOpen} mensaje={mensajeModal} handleExitosoOpen={handleSuccesOpen} handleExitosoClose={handleSuccesClose} productName={producto.nombre} />
       {/* Tabla de productos */}
       <Card className="h-[500px] w-full overflow-y-auto rounded-lg">
         {/* Encabezado del componente */}
@@ -64,9 +84,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
                 <MdOutlineLibraryAdd size={20} />
                 Agregar Producto</Button>
 
-              <CreateProduct stateOpen={modalStates.createOpen} handleModalOpen={handleModalOpen} />
-              <DeleteProduct deleteOpen={modalStates.deleteOpen} handleModalOpen={handleModalOpen} producto={producto} handleSuccessOpen={handleSuccesOpen} />
-              <ProductoExitoso exitosoOpen={succesOpen} mensaje="fue eliminado exitosamente" handleExitosoOpen={handleSuccesOpen} handleExitosoClose={handleSuccesClose} productName={producto.nombre} />
+
             </div>
           </div>
         </CardHeader>

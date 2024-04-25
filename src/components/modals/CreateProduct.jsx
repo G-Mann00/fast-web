@@ -1,4 +1,4 @@
-import { Dialog, DialogBody, DialogFooter, DialogHeader, Button, InputSection, CategoriaSelector, ImageUpload, ProductoExitoso } from "../index";
+import { Dialog, DialogBody, DialogFooter, DialogHeader, Button, InputSection, CategoriaSelector, ImageUpload } from "../index";
 import foodIcon from '../../assets/img/fast-default-food-icon.png';
 import { useForm } from 'react-hook-form'; // Import `useForm` hook from 'react-hook-form' para manejar el proceso de registro de productos
 import { useState/*, useEffect*/ } from 'react';
@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'; // Import PropTypes
 // importar el hook de useKiosk
 import { useKiosk } from '../../hooks/kiosko';
 
-const CreateProduct = ({ stateOpen, handleModalOpen }) => {
+const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombreProd }) => {
 
     //Manejar la validación de los campos del formulario
     const { control, register, handleSubmit, setValue } = useForm();
@@ -16,10 +16,8 @@ const CreateProduct = ({ stateOpen, handleModalOpen }) => {
     const { kiosko } = useKiosk();
     //Estados necesarios para manejar la creación de un producto
     const [imageUrl, setImageUrl] = useState(null);
-    const [nombreProd, setNombreProd] = useState(null);
     const [showErrorMessage, setErrorMessage] = useState(false); //estado para mostrar mensaje de error en caso de que no todos los campos hayan sido llenados
     const [isNumber, setIsNumber] = useState(false); //estado para mostrar mensaje de error en caso de que el precio no sea un número
-    const [succesOpen, setSuccesOpen] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
 
     const limpiarCampos = () => {
         setImageUrl(null);
@@ -69,18 +67,12 @@ const CreateProduct = ({ stateOpen, handleModalOpen }) => {
     // State to store the file
     // eslint-disable-next-line no-unused-vars
 
-    const [file, setFile] = useState(null);
-    const uploadImage = (file) => {
+    const [file, setFile] = useState(null); //estado para almacenar la imagen del producto
+    const uploadImage = (file) => { //Función para subir la imagen del producto
         handleImageFileChange(file, setImageUrl, setFile);
     }
 
-
-    const handleSuccesOpen = () => { //Función para abrir el mensaje de éxito
-        setSuccesOpen(!succesOpen);
-    };
-
     const handleSuccesClose = () => {
-        setSuccesOpen(false);
         setFile(null);
         limpiarCampos();
         handleModalOpen('create');
@@ -97,7 +89,10 @@ const CreateProduct = ({ stateOpen, handleModalOpen }) => {
             if (result) {
                 console.log("Producto creado con éxito");
                 setNombreProd(data.nombreProducto);
-                handleSuccesOpen();
+                setTimeout(() => {
+                    handleSuccessOpen();
+                    handleSuccesClose();
+                }, 1000); // Espera 1000 milisegundos (1 segundo) antes de ejecutar la función
             }
         }
     }
@@ -139,7 +134,6 @@ const CreateProduct = ({ stateOpen, handleModalOpen }) => {
                 <div className="space-x-8">
                     <Button className="bg-[#ef4444] text-[#FFFFFF] hover:bg-[#FF6B6B]" onClick={handleCerrar}>Cancelar</Button>
                     <Button className="bg-FAST-DarkBlue text-[#FFFFFF] hover:bg-[#2B3045]" onClick={handleSubmit(onSubmit)}>Agregar</Button>
-                    <ProductoExitoso exitosoOpen={succesOpen} mensaje="fue agregado exitosamente" handleExitosoOpen={handleSuccesOpen} handleExitosoClose={handleSuccesClose} productName={nombreProd} />
                 </div>
             </DialogFooter>
         </Dialog>
@@ -149,7 +143,10 @@ const CreateProduct = ({ stateOpen, handleModalOpen }) => {
 // Prop validation
 CreateProduct.propTypes = {
     stateOpen: PropTypes.bool.isRequired,
-    handleModalOpen: PropTypes.func.isRequired
+    handleModalOpen: PropTypes.func.isRequired,
+    handleSuccessOpen: PropTypes.func.isRequired,
+    setNombreProd: PropTypes.func.isRequired, // setNombreProd is a function
+
 };
 
 // Default prop values
