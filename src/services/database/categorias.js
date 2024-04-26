@@ -12,3 +12,14 @@ export async function obtenerCategorias(categoriaId) {
         return [];
     }
 }
+
+export async function obtenerCategoriasCompletas() {
+    try {
+        const results = await pb.collection('categoria').getFullList();
+        return results.map(result => ({ id: result.id, nombreCategoria: result.nombreCategoria }));
+
+    } catch (error) {
+        console.error('Error cargando las categorias:', error);
+        return [];
+    }
+}

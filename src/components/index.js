@@ -10,10 +10,31 @@ import Hero from "./landing/Hero";
 import Navbar from "./landing/Navbar";
 import Services from "./landing/Services";
 import Partners from "./landing/Partners";
+import CategoriaSelector from "./CategoriaSelector";
 
 //Layout Components
 import Sidebar from "./layout/Sidebar";
 import Header from "./layout/Header";
+
+//Modals Components
+import CreateProduct from "./modals/CreateProduct";
+import DeleteProduct from "./modals/DeleteProduct";
+import ProductoExitoso from '../components/modals/ProductoExitoso';
+
+//Material Tailwind Components
+import {
+    Card,
+    CardBody,
+    CardHeader,
+    Typography,
+    Input,
+    Button,
+    Dialog,
+    DialogBody,
+    DialogHeader,
+    DialogFooter
+} from "@material-tailwind/react";
+
 
 export {
     DocumentTitle,
@@ -28,4 +49,26 @@ export {
     Sidebar,
     Header,
     Partners,
+    CategoriaSelector
+}
+
+export {
+    Card,
+    CardBody,
+    CardHeader,
+    Typography,
+    Input,
+    Button,
+    Dialog,
+    DialogBody,
+    DialogHeader,
+    DialogFooter
+}
+
+//Export Modals
+
+export {
+    CreateProduct,
+    DeleteProduct,
+    ProductoExitoso
 }

@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { handleImageFileChange } from "../utils/index";
 
 import logo from "../assets/img/fast-logo.svg";
 import FASTKioskImage2 from '../assets/img/FASTKioskImage2.png';
@@ -29,14 +30,16 @@ const RegistroCompleto = () => {
   const navigate = useNavigate();
 
   // State to store the file
-  // eslint-disable-next-line no-unused-vars
   const [file, setFile] = useState(null);
 
-  // Define handleImageUrlChange function outside of useEffect
-  const handleImageFileChange = (file) => {
+  /*const handleImageFileChange = (file) => {
     setImageUrl(URL.createObjectURL(file)); // Opcional: para mostrar la imagen subida
     setFile(file); // Guarda el archivo en el estado
-  };
+  };*/
+
+  const uploadImage = (file) => {
+    handleImageFileChange(file, setImageUrl, setFile);
+  }
 
   useEffect(() => {
     // Cleanup function
@@ -130,6 +133,7 @@ const RegistroCompleto = () => {
   const onSubmit = async (data) => {
     estadosFalsos();
     const formatoValido = nombreUsuarioValido(data.nomUsuario);
+    console.log(data)
     if (formatoValido) {
       setMensajeUser("El nombre de usuario debe tener al menos 4 caracteres y no contener espacios");
       return;
@@ -182,7 +186,7 @@ const RegistroCompleto = () => {
             </div>
             <div>
               {/* Use ImageUpload component */}
-              <ImageUpload defaultImageUrl={imageUrl || FASTKioskImage2} onChange={handleImageFileChange} register={register} name="foto" />
+              <ImageUpload defaultImageUrl={imageUrl || FASTKioskImage2} onChange={uploadImage} register={register} name="foto" />
             </div>
           </div>
           {/*Button*/}
