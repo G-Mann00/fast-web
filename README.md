@@ -38,6 +38,7 @@ Este proyecto fue creado mediante la herramienta de construcción (build tool) *
 - Visualizacion del catalogo del Kiosko
 - Sidebar con opcion de agregar nuevas opciones
 - Pantallas de Producto, Kiosko y Ajuste de Usuario
+- Crear y eliminar productos
 
 ### Manual de Usuario
 https://drive.google.com/file/d/1PfApvTSsvW93eYTY-rDAgG-ygC0qkg0i/view
