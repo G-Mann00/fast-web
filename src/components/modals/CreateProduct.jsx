@@ -3,7 +3,7 @@ import foodIcon from '../../assets/img/fast-default-food-icon.png';
 import { useForm } from 'react-hook-form'; // Import `useForm` hook from 'react-hook-form' para manejar el proceso de registro de productos
 import { useState } from 'react';
 import { handleImageFileChange, checkIfNumber } from "../../utils/index";
-import { agregarProducto } from "../../services/database/index";
+import { agregarProducto, buscarXnombre } from "../../services/database/index";
 import PropTypes from 'prop-types';
 // importar el hook de useKiosk
 import { useKiosk } from '../../hooks/kiosko';
@@ -18,7 +18,7 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
     const [imageUrl, setImageUrl] = useState(null);
     const [showErrorMessage, setErrorMessage] = useState(false); //estado para mostrar mensaje de error en caso de que no todos los campos hayan sido llenados
     const [isNumber, setIsNumber] = useState(false); //estado para mostrar mensaje de error en caso de que el precio no sea un número
-
+    const [nombreUsed, setNombreUsed] = useState(''); //estado para mostrar mensaje en caso de que el nombre del producto ya exista
     const limpiarCampos = () => {
         setImageUrl(null);
         setErrorMessage(false);
@@ -47,15 +47,19 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
         handleModalOpen('canceledCreate');
     }
 
+
+
     const handleValidacion = (data, file) => {
         if (!validarCampos(data, file)) {
             setErrorMessage(true);
             return false;
         } else if (checkIfNumber(data.precio, setIsNumber)) {
             return false;
-        } else {
+        }
+        else {
             setErrorMessage(false);
             setIsNumber(false);
+            setNombreUsed(false);
             return true;
         }
     }
@@ -71,14 +75,14 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
         handleModalOpen('create');
     };
     const onSubmit = async (data) => {
-        const validado = checkIfNumber(data.precio, setIsNumber);
-        console.log("Validado: ", validado);
+        const producto = await buscarXnombre(data.nombreProducto, kiosko.id);
+        console.log("Producto encontrado: ", producto);
+        if (producto) {
+            setNombreUsed('El nombre del producto ya existe');
+            return;
+        }
         if (handleValidacion(data, file)) {
-            console.log("Data obtenida: ", data);
-            console.log("Imagen obtenida: ", file);
-            console.log("Kiosko obtenido: ", kiosko);
             const result = await agregarProducto(kiosko.id, data, file);
-            console.log("Resultado de la creación del producto: ", result);
             if (result) {
                 console.log("Producto creado con éxito");
                 setNombreProd(data.nombreProducto);
@@ -103,7 +107,7 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
                     <div>
                         {showErrorMessage ? <span className="text-[#FF0400]">No se han llenado todos los campos</span> : null}
                         {/* Nombre */}
-                        <InputSection tipo="text" frase="Nombre" etiqueta="Nombre del Producto" name="nombreProducto" register={register} />
+                        <InputSection tipo="text" frase="Nombre" etiqueta="Nombre del Producto" name="nombreProducto" register={register} mensaje={nombreUsed ? nombreUsed : ''} />
 
                         {/* Descripcion */}
                         <InputSection tipo="text" frase="Descripcion" etiqueta="Descripción del Producto" name="descripcionProducto" register={register} />

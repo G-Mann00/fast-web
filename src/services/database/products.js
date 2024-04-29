@@ -26,15 +26,13 @@ export async function agregarProducto(tiendaId, producto, file) {
     }
 }
 //Función para cargar todos los productos y mostrarlos en la tabla
-export async function cargarProductos(tiendaId) {
+async function cargarProductos(tiendaId) {
 
     try {
         const results = await pb.collection('producto').getFullList({}, {
             filter: `tienda = "${tiendaId}"`,
         });
-
-        const resultados = mapearProductos(results);
-        return resultados;
+        return results;
 
     } catch (error) {
         console.error('Error cargando los productos:', error);
@@ -43,7 +41,19 @@ export async function cargarProductos(tiendaId) {
 
 }
 
+//Función para trabajar cargarProductos y mapear productos
 
+export async function cargarProductosYmapear(tiendaId) {
+    try {
+        const productos = await cargarProductos(tiendaId);
+        const productosMapeados = await mapearProductos(productos);
+        return productosMapeados;
+    } catch (error) {
+        console.error('Error cargando y mapeando los productos:', error);
+        return [];
+    }
+
+}
 //Función que mapea sobre los productos para poder mostrar la imagen y la categoría en la tabla
 async function mapearProductos(arreglo) {
     // Utilizamos Promise.all para ejecutar todas las transformaciones de manera simultánea
@@ -80,5 +90,23 @@ export async function eliminarProducto(id) {
     } catch (error) {
         console.error('Error eliminando el producto:', error);
         return null;
+    }
+}
+
+//Función para buscar un producto por su nombre
+export async function buscarXnombre(productoNombre, tiendaId) {
+    try {
+        const arreglo = await cargarProductos(tiendaId);
+        const resultado = arreglo.filter(producto => producto.nombre.toLowerCase() === productoNombre.toLowerCase());
+        if (resultado.length > 0) {
+            console.log("Como dueles", resultado)
+            return true;
+        } else {
+            console.log("Corre", resultado)
+            return false;
+        }
+    } catch (error) {
+        console.error('Error buscando el producto:', error);
+        return [];
     }
 }

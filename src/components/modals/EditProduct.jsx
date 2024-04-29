@@ -9,7 +9,6 @@ import { useForm } from 'react-hook-form';
 const EditProduct = ({ editOpen, producto, handleModalOpen }) => {
     const { control, register, handleSubmit, setValue } = useForm();
     const [loading, setLoading] = useState(true);
-    const [datosCargados, setDatosCargados] = useState(true);
 
     // Function to handle form submission
     const onSubmit = (data) => {
@@ -21,14 +20,9 @@ const EditProduct = ({ editOpen, producto, handleModalOpen }) => {
         handleModalOpen('canceledEdit');
     }
 
-    // Function to handle data loading
-    const onDataLoaded = () => {
-        setDatosCargados(true);
-    }
-
     // Effect to set form values when producto and datosCargados change
     useEffect(() => {
-        if (producto && datosCargados) {
+        if (producto) {
             setLoading(false);
             setValue('nombreProducto', producto.nombre);
             setValue('descripcionProducto', producto.descripcion);
@@ -36,7 +30,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen }) => {
             setValue('categoria', producto.idCategoria);
             setValue('foto', producto.imagen);
         }
-    }, [producto, setValue, datosCargados]);
+    }, [producto, setValue]);
 
     return (
         <Dialog open={editOpen} size="lg">
@@ -69,7 +63,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen }) => {
                                 {/* Precio */}
                                 <InputSection tipo="text" frase="Precio (C$)" etiqueta="Precio del producto" name="precio" register={register} />
                                 {/* Categoria */}
-                                <CategoriaSelector name="categoria" control={control} onDataLoaded={onDataLoaded} />
+                                <CategoriaSelector name="categoria" control={control} />
                             </div>
 
                             <div>
