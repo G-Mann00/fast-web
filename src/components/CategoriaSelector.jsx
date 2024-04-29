@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import { Controller } from "react-hook-form";
 import { useEffect, useState } from 'react';
 
-const CategoriaSelector = ({ control, name }) => {
+const CategoriaSelector = ({ control, name, onDataLoaded }) => {
   const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
     const fetchCategorias = async () => {
       const categoriasFromDB = await obtenerCategoriasCompletas();
       setCategorias(categoriasFromDB);
+      onDataLoaded();
     };
 
     fetchCategorias();
-  }, []);
+  }, [onDataLoaded]);
 
   return (
     <div className="pb-[26px] pt-[22px]">
@@ -40,6 +41,7 @@ const CategoriaSelector = ({ control, name }) => {
 CategoriaSelector.propTypes = {
   control: PropTypes.object.isRequired, // Prop validation for control
   name: PropTypes.string.isRequired, // Prop validation for name
+  onDataLoaded: PropTypes.func, // Prop validation for onDataLoadeds
 };
 
 export default CategoriaSelector;

@@ -3,10 +3,7 @@ import { eliminarProducto } from '../../services/database/index'
 import warningIcon from '../../assets/img/triangulo-alerta.png';
 import PropTypes from 'prop-types';
 
-
-
 const DeleteProduct = ({ deleteOpen, handleModalOpen, producto, handleSuccessOpen }) => {
-
 
     const handleEliminarProducto = async (producto) => {
         const result = await eliminarProducto(producto.id);
@@ -26,7 +23,7 @@ const DeleteProduct = ({ deleteOpen, handleModalOpen, producto, handleSuccessOpe
             <DialogBody>
                 <div className="flex justify-center items-center gap-3">
                     <img className="w-[100px] h-[100px]" src={warningIcon} />
-                    <p className="text-left text-lg text-FAST-Text">¿Está seguro que desea eliminar {producto.nombre}?</p>
+                    <p className="text-left text-lg text-FAST-Text">¿Está seguro que desea eliminar  <span className='text text-FAST-Orange font-bold'>{producto.nombre}</span> ?</p>
                 </div>
             </DialogBody>
 
@@ -46,7 +43,6 @@ DeleteProduct.propTypes = {
     handleModalOpen: PropTypes.func.isRequired,
     producto: PropTypes.object.isRequired,
     handleSuccessOpen: PropTypes.func.isRequired,
-
 };
 
 export default DeleteProduct;
