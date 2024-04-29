@@ -1,10 +1,10 @@
 import { Dialog, DialogBody, DialogFooter, DialogHeader, Button, InputSection, CategoriaSelector, ImageUpload } from "../index";
 import foodIcon from '../../assets/img/fast-default-food-icon.png';
 import { useForm } from 'react-hook-form'; // Import `useForm` hook from 'react-hook-form' para manejar el proceso de registro de productos
-import { useState/*, useEffect*/ } from 'react';
+import { useState } from 'react';
 import { handleImageFileChange, checkIfNumber } from "../../utils/index";
 import { agregarProducto } from "../../services/database/index";
-import PropTypes from 'prop-types'; // Import PropTypes
+import PropTypes from 'prop-types';
 // importar el hook de useKiosk
 import { useKiosk } from '../../hooks/kiosko';
 
@@ -59,13 +59,6 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
             return true;
         }
     }
-
-    /*const handleEnviar = () => { //Función para enviar el formulario
-        handleSubmit(onSubmit);
-        handleModalOpen('create');
-    }*/
-    // State to store the file
-    // eslint-disable-next-line no-unused-vars
 
     const [file, setFile] = useState(null); //estado para almacenar la imagen del producto
     const uploadImage = (file) => { //Función para subir la imagen del producto

@@ -1,7 +1,7 @@
 import { createUser, isUsernameAvailable, isKioskonameAvailable, isEmailAvailable } from './users';
 import { authenticateUser, hasTiendaRecords, obtenerDatosActualizadosUsuario } from './users';
 import { buscarRegistroUsuario } from './kioskoData';
-import { cargarProductos, mapearProductos, agregarProducto, eliminarProducto } from './products';
+import { cargarProductos, agregarProducto, eliminarProducto } from './products';
 import { obtenerCategorias, obtenerCategoriasCompletas } from './categorias';
 
 
@@ -24,7 +24,6 @@ export {
 // Exportar las funciones de los productos
 export {
     cargarProductos,
-    mapearProductos,
     agregarProducto,
     eliminarProducto,
 };

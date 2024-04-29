@@ -1,13 +1,12 @@
-
-import PropTypes from 'prop-types'; // Import PropTypes
+import PropTypes from 'prop-types';
 import foodIcon from '../assets/img/fast-default-food-icon.png';
-//import warningIcon from '../assets/img/triangulo-alerta.png';
 import { useState } from "react";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit } from "react-icons/fi";
-import { /*InputSection, ImageUpload, Dialog, DialogBody, DialogFooter, DialogHeader, */Button, Card, CardHeader, Typography, CardBody, Input, CreateProduct, DeleteProduct, ProductoExitoso } from "../components/index";
+import { Button, Card, CardHeader, Typography, CardBody, Input, CreateProduct, DeleteProduct, ProductoExitoso } from "../components/index";
+import EditProduct from "../components/modals/EditProduct";
 
 const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destructure tableRows properly here
 
@@ -16,8 +15,6 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
   const [succesOpen, setSuccesOpen] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
   const [succesOpenAdd, setSuccesOpenAdd] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
   const [mensajeModal, setMensajeModal] = useState(false); //estado para definir el mensaje del modal
-
-
 
   const handleSuccesOpen = () => {
     setTimeout(() => {
@@ -41,20 +38,29 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
     setSuccesOpenAdd(false);
   };
 
-
-  const handleEliminarOpen = (producto) => {
+  const handleEliminarOpen = (producto) => { //Función para abrir el modal de eliminación de producto
     console.log('Producto a eliminar:', producto);
     setProducto(producto);
     handleModalOpen('openDelete');
   };
 
+  const handleEditarOpen = (producto) => { //Función para abrir el modal de edición de producto
+    console.log('Producto a editar:', producto);
+    setProducto(producto);
+    handleModalOpen('openEdit');
+
+
+  }
+
   return (
     <>
       {/* Modales de creacion y eliminacion de productos al igual que los modales de operacion exitosa */}
+      <EditProduct editOpen={modalStates.editOpen} handleModalOpen={handleModalOpen} producto={producto} />
       <CreateProduct stateOpen={modalStates.createOpen} handleModalOpen={handleModalOpen} handleSuccessOpen={handleSuccesOpenAgregar} setNombreProd={setProducto} />
       <ProductoExitoso exitosoOpen={succesOpenAdd} mensaje={mensajeModal} handleExitosoOpen={handleSuccesOpenAgregar} handleExitosoClose={handleSuccesCloseAdd} productName={producto} />
       <DeleteProduct deleteOpen={modalStates.deleteOpen} handleModalOpen={handleModalOpen} producto={producto} handleSuccessOpen={handleSuccesOpen} />
       <ProductoExitoso exitosoOpen={succesOpen} mensaje={mensajeModal} handleExitosoOpen={handleSuccesOpen} handleExitosoClose={handleSuccesClose} productName={producto.nombre} />
+
       {/* Tabla de productos */}
       <Card className="h-[500px] w-full overflow-y-auto rounded-lg">
         {/* Encabezado del componente */}
@@ -152,7 +158,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
                   <td className="p-4">
                     <div className="flex items-center gap-3">
 
-                      <button /*onClick={handleEditOpen}*/ className="bg-FAST-DarkBlue text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#2B3045]">
+                      <button onClick={() => handleEditarOpen(producto)} className="bg-FAST-DarkBlue text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#2B3045]">
                         <FiEdit size={20} />
                       </button>
 
@@ -177,6 +183,7 @@ ProductTable.propTypes = {
   modalStates: PropTypes.shape({
     createOpen: PropTypes.bool.isRequired,
     deleteOpen: PropTypes.bool.isRequired,
+    editOpen: PropTypes.bool.isRequired,
   }).isRequired, // Validate modalStates prop as an object with specific shape and ensure it's required
   handleModalOpen: PropTypes.func.isRequired, // Validate handleModalOpen prop as a function and ensure it's required
 };

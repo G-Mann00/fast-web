@@ -3,6 +3,7 @@ import ImageUpload from "./ImageUpload";
 import InputSection from "./InputSection";
 import NameInput from "./NameInput";
 import PasswordInput from "./PasswordInput";
+import ProductTable from "./ProductTable";
 
 //Landing Components 
 import Footer from "./landing/Footer";
@@ -20,6 +21,10 @@ import Header from "./layout/Header";
 import CreateProduct from "./modals/CreateProduct";
 import DeleteProduct from "./modals/DeleteProduct";
 import ProductoExitoso from '../components/modals/ProductoExitoso';
+import EditProduct from "./modals/EditProduct";
+
+//Loader
+import SpinnerFAST from "./deco/SpinnerFAST";
 
 //Material Tailwind Components
 import {
@@ -70,5 +75,15 @@ export {
 export {
     CreateProduct,
     DeleteProduct,
-    ProductoExitoso
+    ProductoExitoso,
+    EditProduct
+}
+
+//Loader
+export {
+    SpinnerFAST
+}
+
+export {
+    ProductTable
 }

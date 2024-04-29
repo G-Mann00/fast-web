@@ -13,7 +13,7 @@ function ProductoExitoso({ exitosoOpen, mensaje, handleExitosoOpen, handleExitos
             <DialogBody>
                 <div className="flex justify-center items-center gap-3">
                     <img className="w-[100px] h-[100px]" src={exitoso} />
-                    <p className="text-left text-lg text-FAST-Text">El producto {productName} {mensaje}</p>
+                    <p className="text-left text-lg text-FAST-Text">El producto <span className='text text-FAST-Orange font-bold'>{productName}</span> {mensaje}</p>
                 </div>
             </DialogBody>
 
