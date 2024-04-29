@@ -52,7 +52,7 @@ export const SIDEBAR_BOTTOM_LINKS = [
     {
 		key: 'ayuda y soporte',
 		label: 'Ayuda y soporte',
-		path: '/support',
+		path: 'https://drive.google.com/file/d/1PfApvTSsvW93eYTY-rDAgG-ygC0qkg0i/view?usp=sharing',
 		icon: <HiOutlineQuestionMarkCircle />
 	}
 ]
