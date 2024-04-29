@@ -1,6 +1,6 @@
 import DocumentTitle from "../../components/DocumentTitle";
 import { ProductTable, SpinnerFAST } from "../../components/index"
-import { cargarProductos } from "../../services/database/index";
+import { cargarProductosYmapear } from "../../services/database/index";
 import { useKiosk } from '../../hooks/kiosko';
 import { useEffect, useCallback, useState } from 'react';
 
@@ -51,7 +51,7 @@ const Productos = () => {
 
   const manejarCargaProductos = useCallback(async () => {
     console.log('Objeto kiosko en productos:', kiosko.id);
-    const productos = await cargarProductos(kiosko.id);
+    const productos = await cargarProductosYmapear(kiosko.id);
     setProductosArray(productos);
   }, [kiosko]);
 
