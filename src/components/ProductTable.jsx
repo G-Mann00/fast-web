@@ -15,6 +15,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
   const [succesOpen, setSuccesOpen] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
   const [succesOpenAdd, setSuccesOpenAdd] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
   const [mensajeModal, setMensajeModal] = useState(false); //estado para definir el mensaje del modal
+  const [succesOpenEdit, setSuccesOpenEdit] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
 
   const handleSuccesOpen = () => {
     setTimeout(() => {
@@ -30,6 +31,13 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
     }, 1000);
   };
 
+  const handleSuccesOpenEdit = () => {
+    setTimeout(() => {
+      setSuccesOpenEdit(!succesOpenEdit);
+      console.log(succesOpenEdit)
+      setMensajeModal('fue editado exitosamente');
+    }, 1000);
+  }
   const handleSuccesClose = () => {
     setSuccesOpen(false);
   };
@@ -37,30 +45,28 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
   const handleSuccesCloseAdd = () => {
     setSuccesOpenAdd(false);
   };
-
+  const handleSuccesCloseEdit = () => {
+    setSuccesOpenEdit(false);
+  }
   const handleEliminarOpen = (producto) => { //Función para abrir el modal de eliminación de producto
-    console.log('Producto a eliminar:', producto);
     setProducto(producto);
     handleModalOpen('openDelete');
   };
 
   const handleEditarOpen = (producto) => { //Función para abrir el modal de edición de producto
-    console.log('Producto a editar:', producto);
     setProducto(producto);
     handleModalOpen('openEdit');
-
-
   }
 
   return (
     <>
       {/* Modales de creacion y eliminacion de productos al igual que los modales de operacion exitosa */}
-      <EditProduct editOpen={modalStates.editOpen} handleModalOpen={handleModalOpen} producto={producto} />
+      <EditProduct editOpen={modalStates.editOpen} handleModalOpen={handleModalOpen} producto={producto} handleSuccesOpenEdit={handleSuccesOpenEdit} />
       <CreateProduct stateOpen={modalStates.createOpen} handleModalOpen={handleModalOpen} handleSuccessOpen={handleSuccesOpenAgregar} setNombreProd={setProducto} />
       <ProductoExitoso exitosoOpen={succesOpenAdd} mensaje={mensajeModal} handleExitosoOpen={handleSuccesOpenAgregar} handleExitosoClose={handleSuccesCloseAdd} productName={producto} />
       <DeleteProduct deleteOpen={modalStates.deleteOpen} handleModalOpen={handleModalOpen} producto={producto} handleSuccessOpen={handleSuccesOpen} />
       <ProductoExitoso exitosoOpen={succesOpen} mensaje={mensajeModal} handleExitosoOpen={handleSuccesOpen} handleExitosoClose={handleSuccesClose} productName={producto.nombre} />
-
+      <ProductoExitoso exitosoOpen={succesOpenEdit} mensaje={mensajeModal} handleExitosoOpen={handleSuccesOpenEdit} handleExitosoClose={handleSuccesCloseEdit} productName={producto.nombre} />
       {/* Tabla de productos */}
       <Card className="h-[500px] w-full overflow-y-auto rounded-lg">
         {/* Encabezado del componente */}

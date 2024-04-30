@@ -57,7 +57,6 @@ export async function cargarProductosYmapear(tiendaId) {
 //Función que mapea sobre los productos para poder mostrar la imagen y la categoría en la tabla
 async function mapearProductos(arreglo) {
     // Utilizamos Promise.all para ejecutar todas las transformaciones de manera simultánea
-    console.log('Productos:', arreglo);
     const objetosMapeados = await Promise.all(
         // Utilizamos el método map para iterar sobre cada objeto del arreglo
         arreglo.map(async objeto => ({
@@ -66,6 +65,7 @@ async function mapearProductos(arreglo) {
             nombre: objeto.nombre, // Copiamos el nombre del objeto original
             idCategoria: objeto.categoria[0], // Copiamos el id de la categoría del objeto original
             categoria: await obtenerCategorias(objeto.categoria[0]), // Obtenemos la categoría del objeto original
+            file: objeto.Image, // Copiamos el archivo de imagen del objeto original
             imagen: await generarUrlImagen(objeto, 'Image'), // Obtenemos la URL de la imagen mediante la función asincrónica generarUrlImagen
             descripcion: objeto.descripcion, // Copiamos la descripción del objeto original
             precio: objeto.precio, // Copiamos el precio del objeto original
@@ -94,19 +94,47 @@ export async function eliminarProducto(id) {
 }
 
 //Función para buscar un producto por su nombre
-export async function buscarXnombre(productoNombre, tiendaId) {
+export async function buscarXnombre(productoNombre, tiendaId, rol) {
     try {
         const arreglo = await cargarProductos(tiendaId);
         const resultado = arreglo.filter(producto => producto.nombre.toLowerCase() === productoNombre.toLowerCase());
-        if (resultado.length > 0) {
-            console.log("Como dueles", resultado)
+        if (resultado.length > 0 && rol === "create") {
+            //console.log("Como dueles", resultado)
             return true;
-        } else {
-            console.log("Corre", resultado)
+        } else if (resultado.length >= 1 && rol === "edit") {
+            //console.log("Como dueles", resultado)
+            return true;
+        }
+        else {
             return false;
         }
     } catch (error) {
         console.error('Error buscando el producto:', error);
         return [];
     }
+}
+
+//Función para editar un producto
+
+export async function editarProducto(id, producto, file) {
+    try {
+        // Crea un FormData para almacenar los datos del producto
+        const formData = new FormData();
+        formData.append('nombre', producto.nombreProducto);
+        formData.append('descripcion', producto.descripcionProducto);
+        formData.append('precio', producto.precio);
+        formData.append('categoria', producto.categoria);
+        formData.append('Image', file);  // Pasa el archivo de imagen
+
+        // Edita el producto con el id proporcionado
+        await pb.collection('producto').update(id, formData);
+
+        // Retorna true si el producto se editó correctamente
+        return true;
+
+    } catch (error) {
+        console.error('Error editando el producto:', error);
+        return null;
+    }
+
 }

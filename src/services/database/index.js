@@ -1,7 +1,7 @@
 import { createUser, isUsernameAvailable, isKioskonameAvailable, isEmailAvailable } from './users';
 import { authenticateUser, hasTiendaRecords, obtenerDatosActualizadosUsuario } from './users';
 import { buscarRegistroUsuario } from './kioskoData';
-import { agregarProducto, eliminarProducto, buscarXnombre, cargarProductosYmapear } from './products';
+import { agregarProducto, eliminarProducto, buscarXnombre, cargarProductosYmapear, editarProducto } from './products';
 import { obtenerCategorias, obtenerCategoriasCompletas } from './categorias';
 
 
@@ -27,6 +27,7 @@ export {
     agregarProducto,
     eliminarProducto,
     buscarXnombre,
+    editarProducto
 };
 
 // Exportar las funciones de las categorias

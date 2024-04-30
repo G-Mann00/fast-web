@@ -19,9 +19,11 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
     const [showErrorMessage, setErrorMessage] = useState(false); //estado para mostrar mensaje de error en caso de que no todos los campos hayan sido llenados
     const [isNumber, setIsNumber] = useState(false); //estado para mostrar mensaje de error en caso de que el precio no sea un número
     const [nombreUsed, setNombreUsed] = useState(''); //estado para mostrar mensaje en caso de que el nombre del producto ya exista
+
     const limpiarCampos = () => {
         setImageUrl(null);
         setErrorMessage(false);
+        setNombreUsed(false);
         setIsNumber(false);
         setValue('nombreProducto', null);
         setValue('descripcionProducto', null);
@@ -32,7 +34,7 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
 
     // Función para verificar si todos los campos han sido llenados
     const allFieldsFilled = (data) => {
-        console.log("Data recibida: ", data);
+        //console.log("Data recibida: ", data);
         return Object.values(data).every(value => value !== '' && value !== null);
     };
 
@@ -46,8 +48,6 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
         limpiarCampos();
         handleModalOpen('canceledCreate');
     }
-
-
 
     const handleValidacion = (data, file) => {
         if (!validarCampos(data, file)) {
@@ -75,8 +75,7 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
         handleModalOpen('create');
     };
     const onSubmit = async (data) => {
-        const producto = await buscarXnombre(data.nombreProducto, kiosko.id);
-        console.log("Producto encontrado: ", producto);
+        const producto = await buscarXnombre(data.nombreProducto, kiosko.id, "create");
         if (producto) {
             setNombreUsed('El nombre del producto ya existe');
             return;
