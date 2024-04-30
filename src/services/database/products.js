@@ -94,14 +94,18 @@ export async function eliminarProducto(id) {
 }
 
 //Función para buscar un producto por su nombre
-export async function buscarXnombre(productoNombre, tiendaId) {
+export async function buscarXnombre(productoNombre, tiendaId, rol) {
     try {
         const arreglo = await cargarProductos(tiendaId);
         const resultado = arreglo.filter(producto => producto.nombre.toLowerCase() === productoNombre.toLowerCase());
-        if (resultado.length > 0) {
+        if (resultado.length > 0 && rol === "create") {
             console.log("Como dueles", resultado)
             return true;
-        } else {
+        } else if (resultado.length > 1 && rol === "edit") {
+            console.log("Como dueles", resultado)
+            return true;
+        }
+        else {
             console.log("Corre", resultado)
             return false;
         }
@@ -109,4 +113,29 @@ export async function buscarXnombre(productoNombre, tiendaId) {
         console.error('Error buscando el producto:', error);
         return [];
     }
+}
+
+//Función para editar un producto
+
+export async function editarProducto(id, producto, file) {
+    try {
+        // Crea un FormData para almacenar los datos del producto
+        const formData = new FormData();
+        formData.append('nombre', producto.nombreProducto);
+        formData.append('descripcion', producto.descripcionProducto);
+        formData.append('precio', producto.precio);
+        formData.append('categoria', producto.categoria);
+        formData.append('Image', file);  // Pasa el archivo de imagen
+
+        // Edita el producto con el id proporcionado
+        await pb.collection('producto').update(id, formData);
+
+        // Retorna true si el producto se editó correctamente
+        return true;
+
+    } catch (error) {
+        console.error('Error editando el producto:', error);
+        return null;
+    }
+
 }

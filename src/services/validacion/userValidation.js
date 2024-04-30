@@ -1,4 +1,4 @@
-import {/* createUser, */isUsernameAvailable, isKioskonameAvailable } from "../database/index";
+import { isUsernameAvailable, isKioskonameAvailable } from "../database/index";
 
 export const checkUser = async (nomUser) => {
     // Verifica si el nombre de usuario ya existe

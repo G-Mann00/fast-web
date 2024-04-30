@@ -4,21 +4,47 @@ import PropTypes from 'prop-types';
 import { Dialog, DialogBody, DialogFooter, DialogHeader, Button, InputSection, ImageUpload, CategoriaSelector, SpinnerFAST } from "../index";
 import foodIcon from '../../assets/img/fast-default-food-icon.png';
 import { useForm } from 'react-hook-form';
+import { handleImageFileChange } from "../../utils/index";
+import { buscarXnombre } from "../../services/database";
+// importar el hook de useKiosk
+import { useKiosk } from '../../hooks/kiosko';
 
 // EditProduct component
-const EditProduct = ({ editOpen, producto, handleModalOpen }) => {
+const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit }) => {
+    // Obtener el kiosko del contexto
+    const { kiosko } = useKiosk();
     const { control, register, handleSubmit, setValue } = useForm();
     const [loading, setLoading] = useState(true);
+    const [imageUrl, setImageUrl] = useState(foodIcon);
+    const [nombreUsed, setNombreUsed] = useState(''); //estado para mostrar mensaje en caso de que el nombre del producto ya exista
+    // eslint-disable-next-line no-unused-vars
+    const [file, setFile] = useState(null); //estado para almacenar la imagen del producto
+
+    const uploadImage = (file) => { //Función para subir la imagen del producto
+        handleImageFileChange(file, setImageUrl, setFile);
+    }
+
 
     // Function to handle form submission
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (data) => {
+        const producto = await buscarXnombre(data.nombreProducto, kiosko.id, "edit");
+        if (producto) {
+            setNombreUsed(data.nombreProducto);
+            return;
+        }
+        console.log("datos => ", data);
+        handleSuccesClose();
+        handleSuccesOpenEdit();
     }
 
     // Function to handle cancellation
     const handleCanceled = () => {
         handleModalOpen('canceledEdit');
     }
+
+    const handleSuccesClose = () => {
+        handleModalOpen('edit');
+    };
 
     // Effect to set form values when producto and datosCargados change
     useEffect(() => {
@@ -57,7 +83,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen }) => {
                         <form className="pl-[75px] grid grid-cols-2 gap-[70px] justify-center" onSubmit={handleSubmit(onSubmit)}>
                             <div>
                                 {/* Nombre */}
-                                <InputSection tipo="text" frase="Nombre" etiqueta="Nombre del Producto" name="nombreProducto" register={register} />
+                                <InputSection tipo="text" frase="Nombre" etiqueta="Nombre del Producto" name="nombreProducto" register={register} mensaje={nombreUsed ? nombreUsed : ''} />
                                 {/* Descripcion */}
                                 <InputSection tipo="text" frase="Descripcion" etiqueta="Descripcion del producto" name="descripcionProducto" register={register} />
                                 {/* Precio */}
@@ -67,7 +93,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen }) => {
                             </div>
 
                             <div>
-                                <ImageUpload defaultImageUrl={producto.imagen ? producto.imagen : foodIcon} name="foto" />
+                                <ImageUpload defaultImageUrl={producto.imagen ? producto.imagen : imageUrl} onChange={uploadImage} name="foto" register={register} />
                             </div>
                         </form>
                     </DialogBody>
@@ -75,7 +101,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen }) => {
                     <DialogFooter>
                         <div className="space-x-8">
                             <Button className="bg-[#ef4444] text-[#FFFFFF] hover:bg-[#FF6B6B]" onClick={handleCanceled}>Cancelar</Button>
-                            <Button className="bg-FAST-DarkBlue text-[#FFFFFF] hover:bg-[#2B3045]" >Guardar Cambios</Button>
+                            <Button className="bg-FAST-DarkBlue text-[#FFFFFF] hover:bg-[#2B3045]" onClick={handleSubmit(onSubmit)}>Guardar Cambios</Button>
                         </div>
                     </DialogFooter>
                 </>
@@ -89,6 +115,7 @@ EditProduct.propTypes = {
     editOpen: PropTypes.bool.isRequired,
     handleModalOpen: PropTypes.func.isRequired,
     producto: PropTypes.object.isRequired,
+    handleSuccesOpenEdit: PropTypes.func,
 };
 
 // Exporting component
