@@ -38,7 +38,6 @@ const Productos = () => {
       setDeleteOpen(!deleteOpen);
     } else if (modalType === 'openEdit') {
       setEditOpen(!editOpen);
-      console.log('EditOpen:', editOpen);
     }
     else if (modalType === 'canceledCreate') {
       setCreateOpen(false);
@@ -50,7 +49,6 @@ const Productos = () => {
   };
 
   const manejarCargaProductos = useCallback(async () => {
-    console.log('Objeto kiosko en productos:', kiosko.id);
     const productos = await cargarProductosYmapear(kiosko.id);
     setProductosArray(productos);
   }, [kiosko]);

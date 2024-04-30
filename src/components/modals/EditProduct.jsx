@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { Dialog, DialogBody, DialogFooter, DialogHeader, Button, InputSection, ImageUpload, CategoriaSelector, SpinnerFAST } from "../index";
 import foodIcon from '../../assets/img/fast-default-food-icon.png';
 import { useForm } from 'react-hook-form';
-import { handleImageFileChange } from "../../utils/index";
-import { buscarXnombre } from "../../services/database";
+import { handleImageFileChange, checkIfNumber } from "../../utils/index";
+import { buscarXnombre, editarProducto } from "../../services/database";
 // importar el hook de useKiosk
 import { useKiosk } from '../../hooks/kiosko';
 
@@ -15,34 +15,81 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
     const { kiosko } = useKiosk();
     const { control, register, handleSubmit, setValue } = useForm();
     const [loading, setLoading] = useState(true);
-    const [imageUrl, setImageUrl] = useState(foodIcon);
-    const [nombreUsed, setNombreUsed] = useState(''); //estado para mostrar mensaje en caso de que el nombre del producto ya exista
     // eslint-disable-next-line no-unused-vars
+    const [imageUrl, setImageUrl] = useState(false);
+    const [nombreUsed, setNombreUsed] = useState(''); //estado para mostrar mensaje en caso de que el nombre del producto ya exista
+    const [nombreActual, setNombreActual] = useState(''); //estado para manejar el estado del nombre del producto
+    const [showErrorMessage, setErrorMessage] = useState(false); //estado para mostrar mensaje de error en caso de que no todos los campos hayan sido llenados
+    const [isNumber, setIsNumber] = useState(false);
     const [file, setFile] = useState(null); //estado para almacenar la imagen del producto
 
+    const limpiarCampos = () => {
+        setNombreUsed(null);
+        setErrorMessage(null);
+        setIsNumber(null);
+        setFile(null);
+        setImageUrl(null);
+        setValue('nombreProducto', producto.nombre);
+        setValue('descripcionProducto', producto.descripcion);
+        setValue('precio', producto.precio);
+    }
     const uploadImage = (file) => { //Función para subir la imagen del producto
         handleImageFileChange(file, setImageUrl, setFile);
     }
+    // Función para verificar si todos los campos han sido llenados
+    const allFieldsFilled = (data) => {
+        //console.log("Data recibida: ", data);
+        return Object.values(data).every(value => value !== '' && value !== null);
+    };
 
+    // Función para verificar si todos los campos están llenos y hay un archivo
+    const validarCampos = (data) => {
+        const hola = allFieldsFilled(data);
+        return hola;
+    };
+
+    const handleValidacion = (data) => {
+        if (!validarCampos(data)) {
+            setErrorMessage(true);
+            return false;
+        } else if (checkIfNumber(data.precio, setIsNumber)) {
+            return false;
+        }
+        else {
+            setErrorMessage(false);
+            setIsNumber(false);
+            setNombreUsed(false);
+            return true;
+        }
+    }
 
     // Function to handle form submission
     const onSubmit = async (data) => {
-        const producto = await buscarXnombre(data.nombreProducto, kiosko.id, "edit");
-        if (producto) {
-            setNombreUsed(data.nombreProducto);
+        const respuesta = await buscarXnombre(data.nombreProducto, kiosko.id, "edit");
+        if (respuesta && data.nombreProducto !== nombreActual) {
+            setNombreUsed("El nombre del producto ya existe");
             return;
         }
-        console.log("datos => ", data);
-        handleSuccesClose();
-        handleSuccesOpenEdit();
+        if (handleValidacion(data, file)) {
+            const result = await editarProducto(producto.id, data, file);
+            if (result) {
+                //console.log("Producto editado exitosamente");
+                setTimeout(() => {
+                    handleSuccesOpenEdit();
+                    handleSuccesClose();
+                });
+            }
+        }
     }
 
     // Function to handle cancellation
     const handleCanceled = () => {
+        limpiarCampos();
         handleModalOpen('canceledEdit');
     }
 
     const handleSuccesClose = () => {
+        limpiarCampos();
         handleModalOpen('edit');
     };
 
@@ -51,10 +98,14 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
         if (producto) {
             setLoading(false);
             setValue('nombreProducto', producto.nombre);
+            setNombreActual(producto.nombre);
             setValue('descripcionProducto', producto.descripcion);
             setValue('precio', producto.precio);
             setValue('categoria', producto.idCategoria);
             setValue('foto', producto.imagen);
+            setImageUrl(producto.imagen);
+            setFile(producto.file);
+
         }
     }, [producto, setValue]);
 
@@ -82,18 +133,19 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
                     <DialogBody>
                         <form className="pl-[75px] grid grid-cols-2 gap-[70px] justify-center" onSubmit={handleSubmit(onSubmit)}>
                             <div>
+                                {showErrorMessage ? <span className="text-[#FF0400]">No se han llenado todos los campos</span> : null}
                                 {/* Nombre */}
                                 <InputSection tipo="text" frase="Nombre" etiqueta="Nombre del Producto" name="nombreProducto" register={register} mensaje={nombreUsed ? nombreUsed : ''} />
                                 {/* Descripcion */}
                                 <InputSection tipo="text" frase="Descripcion" etiqueta="Descripcion del producto" name="descripcionProducto" register={register} />
                                 {/* Precio */}
-                                <InputSection tipo="text" frase="Precio (C$)" etiqueta="Precio del producto" name="precio" register={register} />
+                                <InputSection tipo="text" frase="Precio (C$)" etiqueta="Precio del producto" name="precio" register={register} mensaje={isNumber ? isNumber : ''} />
                                 {/* Categoria */}
                                 <CategoriaSelector name="categoria" control={control} />
                             </div>
 
                             <div>
-                                <ImageUpload defaultImageUrl={producto.imagen ? producto.imagen : imageUrl} onChange={uploadImage} name="foto" register={register} />
+                                <ImageUpload defaultImageUrl={producto.imagen ? producto.imagen : foodIcon} onChange={uploadImage} name="foto" register={register} />
                             </div>
                         </form>
                     </DialogBody>

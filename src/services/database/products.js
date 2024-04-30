@@ -57,7 +57,6 @@ export async function cargarProductosYmapear(tiendaId) {
 //Función que mapea sobre los productos para poder mostrar la imagen y la categoría en la tabla
 async function mapearProductos(arreglo) {
     // Utilizamos Promise.all para ejecutar todas las transformaciones de manera simultánea
-    console.log('Productos:', arreglo);
     const objetosMapeados = await Promise.all(
         // Utilizamos el método map para iterar sobre cada objeto del arreglo
         arreglo.map(async objeto => ({
@@ -66,6 +65,7 @@ async function mapearProductos(arreglo) {
             nombre: objeto.nombre, // Copiamos el nombre del objeto original
             idCategoria: objeto.categoria[0], // Copiamos el id de la categoría del objeto original
             categoria: await obtenerCategorias(objeto.categoria[0]), // Obtenemos la categoría del objeto original
+            file: objeto.Image, // Copiamos el archivo de imagen del objeto original
             imagen: await generarUrlImagen(objeto, 'Image'), // Obtenemos la URL de la imagen mediante la función asincrónica generarUrlImagen
             descripcion: objeto.descripcion, // Copiamos la descripción del objeto original
             precio: objeto.precio, // Copiamos el precio del objeto original
@@ -99,14 +99,13 @@ export async function buscarXnombre(productoNombre, tiendaId, rol) {
         const arreglo = await cargarProductos(tiendaId);
         const resultado = arreglo.filter(producto => producto.nombre.toLowerCase() === productoNombre.toLowerCase());
         if (resultado.length > 0 && rol === "create") {
-            console.log("Como dueles", resultado)
+            //console.log("Como dueles", resultado)
             return true;
-        } else if (resultado.length > 1 && rol === "edit") {
-            console.log("Como dueles", resultado)
+        } else if (resultado.length >= 1 && rol === "edit") {
+            //console.log("Como dueles", resultado)
             return true;
         }
         else {
-            console.log("Corre", resultado)
             return false;
         }
     } catch (error) {

@@ -23,6 +23,7 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
     const limpiarCampos = () => {
         setImageUrl(null);
         setErrorMessage(false);
+        setNombreUsed(false);
         setIsNumber(false);
         setValue('nombreProducto', null);
         setValue('descripcionProducto', null);
@@ -33,7 +34,7 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
 
     // Función para verificar si todos los campos han sido llenados
     const allFieldsFilled = (data) => {
-        console.log("Data recibida: ", data);
+        //console.log("Data recibida: ", data);
         return Object.values(data).every(value => value !== '' && value !== null);
     };
 

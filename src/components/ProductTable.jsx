@@ -49,13 +49,11 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
     setSuccesOpenEdit(false);
   }
   const handleEliminarOpen = (producto) => { //Función para abrir el modal de eliminación de producto
-    console.log('Producto a eliminar:', producto);
     setProducto(producto);
     handleModalOpen('openDelete');
   };
 
   const handleEditarOpen = (producto) => { //Función para abrir el modal de edición de producto
-    console.log('Producto a editar:', producto);
     setProducto(producto);
     handleModalOpen('openEdit');
   }
