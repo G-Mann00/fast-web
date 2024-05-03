@@ -12,9 +12,9 @@ export const checkUser = async (nomUser) => {
     }
 };
 
-export const checkKiosko = async (nomKiosko) => {
+export const checkKiosko = async (nomKiosko, type) => {
     // Verifica si el nombre de kiosko ya existe
-    const isAvailable = await isKioskonameAvailable(nomKiosko);
+    const isAvailable = await isKioskonameAvailable(nomKiosko, type);
 
     if (isAvailable) {
         // El nombre de kiosko está disponible

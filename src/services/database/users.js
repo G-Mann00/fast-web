@@ -82,7 +82,7 @@ export async function isUsernameAvailable(username) {
 }
 
 //Función para verificar si el nombre del kiosko ya está en uso
-export async function isKioskonameAvailable(nombre) {
+export async function isKioskonameAvailable(nombre, type) {
     try {
         // Realiza una consulta en la colección 'usersAdmin' para buscar el nombre de usuario
         const results = await pb.collection('tienda').getList(1, 1, {
@@ -90,7 +90,13 @@ export async function isKioskonameAvailable(nombre) {
         });
 
         // Si no hay registros encontrados, el nombre de usuario está disponible
-        return results.totalItems === 0;
+        if (results.totalItems === 0 && type === "create") {
+            return true;
+        } else if (results.totalItems === 1 && type === "edit") {
+            return true;
+        } else {
+            return false;
+        }
 
     } catch (error) {
         console.error('Error verificando la disponibilidad del nombre del kiosko:', error);

@@ -1,6 +1,6 @@
 import { createUser, isUsernameAvailable, isKioskonameAvailable, isEmailAvailable } from './users';
 import { authenticateUser, hasTiendaRecords, obtenerDatosActualizadosUsuario } from './users';
-import { buscarRegistroUsuario } from './kioskoData';
+import { buscarRegistroUsuario, verificarNumero, verificarEmail, editarKiosko } from './kioskoData';
 import { agregarProducto, eliminarProducto, buscarXnombre, cargarProductosYmapear, editarProducto } from './products';
 import { obtenerCategorias, obtenerCategoriasCompletas } from './categorias';
 
@@ -19,6 +19,9 @@ export {
 // Exportar las funciones del kiosko
 export {
     buscarRegistroUsuario,
+    verificarNumero,
+    verificarEmail,
+    editarKiosko
 };
 
 // Exportar las funciones de los productos

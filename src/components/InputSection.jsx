@@ -1,11 +1,20 @@
 import PropTypes from 'prop-types';
-import NameInput from './NameInput'; // Import your NameIput component
+import { Input } from '@material-tailwind/react';
 
 const InputSection = ({ tipo, frase, etiqueta, mensaje = ' ', register = () => { }, name, isEditable }) => {
     return (
         <div className='pt-6 pb-[22px] w-96'>
             <h2 className="text-left font-bold text-FAST-Text">{etiqueta}</h2>
-            <NameInput tipo={tipo} frase={frase} register={register} name={name} mensaje={mensaje} isEditable={isEditable} />
+            <div>
+                <Input
+                    className="h-[40px] w/[400px] rounded-lg border-[#FFFFFF]  text-[#181C2E] text-lg p-3"
+                    type={tipo}
+                    placeholder={frase}
+                    {...register(name)}
+                    disabled={isEditable}
+                />
+                <p className="text-[#FF0400]">{mensaje}</p>
+            </div>
         </div>
     );
 };

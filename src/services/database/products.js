@@ -68,6 +68,7 @@ async function mapearProductos(arreglo) {
             file: objeto.Image, // Copiamos el archivo de imagen del objeto original
             imagen: await generarUrlImagen(objeto, 'Image'), // Obtenemos la URL de la imagen mediante la función asincrónica generarUrlImagen
             descripcion: objeto.descripcion, // Copiamos la descripción del objeto original
+            descripcionCorta: checkIfLong(objeto.descripcion),// Si la descripción es mayor a 50 caracteres, la truncamos
             precio: objeto.precio, // Copiamos el precio del objeto original
             tienda: objeto.tienda // Copiamos la tienda del objeto original
         }))
@@ -101,7 +102,7 @@ export async function buscarXnombre(productoNombre, tiendaId, rol) {
         if (resultado.length > 0 && rol === "create") {
             //console.log("Como dueles", resultado)
             return true;
-        } else if (resultado.length >= 1 && rol === "edit") {
+        } else if (resultado.length === 1 && rol === "edit") {
             //console.log("Como dueles", resultado)
             return true;
         }
@@ -138,3 +139,18 @@ export async function editarProducto(id, producto, file) {
     }
 
 }
+
+function checkIfLong(descripcion) {
+    if (descripcion.length > 50) {
+        return descripcion.substring(0, 47) + '...'; // Trunca la descripción a los primeros 47 caracteres y agrega tres puntos suspensivos
+    }
+    return descripcion;
+}
+
+/*La función substring en JavaScript se utiliza para extraer una
+ parte de una cadena (string) y devolver una nueva cadena que contiene
+  esos caracteres extraídos. Toma uno o dos argumentos:
+
+    El primer argumento es el índice del carácter donde comenzará la extracción.
+    El segundo argumento (opcional) es el índice del carácter donde terminará la extracción.
+     Si este argumento no se proporciona, la extracción se realizará hasta el final de la cadena.*/

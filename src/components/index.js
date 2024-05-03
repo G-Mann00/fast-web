@@ -1,7 +1,6 @@
 import DocumentTitle from "./DocumentTitle";
 import ImageUpload from "./ImageUpload";
 import InputSection from "./InputSection";
-import NameInput from "./NameInput";
 import PasswordInput from "./PasswordInput";
 import ProductTable from "./ProductTable";
 
@@ -26,6 +25,9 @@ import EditProduct from "./modals/EditProduct";
 //Loader
 import SpinnerFAST from "./deco/SpinnerFAST";
 
+//TextArea
+import TextArea from "./TextArea";
+
 //Material Tailwind Components
 import {
     Card,
@@ -46,7 +48,6 @@ export {
     ImageUpload,
     PasswordInput,
     InputSection,
-    NameInput,
     Footer,
     Hero,
     Navbar,
@@ -54,7 +55,8 @@ export {
     Sidebar,
     Header,
     Partners,
-    CategoriaSelector
+    CategoriaSelector,
+    TextArea
 }
 
 export {

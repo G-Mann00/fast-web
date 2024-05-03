@@ -1,10 +1,10 @@
 // Importing components and assets
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import { Dialog, DialogBody, DialogFooter, DialogHeader, Button, InputSection, ImageUpload, CategoriaSelector, SpinnerFAST } from "../index";
+import { Dialog, DialogBody, DialogFooter, DialogHeader, Button, InputSection, TextArea, ImageUpload, CategoriaSelector, SpinnerFAST } from "../index";
 import foodIcon from '../../assets/img/fast-default-food-icon.png';
 import { useForm } from 'react-hook-form';
-import { handleImageFileChange, checkIfNumber } from "../../utils/index";
+import { handleImageFileChange, checkIfNumber, isBigger } from "../../utils/index";
 import { buscarXnombre, editarProducto } from "../../services/database";
 // importar el hook de useKiosk
 import { useKiosk } from '../../hooks/kiosko';
@@ -21,24 +21,26 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
     const [nombreActual, setNombreActual] = useState(''); //estado para manejar el estado del nombre del producto
     const [showErrorMessage, setErrorMessage] = useState(false); //estado para mostrar mensaje de error en caso de que no todos los campos hayan sido llenados
     const [isNumber, setIsNumber] = useState(false);
+    const [descripcionProd, setDescripcionProd] = useState(''); //estado para manejar la descripción del producto y mostrar mensaje en caso de que exceda los 150 caracteres
     const [file, setFile] = useState(null); //estado para almacenar la imagen del producto
 
     const limpiarCampos = () => {
         setNombreUsed(null);
         setErrorMessage(null);
         setIsNumber(null);
+        setDescripcionProd(null);
         setFile(null);
-        setImageUrl(null);
+        setImageUrl("");
         setValue('nombreProducto', producto.nombre);
         setValue('descripcionProducto', producto.descripcion);
         setValue('precio', producto.precio);
     }
     const uploadImage = (file) => { //Función para subir la imagen del producto
         handleImageFileChange(file, setImageUrl, setFile);
+
     }
     // Función para verificar si todos los campos han sido llenados
     const allFieldsFilled = (data) => {
-        //console.log("Data recibida: ", data);
         return Object.values(data).every(value => value !== '' && value !== null);
     };
 
@@ -53,6 +55,9 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
             setErrorMessage(true);
             return false;
         } else if (checkIfNumber(data.precio, setIsNumber)) {
+            return false;
+        }
+        else if (isBigger(data.descripcionProducto, "descripción", setDescripcionProd)) {
             return false;
         }
         else {
@@ -72,12 +77,12 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
         }
         if (handleValidacion(data, file)) {
             const result = await editarProducto(producto.id, data, file);
+            console.log('File en Resultado Producto:', file);
             if (result) {
                 //console.log("Producto editado exitosamente");
-                setTimeout(() => {
-                    handleSuccesOpenEdit();
-                    handleSuccesClose();
-                });
+                handleSuccesOpenEdit();
+                handleSuccesClose();
+
             }
         }
     }
@@ -96,6 +101,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
     // Effect to set form values when producto and datosCargados change
     useEffect(() => {
         if (producto) {
+            console.log('Producto:', producto);
             setLoading(false);
             setValue('nombreProducto', producto.nombre);
             setNombreActual(producto.nombre);
@@ -137,7 +143,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
                                 {/* Nombre */}
                                 <InputSection tipo="text" frase="Nombre" etiqueta="Nombre del Producto" name="nombreProducto" register={register} mensaje={nombreUsed ? nombreUsed : ''} />
                                 {/* Descripcion */}
-                                <InputSection tipo="text" frase="Descripcion" etiqueta="Descripcion del producto" name="descripcionProducto" register={register} />
+                                <TextArea frase="Descripcion" etiqueta="Descripcion del producto" name="descripcionProducto" register={register} mensaje={descripcionProd ? descripcionProd : ' '} />
                                 {/* Precio */}
                                 <InputSection tipo="text" frase="Precio (C$)" etiqueta="Precio del producto" name="precio" register={register} mensaje={isNumber ? isNumber : ''} />
                                 {/* Categoria */}
