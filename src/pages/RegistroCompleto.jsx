@@ -89,7 +89,7 @@ const RegistroCompleto = () => {
     }
 
     // Verifica si el nombre del kiosko está disponible
-    const kioskoAvailable = await checkKiosko(data.nomKiosko);
+    const kioskoAvailable = await checkKiosko(data.nomKiosko, 'create');
     // Si el nombre del kiosko ya existe, actualiza el estado de `setKioskoExist` a `true`
     if (!kioskoAvailable) {
       setKioskoExist('Nombre de kiosko no disponible');

@@ -1,8 +1,8 @@
-import { Dialog, DialogBody, DialogFooter, DialogHeader, Button, InputSection, CategoriaSelector, ImageUpload } from "../index";
+import { Dialog, DialogBody, DialogFooter, DialogHeader, Button, InputSection, CategoriaSelector, ImageUpload, TextArea } from "../index";
 import foodIcon from '../../assets/img/fast-default-food-icon.png';
 import { useForm } from 'react-hook-form'; // Import `useForm` hook from 'react-hook-form' para manejar el proceso de registro de productos
 import { useState } from 'react';
-import { handleImageFileChange, checkIfNumber } from "../../utils/index";
+import { handleImageFileChange, checkIfNumber, isBigger } from "../../utils/index";
 import { agregarProducto, buscarXnombre } from "../../services/database/index";
 import PropTypes from 'prop-types';
 // importar el hook de useKiosk
@@ -19,16 +19,19 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
     const [showErrorMessage, setErrorMessage] = useState(false); //estado para mostrar mensaje de error en caso de que no todos los campos hayan sido llenados
     const [isNumber, setIsNumber] = useState(false); //estado para mostrar mensaje de error en caso de que el precio no sea un número
     const [nombreUsed, setNombreUsed] = useState(''); //estado para mostrar mensaje en caso de que el nombre del producto ya exista
+    const [descripcionProd, setDescripcionProd] = useState(''); //estado para manejar la descripción del producto y mostrar mensaje en caso de que exceda los 150 caracteres 
+
 
     const limpiarCampos = () => {
         setImageUrl(null);
         setErrorMessage(false);
         setNombreUsed(false);
         setIsNumber(false);
+        setDescripcionProd(false);
         setValue('nombreProducto', null);
         setValue('descripcionProducto', null);
         setValue('precio', null);
-        setValue('categoria', null);
+        setValue('categoria', " ");
 
     }
 
@@ -54,6 +57,8 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
             setErrorMessage(true);
             return false;
         } else if (checkIfNumber(data.precio, setIsNumber)) {
+            return false;
+        } else if (isBigger(data.descripcionProducto, 'descripción', setDescripcionProd)) {
             return false;
         }
         else {
@@ -109,7 +114,7 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
                         <InputSection tipo="text" frase="Nombre" etiqueta="Nombre del Producto" name="nombreProducto" register={register} mensaje={nombreUsed ? nombreUsed : ''} />
 
                         {/* Descripcion */}
-                        <InputSection tipo="text" frase="Descripcion" etiqueta="Descripción del Producto" name="descripcionProducto" register={register} />
+                        <TextArea frase="Descripcion" etiqueta="Descripción del Producto" name="descripcionProducto" register={register} mensaje={descripcionProd ? descripcionProd : ' '} />
 
                         {/* Precio */}
                         <InputSection tipo="text" frase="Precio (C$)" etiqueta="Precio del Producto" name="precio" register={register} mensaje={isNumber ? isNumber : ''} />

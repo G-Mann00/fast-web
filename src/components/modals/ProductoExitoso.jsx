@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import { Dialog, DialogHeader, DialogBody, DialogFooter, Button } from '../index'; // assuming these are the correct imports
 import exitoso from '../../assets/img/operacionExitosa.png';
 
-function ProductoExitoso({ exitosoOpen, mensaje, handleExitosoOpen, handleExitosoClose, productName }) {
+function ProductoExitoso({ exitosoOpen, mensaje, handleExitosoClose, productName }) {
     // Modal de confirmación de producto agregado exitosamente
     return (
-        <Dialog open={exitosoOpen} handler={handleExitosoOpen} size="md">
+        <Dialog open={exitosoOpen} size="md">
             {/* Encabezado del modal */}
             <DialogHeader>Operación exitosa</DialogHeader>
 
@@ -30,9 +30,8 @@ function ProductoExitoso({ exitosoOpen, mensaje, handleExitosoOpen, handleExitos
 // Prop validation
 ProductoExitoso.propTypes = {
     exitosoOpen: PropTypes.bool.isRequired,
-    handleExitosoOpen: PropTypes.func.isRequired,
     handleExitosoClose: PropTypes.func.isRequired,
-    productName: PropTypes.string.isRequired,
+    productName: PropTypes.string,
     mensaje: PropTypes.string.isRequired
 };
 

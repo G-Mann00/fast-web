@@ -21,3 +21,60 @@ export async function buscarRegistroUsuario(userId) {
     }
 }
 
+export async function verificarNumero(numero) {
+    try {
+        const results = await pb.collection("tienda").getFullList({}, {
+            filter: `telefono = "${numero}" `,
+        });
+        console.log(results);
+        console.log('Resultados: ', results.length);
+        const numeroAvailable = results.length === 0;
+
+        return numeroAvailable;
+
+    } catch (error) {
+        console.error('Error verificando la disponibilidad del número:', error);
+        return false;
+    }
+}
+
+export async function verificarEmail(email) {
+    try {
+        const results = await pb.collection("tienda").getFullList({}, {
+            filter: `correo = "${email}" `,
+        });
+        console.log(results);
+        console.log('Resultados: ', results.length);
+        const emailAvailable = results.length === 0;
+
+        return emailAvailable;
+
+    } catch (error) {
+        console.error('Error verificando la disponibilidad del correo:', error);
+        return false;
+    }
+}
+
+//Funcion para editar un kiosko
+
+export async function editarKiosko(id, kiosko, file) {
+    try {
+        // Crea un FormData para almacenar los datos del kiosko
+        const formData = new FormData();
+        formData.append('nombre', kiosko.nombreKiosko);
+        formData.append('telefono', kiosko.telefonoKiosko);
+        formData.append('correo', kiosko.emailKiosko);
+        formData.append('direccion', kiosko.direccionKiosko);
+        formData.append('imagen', file);  // Pasa el archivo de imagen
+
+        // Edita el kiosko con el id proporcionado
+        await pb.collection('tienda').update(id, formData);
+
+        // Retorna true si el kiosko se editó correctamente
+        return true;
+
+    } catch (error) {
+        console.error('Error editando el kiosko:', error);
+        return null;
+    }
+}

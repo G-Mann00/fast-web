@@ -6,67 +6,39 @@ import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit } from "react-icons/fi";
 import { Button, Card, CardHeader, Typography, CardBody, Input, CreateProduct, DeleteProduct, ProductoExitoso } from "../components/index";
+import useSuccessState from '../hooks/modal';
 import EditProduct from "../components/modals/EditProduct";
 
 const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destructure tableRows properly here
 
   const TABLE_HEAD = ["Producto", "Descripción", "Precio", "Categoria", ""];
   const [producto, setProducto] = useState({});
-  const [succesOpen, setSuccesOpen] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
-  const [succesOpenAdd, setSuccesOpenAdd] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
-  const [mensajeModal, setMensajeModal] = useState(false); //estado para definir el mensaje del modal
-  const [succesOpenEdit, setSuccesOpenEdit] = useState(false); //estado para mostrar mensaje de éxito en la creación del producto
+  const [mensajeModal, setMensajeModal] = useState(""); //estado para definir el mensaje del modal
+  const [showModalProduct, setShowModalProduct] = useState(false);
+  const [succesOpen, handleSuccesOpen, handleSuccesClose] = useSuccessState(false, 'fue eliminado exitosamente', setMensajeModal);
+  const [succesOpenAdd, handleSuccesOpenAgregar, handleSuccesCloseAdd] = useSuccessState(false, 'fue agregado exitosamente', setMensajeModal);
+  const [succesOpenEdit, handleSuccesOpenEdit, handleSuccesCloseEdit] = useSuccessState(false, 'fue editado exitosamente', setMensajeModal);
 
-  const handleSuccesOpen = () => {
-    setTimeout(() => {
-      setSuccesOpen(!succesOpen);
-      setMensajeModal('fue eliminado exitosamente');
-    }, 1000);
-  };
-
-  const handleSuccesOpenAgregar = () => {
-    setTimeout(() => {
-      setSuccesOpenAdd(!succesOpenAdd);
-      setMensajeModal('fue agregado exitosamente');
-    }, 1000);
-  };
-
-  const handleSuccesOpenEdit = () => {
-    setTimeout(() => {
-      setSuccesOpenEdit(!succesOpenEdit);
-      console.log(succesOpenEdit)
-      setMensajeModal('fue editado exitosamente');
-    }, 1000);
-  }
-  const handleSuccesClose = () => {
-    setSuccesOpen(false);
-  };
-
-  const handleSuccesCloseAdd = () => {
-    setSuccesOpenAdd(false);
-  };
-  const handleSuccesCloseEdit = () => {
-    setSuccesOpenEdit(false);
-  }
-  const handleEliminarOpen = (producto) => { //Función para abrir el modal de eliminación de producto
+  const modalOpen = (type, producto, modal) => { //Función para abrir el modal de edición o eliminación de producto
     setProducto(producto);
-    handleModalOpen('openDelete');
-  };
+    handleModalOpen(type);
+    setShowModalProduct(modal);
+  }
 
-  const handleEditarOpen = (producto) => { //Función para abrir el modal de edición de producto
-    setProducto(producto);
-    handleModalOpen('openEdit');
+  const modalOpenAdd = (type, modal) => { //Función para abrir el modal de edición o eliminación de producto
+    handleModalOpen(type);
+    setShowModalProduct(modal);
   }
 
   return (
-    <>
+    <div>
       {/* Modales de creacion y eliminacion de productos al igual que los modales de operacion exitosa */}
-      <EditProduct editOpen={modalStates.editOpen} handleModalOpen={handleModalOpen} producto={producto} handleSuccesOpenEdit={handleSuccesOpenEdit} />
-      <CreateProduct stateOpen={modalStates.createOpen} handleModalOpen={handleModalOpen} handleSuccessOpen={handleSuccesOpenAgregar} setNombreProd={setProducto} />
-      <ProductoExitoso exitosoOpen={succesOpenAdd} mensaje={mensajeModal} handleExitosoOpen={handleSuccesOpenAgregar} handleExitosoClose={handleSuccesCloseAdd} productName={producto} />
-      <DeleteProduct deleteOpen={modalStates.deleteOpen} handleModalOpen={handleModalOpen} producto={producto} handleSuccessOpen={handleSuccesOpen} />
-      <ProductoExitoso exitosoOpen={succesOpen} mensaje={mensajeModal} handleExitosoOpen={handleSuccesOpen} handleExitosoClose={handleSuccesClose} productName={producto.nombre} />
-      <ProductoExitoso exitosoOpen={succesOpenEdit} mensaje={mensajeModal} handleExitosoOpen={handleSuccesOpenEdit} handleExitosoClose={handleSuccesCloseEdit} productName={producto.nombre} />
+      {showModalProduct === "Create" && (<><CreateProduct stateOpen={modalStates.createOpen} handleModalOpen={handleModalOpen} handleSuccessOpen={handleSuccesOpenAgregar} setNombreProd={setProducto} /></>)}
+      {showModalProduct === "Edit" && (<><EditProduct editOpen={modalStates.editOpen} handleModalOpen={handleModalOpen} producto={producto} handleSuccesOpenEdit={handleSuccesOpenEdit} /></>)}
+      {showModalProduct === "Delete" && (<><DeleteProduct deleteOpen={modalStates.deleteOpen} handleModalOpen={handleModalOpen} producto={producto} handleSuccessOpen={handleSuccesOpen} /></>)}
+      <><ProductoExitoso exitosoOpen={succesOpen} mensaje={mensajeModal} handleExitosoClose={handleSuccesClose} productName={producto.nombre} /></>
+      <><ProductoExitoso exitosoOpen={succesOpenEdit} mensaje={mensajeModal} handleExitosoClose={handleSuccesCloseEdit} productName={producto.nombre} /></>
+      <><ProductoExitoso exitosoOpen={succesOpenAdd} mensaje={mensajeModal} handleExitosoClose={handleSuccesCloseAdd} productName={producto.nombre} /></>
       {/* Tabla de productos */}
       <Card className="h-[500px] w-full overflow-y-auto rounded-lg">
         {/* Encabezado del componente */}
@@ -91,7 +63,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
               </div>
               <Button className="flex items-center gap-3 bg-FAST-Orange text-[#FFFFFF] hover:bg-[#ed6d1f]"
                 size="sm"
-                onClick={() => handleModalOpen('openCreate')}
+                onClick={() => modalOpenAdd('openCreate', 'Create')}
               >
                 <MdOutlineLibraryAdd size={20} />
                 Agregar Producto</Button>
@@ -142,7 +114,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
                   {/* Descripcion */}
                   <td className="p-4">
                     <Typography variant="small" className="text-FAST-Text font-normal">
-                      {producto.descripcion}
+                      {producto.descripcionCorta}
                     </Typography>
                   </td>
 
@@ -164,11 +136,11 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
                   <td className="p-4">
                     <div className="flex items-center gap-3">
 
-                      <button onClick={() => handleEditarOpen(producto)} className="bg-FAST-DarkBlue text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#2B3045]">
+                      <button onClick={() => modalOpen("openEdit", producto, "Edit")} className="bg-FAST-DarkBlue text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#2B3045]">
                         <FiEdit size={20} />
                       </button>
 
-                      <button onClick={() => handleEliminarOpen(producto)} className="bg-[#ef4444] text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#FF6B6B]">
+                      <button onClick={() => modalOpen('openDelete', producto, "Delete")} className="bg-[#ef4444] text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#FF6B6B]">
                         <FaRegTrashCan size={20} />
                       </button>
 
@@ -180,7 +152,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
           </table>
         </CardBody>
       </Card>
-    </>
+    </div>
   );
 };
 // Add PropTypes validation
