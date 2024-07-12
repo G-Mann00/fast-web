@@ -29,7 +29,7 @@ const Sidebar = () => {
     // Llamar a la función de cierre de sesión original
     logoutUser();
     logoutKiosko();
-    // Restablecer el estado de `imageUrl` (puedes cambiar `null` por otro valor si lo deseas)
+    // Restablecer el estado de `imageUrl`
     setImageUrl(null);
     // Redirigir al usuario a "/"
     navigate('/');

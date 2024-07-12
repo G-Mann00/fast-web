@@ -9,9 +9,8 @@ import { Button, Card, CardHeader, Typography, CardBody, Input, CreateProduct, D
 import useSuccessState from '../hooks/modal';
 import EditProduct from "../components/modals/EditProduct";
 
-const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destructure tableRows properly here
+const ProductTable = ({ tableRows, handleModalOpen, modalStates, TABLE_HEAD, titulos}) => { // Destructure tableRows properly here
 
-  const TABLE_HEAD = ["Producto", "Descripción", "Precio", "Categoria", ""];
   const [producto, setProducto] = useState({});
   const [mensajeModal, setMensajeModal] = useState(""); //estado para definir el mensaje del modal
   const [showModalProduct, setShowModalProduct] = useState(false);
@@ -47,17 +46,17 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
             <div>
 
               <Typography variant="h5" className="text-FAST-Text">
-                Tu Catalogo
+              {titulos[0]}
               </Typography>
               <Typography className="mt-1 font-normal text-FAST-Text">
-                Estos son los productos que tu kiosko ofrece
+                {titulos[1]}
               </Typography>
             </div>
             <div className="flex w-full shrink-0 gap-2 md:w-max">
               <div className="w-full md:w-72">
                 <Input
                   icon={<HiOutlineMagnifyingGlass size={20} />}
-                  label="Buscar Producto"
+                  label={titulos[2]}
                   className="rounded-lg"
                 />
               </div>
@@ -66,7 +65,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
                 onClick={() => modalOpenAdd('openCreate', 'Create')}
               >
                 <MdOutlineLibraryAdd size={20} />
-                Agregar Producto</Button>
+                {titulos[3]}</Button>
 
 
             </div>
@@ -158,6 +157,8 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates }) => { // Destr
 // Add PropTypes validation
 ProductTable.propTypes = {
   tableRows: PropTypes.array.isRequired, // Validate tableRows prop as an array and ensure it's required
+  TABLE_HEAD: PropTypes.array.isRequired, // Validate TABLE_HEAD prop as an array and ensure it's required
+  titulos: PropTypes.array.isRequired, // Validate titulos prop as an array and ensure it's required
   modalStates: PropTypes.shape({
     createOpen: PropTypes.bool.isRequired,
     deleteOpen: PropTypes.bool.isRequired,

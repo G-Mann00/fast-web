@@ -12,6 +12,7 @@ import Productos from "./pages/dashboard/Productos";
 import Ordenes from "./pages/dashboard/Ordenes";
 import ConfigKiosko from "./pages/dashboard/AjustesKiosko";
 import Ajustes from "./pages/dashboard/Ajustes";
+import Cajeros from "./pages/dashboard/Cajeros";
 import { UserProvider } from "./context/userContext";
 import { KioskoProvider } from "./context/kioskoContext"; // Importar KioskoProvider
 import { useUser } from '../src/hooks/user'; // Importar el hook useUser
@@ -73,6 +74,7 @@ function App() {
           <Route path="/dashboard/productos" element={<Productos />} />
           <Route path="/dashboard/ordenes" element={<Ordenes />} />
           <Route path="/dashboard/kiosko" element={<ConfigKiosko />} />
+          <Route path="/dashboard/cajeros" element={<Cajeros />} />
           <Route path="/dashboard/ajustes" element={<Ajustes />} />
         </Route>
 
