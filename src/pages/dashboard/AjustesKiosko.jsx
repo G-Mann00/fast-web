@@ -178,8 +178,9 @@ const ConfigKiosko = () => {
       <div className="flex flex-col">
         {changeM ? <p className="text-[#FF0400]" >{changeM}</p> : null}
         {/* Formulario de datos del kiosko */}
-        <form className="flex flex-col pt-[80px]" onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex justify-start">
+        <form className="flex flex-col pt-10 pl-9" onSubmit={handleSubmit(onSubmit)}>
+          <h3 className= "text-xl text-FAST-Text font-bold">Datos del kiosko</h3>
+          <div className="flex justify-start mt-0">
             <div className="flex flex-col">
               {/* Primeros 2 campos */}
               <div className="flex items-center pt-4">

@@ -12,7 +12,8 @@ import {
     HiOutlineCog, 
     HiOutlineQuestionMarkCircle } 
     from "react-icons/hi"
-
+    
+import { FiUser } from "react-icons/fi";
 // Rutas principales del sidebar
 export const SIDEBAR_LINKS = [
     {
@@ -32,6 +33,12 @@ export const SIDEBAR_LINKS = [
         label: "Ordenes",
         path: "/dashboard/ordenes",
         icon: <HiOutlineShoppingCart />
+    },
+    {
+        key: "cajeros",
+        label: "Cajeros",
+        path: "/dashboard/cajeros",
+        icon: <FiUser />
     },
     {
         key: "kiosko",
