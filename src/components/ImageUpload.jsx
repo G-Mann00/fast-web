@@ -10,7 +10,7 @@ const ImageUpload = ({ defaultImageUrl, onChange, register = () => { }, name, mo
             if (file) {
                 const imageUrl = URL.createObjectURL(file); // Muestra la imagen en la vista
                 setImageUrl(imageUrl);
-                onChange(file); // Pasa el archivo directamente a onChange
+                onChange(file);
             }
         };
 
