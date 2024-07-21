@@ -3,24 +3,19 @@ import userIcon from '../assets/img/fast-default-user-icon.png'
 import PropTypes from 'prop-types'; // Import PropTypes
 
 const ProfileIcon = (profilePic) => {
-    console.log('ProfilePic:', profilePic);
     return (
         <Menu>
 
             {/* El componente que manejara la interaccion con el menu, en este caso el icono del perfil */}
             <MenuHandler>
-
                 <img
                     src={profilePic.profilePic ? profilePic.profilePic : userIcon}
                     alt="Icono de usuario"
                     className="w-[48px] h-[48px] rounded-full cursor-pointer"
                 />
-
             </MenuHandler>
-
             {/* El menu que se desplegara al hacer click en el icono del perfil */}
             <MenuList>
-
                 {/* Ajustes */}
                 <MenuItem>
                     <Typography className="font-bold text-[#32343E]">Ajustes</Typography>

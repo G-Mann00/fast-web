@@ -9,7 +9,10 @@ const AccesoDenegado = () => {
   return (
     <main className="flex h-svh bg-FAST-DarkBlue justify-center px-2 py-6 sm:px-8 sm:py-10">
       <div className="flex flex-col items-center space-y-6">
-        <img src={prohibido} alt="Circulo de restriccion" className="mt-12" />
+        <img 
+        src={prohibido} 
+        alt="Circulo de restriccion" 
+        className="mt-12" />
         <p className="text-FAST-WhiteCream text-5xl font-bold">Acceso Denegado</p>
         <p className="text-FAST-WhiteCream text-3xl font-bold">Usted no tiene permiso para entrar a esta pagina</p>
 
