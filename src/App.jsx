@@ -12,7 +12,7 @@ import Productos from "./pages/dashboard/Productos";
 import Ordenes from "./pages/dashboard/Ordenes";
 import ConfigKiosko from "./pages/dashboard/AjustesKiosko";
 import Ajustes from "./pages/dashboard/Ajustes";
-import Cajeros from "./pages/dashboard/cajeros";
+import Cajeros from "./pages/dashboard/CrudCajeros";
 import { UserProvider } from "./context/userContext";
 import { KioskoProvider } from "./context/kioskoContext"; // Importar KioskoProvider
 import { useUser } from '../src/hooks/user'; // Importar el hook useUser
