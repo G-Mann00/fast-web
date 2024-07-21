@@ -3,12 +3,24 @@ import { DocumentTitle } from "../../components/index";
 import { useKiosk } from '../../hooks/kiosko';
 //import kioskoImage from '../../assets/img/FASTKioskImage.png';
 import editPencil from '../../assets/img/editIcon.png'
-import { InputSection, ImageUpload, TextArea } from '../../components/index';
+import { 
+  InputSection, 
+  ImageUpload, 
+  TextArea } 
+  from '../../components/index';
 import { useForm } from 'react-hook-form';
 import { useState, useRef } from 'react';
-import { generarUrlImagen, handleImageFileChange, isBigger } from "../../utils/index";
+import { 
+  generarUrlImagen, 
+  handleImageFileChange, 
+  isBigger } 
+  from "../../utils/index";
 import { checkKiosko } from '../../services/validacion';
-import { verificarNumero, verificarEmail, editarKiosko } from '../../services/database/index';
+import { 
+  verificarNumero, 
+  verificarEmail, 
+  editarKiosko } 
+  from '../../services/database/index';
 import { numberFormat, compareObjetcs } from '../../utils/index';
 
 const ConfigKiosko = () => {
@@ -145,8 +157,19 @@ const ConfigKiosko = () => {
     if (kiosko && !kioskoCopyRef.current) {
       //console.log('Objeto kiosko:', kiosko);
       //Copiar el objeto kiosko, por medio de una desestructuración, se crea una copia por valor del objeto, no una referencia
-      const { nombre, correo, telefono, direccion, imagen } = kiosko;
-      kioskoCopyRef.current = { nombre, correo, telefono, direccion, imagen };
+      const { 
+        nombre, 
+        correo, 
+        telefono, 
+        direccion, 
+        imagen } = kiosko;
+
+      kioskoCopyRef.current = { 
+        nombre, 
+        correo, 
+        telefono, 
+        direccion, 
+        imagen };
       //console.log('Copia:', kioskoCopyRef.current);
       setValue('nombreKiosko', kiosko.nombre);
       setValue('emailKiosko', kiosko.correo);
@@ -167,9 +190,11 @@ const ConfigKiosko = () => {
       {/* Encabezado de la pagina */}
       <div className="flex flex-col">
         <h2 className="text-2xl pb-3 text-FAST-Text font-bold">Ajustes del kiosko</h2>
-        <div className="flex items-center"> {/* Add this line */}
-          <p className="text-lg">Configura la foto del kiosko y sus datos aqui</p> {/* Adjusted text size */}
-          <img className="h-[20px] w-[20px] ml-2 cursor-pointer" src={editPencil} alt="editar" onClick={handleImageClick} />  {/* Add margin-left for spacing */}
+        <div className="flex items-center"> 
+          <p className="text-lg">Configura la foto del kiosko y sus datos aqui</p> 
+          <img 
+          className="h-[20px] w-[20px] ml-2 cursor-pointer" 
+          src={editPencil} alt="editar" onClick={handleImageClick} />  
           <span className="text-sm text-white bg-FAST-DarkBlue rounded opacity-0 hover:opacity-100 transition-opacity duration-200">Edita tu kiosko</span>
         </div> {/* Add this line */}
       </div>
@@ -185,28 +210,62 @@ const ConfigKiosko = () => {
               {/* Primeros 2 campos */}
               <div className="flex items-center pt-4">
                 <div className="flex flex-col pr-12 w-[380px]">
-                  <InputSection tipo="text" frase="FAST" etiqueta="Nombre del kiosko" register={register} name="nombreKiosko" isEditable={editable} mensaje={nombreK ? nombreK : " "} />
+                  <InputSection 
+                  tipo="text" 
+                  frase="FAST" 
+                  etiqueta="Nombre del kiosko" 
+                  register={register} 
+                  name="nombreKiosko" 
+                  isEditable={editable} 
+                  mensaje={nombreK ? nombreK : " "} 
+                  />
                 </div>
                 <div className="flex flex-col pl-12 w-[380px]">
-                  <InputSection tipo="email" frase="fast@gmail.com" etiqueta="Correo electrónico del kiosko" register={register} name="emailKiosko" isEditable={editable} mensaje={emailK ? emailK : " "} />
+                  <InputSection 
+                  tipo="email" 
+                  frase="fast@gmail.com" 
+                  etiqueta="Correo electrónico del kiosko" 
+                  register={register} 
+                  name="emailKiosko" 
+                  isEditable={editable} 
+                  mensaje={emailK ? emailK : " "} />
                 </div>
               </div>
 
               {/* Segundos campos */}
               <div className="flex items-center pt-4 ">
                 <div className="flex flex-col pr-12 pb-[55px] w-[230px]">
-                  <InputSection tipo="tel" frase="78223176" etiqueta="Número de teléfono" register={register} name="telefonoKiosko" isEditable={editable} mensaje={numeroK ? numeroK : " "} />
+                  <InputSection 
+                  tipo="tel" 
+                  frase="78223176" 
+                  etiqueta="Número de teléfono" 
+                  register={register} 
+                  name="telefonoKiosko" 
+                  isEditable={editable} 
+                  mensaje={numeroK ? numeroK : " "} 
+                  />
                 </div>
 
                 <div className="flex flex-col pt-2 pl-[195px] w-[531px]">
-                  <TextArea frase="FAST" etiqueta="Direccion" register={register} name="direccionKiosko" isEditable={editable} mensaje={direccionK ? direccionK : " "} />
+                  <TextArea 
+                  frase="FAST" 
+                  etiqueta="Direccion" 
+                  register={register} 
+                  name="direccionKiosko" 
+                  isEditable={editable} 
+                  mensaje={direccionK ? direccionK : " "} />
                 </div>
               </div>
             </div> {/* Add this line */}
 
             {/* Imagen del kiosko */}
             <div className="grid place-items-center pb-4 pl-[150px]">
-              <ImageUpload defaultImageUrl={imageUrl} onChange={uploadImage} name="fotoKiosko" register={register} mostrarBotones={mostrarBotones} />
+              <ImageUpload 
+              defaultImageUrl={imageUrl} 
+              onChange={uploadImage} 
+              name="fotoKiosko" 
+              register={register} 
+              mostrarBotones={mostrarBotones} />
             </div>
           </div>
           {mostrarBotones ?

@@ -3,6 +3,7 @@ import { authenticateUser, hasTiendaRecords, obtenerDatosActualizadosUsuario } f
 import { buscarRegistroUsuario, verificarNumero, verificarEmail, editarKiosko } from './kioskoData';
 import { agregarProducto, eliminarProducto, buscarXnombre, cargarProductosYmapear, editarProducto } from './products';
 import { obtenerCategorias, obtenerCategoriasCompletas } from './categorias';
+import { buscarRegistroCajero, eliminarCajero, buscarXnombreCajero, createCajero } from './cajeros';
 
 
 // Exportar todas las funciones necesarias del usuario
@@ -37,5 +38,13 @@ export {
 export {
     obtenerCategorias,
     obtenerCategoriasCompletas
+};
+
+// Exportar las funciones de los cajeros
+export {
+    buscarRegistroCajero,
+    eliminarCajero,
+    buscarXnombreCajero,
+    createCajero,
 };
 

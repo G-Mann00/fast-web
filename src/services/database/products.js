@@ -1,13 +1,19 @@
 import pb from './pocketbase';
-import { generarUrlImagen } from '../../utils/index';
-import { obtenerCategorias } from '../database/index';
+import { 
+    generarUrlImagen, 
+    capitalizeFirstLetter 
+} from '../../utils/index';
+import { 
+    obtenerCategorias } from '../database/index';
 
 //Función para crear un producto
 export async function agregarProducto(tiendaId, producto, file) {
     try {
+        //capitalize the name of my product
+        let capitalized_name = capitalizeFirstLetter(producto.nombreProducto);
         // Crea un FormData para almacenar los datos del producto
         const formData = new FormData();
-        formData.append('nombre', producto.nombreProducto);
+        formData.append('nombre', capitalized_name);
         formData.append('descripcion', producto.descripcionProducto);
         formData.append('precio', producto.precio);
         formData.append('tienda', tiendaId);
@@ -30,7 +36,7 @@ async function cargarProductos(tiendaId) {
 
     try {
         const results = await pb.collection('producto').getFullList({}, {
-            filter: `tienda = "${tiendaId}"`,
+            filter: `tienda = "${tiendaId}" && state != 3 `,
         });
         return results;
 
@@ -38,7 +44,6 @@ async function cargarProductos(tiendaId) {
         console.error('Error cargando los productos:', error);
         return [];
     }
-
 }
 
 //Función para trabajar cargarProductos y mapear productos
@@ -70,7 +75,8 @@ async function mapearProductos(arreglo) {
             descripcion: objeto.descripcion, // Copiamos la descripción del objeto original
             descripcionCorta: checkIfLong(objeto.descripcion),// Si la descripción es mayor a 50 caracteres, la truncamos
             precio: objeto.precio, // Copiamos el precio del objeto original
-            tienda: objeto.tienda // Copiamos la tienda del objeto original
+            tienda: objeto.tienda, // Copiamos la tienda del objeto original
+            //estado: objeto.state, // Copiamos el estado del objeto original
         }))
     );
 
@@ -81,11 +87,10 @@ async function mapearProductos(arreglo) {
 //Función para eliminar un producto
 export async function eliminarProducto(id) {
     try {
-        // Elimina el producto con el id proporcionado
-        console.log('ID del producto a eliminar:', id);
-        await pb.collection('producto').delete(id);
-
-        // Retorna true si el producto se eliminó correctamente
+        const formData = new FormData();
+        formData.append('state', 3);
+        await pb.collection('producto').update(id, formData);
+        // Retorna true si el producto se eliminó correctamente (cambio de estado a 3)
         return true;
 
     } catch (error) {
@@ -100,10 +105,10 @@ export async function buscarXnombre(productoNombre, tiendaId, rol) {
         const arreglo = await cargarProductos(tiendaId);
         const resultado = arreglo.filter(producto => producto.nombre.toLowerCase() === productoNombre.toLowerCase());
         if (resultado.length > 0 && rol === "create") {
-            //console.log("Como dueles", resultado)
+            
             return true;
         } else if (resultado.length === 1 && rol === "edit") {
-            //console.log("Como dueles", resultado)
+            
             return true;
         }
         else {
@@ -120,12 +125,15 @@ export async function buscarXnombre(productoNombre, tiendaId, rol) {
 export async function editarProducto(id, producto, file) {
     try {
         // Crea un FormData para almacenar los datos del producto
+        let capitalized_name = capitalizeFirstLetter(producto.nombreProducto);
+
         const formData = new FormData();
-        formData.append('nombre', producto.nombreProducto);
+        formData.append('nombre', capitalized_name);
         formData.append('descripcion', producto.descripcionProducto);
         formData.append('precio', producto.precio);
         formData.append('categoria', producto.categoria);
         formData.append('Image', file);  // Pasa el archivo de imagen
+        formData.append('state', 2); // Cambia el estado a 2 (Editado)
 
         // Edita el producto con el id proporcionado
         await pb.collection('producto').update(id, formData);
@@ -148,9 +156,9 @@ function checkIfLong(descripcion) {
 }
 
 /*La función substring en JavaScript se utiliza para extraer una
- parte de una cadena (string) y devolver una nueva cadena que contiene
-  esos caracteres extraídos. Toma uno o dos argumentos:
+parte de una cadena (string) y devolver una nueva cadena que contiene
+esos caracteres extraídos. Toma uno o dos argumentos:
 
-    El primer argumento es el índice del carácter donde comenzará la extracción.
-    El segundo argumento (opcional) es el índice del carácter donde terminará la extracción.
-     Si este argumento no se proporciona, la extracción se realizará hasta el final de la cadena.*/
+El primer argumento es el índice del carácter donde comenzará la extracción.
+El segundo argumento (opcional) es el índice del carácter donde terminará la extracción.
+Si este argumento no se proporciona, la extracción se realizará hasta el final de la cadena.*/

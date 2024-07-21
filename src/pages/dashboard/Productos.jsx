@@ -14,7 +14,7 @@ const Productos = () => {
   const [editOpen, setEditOpen] = useState(false); // Mostrar modal para editar producto
   //Estado para menejar el Spinner de carga
   const [loadingS, setLoadingS] = useState(true);
-  const TABLE_HEAD = ["Producto", "Descripción", "Precio", "Categoria", ""]; // Encabezado de la tabla de productos
+  const TABLE_HEAD = ["Producto", "Descripción", "Precio C$", "Categoria", ""]; // Encabezado de la tabla de productos
   const titulos = ["Tu Catálogo", "Estos son los productos que tu kiosko ofrece", "Buscar Producto", "Agregar producto"];
   const modalStates = {
     createOpen,
@@ -51,7 +51,10 @@ const Productos = () => {
 
   const manejarCargaProductos = useCallback(async () => {
     const productos = await cargarProductosYmapear(kiosko.id);
-    setProductosArray(productos);
+    const prods = productos.map(producto => Object.values(producto) );
+
+    setProductosArray(prods);
+
   }, [kiosko]);
 
   // useEffect es un hook de React que permite realizar efectos secundarios en componentes funcionales.
@@ -90,7 +93,13 @@ const Productos = () => {
       {/* Tabla de productos */}
       <div className="px-4 py-5">
         <div style={{ position: 'relative' }}>
-          <ProductTable tableRows={productosArray} handleModalOpen={handleModalOpen} modalStates={modalStates} TABLE_HEAD={TABLE_HEAD} titulos={titulos}/>
+          <ProductTable 
+          tableRows={productosArray} 
+          handleModalOpen={handleModalOpen} 
+          modalStates={modalStates} 
+          TABLE_HEAD={TABLE_HEAD} 
+          titulos={titulos} 
+          tipo={"productos"}/>
           {loadingS && (
             <div style={{
               position: 'absolute',

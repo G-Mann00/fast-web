@@ -28,9 +28,7 @@ async function createKioskoDetails(userId, data, file) {
 export async function createUser(data, file) {
     let createdUser = null;
     try {
-        console.log('Creating user:', data);
         const uniqueId = generateId();
-
         const userDetails = {
             id: uniqueId,
             username: data.nomUsuario,
@@ -51,7 +49,7 @@ export async function createUser(data, file) {
                 return createdUser;
             }
             catch (error) {
-                console.log(`Deleting user ${createdUser.id} due to kiosko creation error`);
+                //console.log(`Deleting user ${createdUser.id} due to kiosko creation error`);
                 await pb.collection('usersAdmin').delete(createdUser.id);
                 console.log('User deleted due to kiosko creation error');
             }
@@ -130,7 +128,7 @@ export async function authenticateUser(email, password) {
         const user = await pb.collection('usersAdmin').authWithPassword(email, password);
 
         // If authentication is successful, you can access the authenticated user
-        console.log('User authenticated:', user.record);
+        //console.log('User authenticated:', user.record);
         const newUser = user.record;
 
         // Return the authenticated user

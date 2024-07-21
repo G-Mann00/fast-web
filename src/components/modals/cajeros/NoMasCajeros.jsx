@@ -1,19 +1,27 @@
 import PropTypes from 'prop-types';
-import { Dialog, DialogHeader, DialogBody, DialogFooter, Button } from '../index'; // assuming these are the correct imports
-import exitoso from '../../assets/img/operacionExitosa.png';
+import { 
+    Dialog, 
+    DialogHeader, 
+    DialogBody,
+    DialogFooter, 
+    Button 
+} from '../../index'; // assuming these are the correct imports
+import prohibido from '../../../assets/img/circulo-restriccion.png';
 
-function ProductoExitoso({ exitosoOpen, mensaje, handleExitosoClose, productName, sujeto }) {
+function AccionRestringida({ exitosoOpen, handleExitosoClose }) {
     // Modal de confirmación de producto agregado exitosamente
     return (
         <Dialog open={exitosoOpen} size="md">
             {/* Encabezado del modal */}
-            <DialogHeader>Operación exitosa</DialogHeader>
+            <DialogHeader>Registro de cajero restringido</DialogHeader>
 
             {/* Cuerpo del modal */}
             <DialogBody>
                 <div className="flex justify-center items-center gap-3">
-                    <img className="w-[100px] h-[100px]" src={exitoso} />
-                    <p className="text-left text-lg text-FAST-Text">El {sujeto} <span className='text text-FAST-Orange font-bold'>{productName}</span> {mensaje}</p>
+                    <img 
+                    className="w-[100px] h-[100px]" 
+                    src={prohibido} />
+                    <p className="text-left text-lg text-FAST-Text"><span className='text text-FAST-Orange font-bold'>No tienes permiso para agregar más cajeros </span></p>
                 </div>
             </DialogBody>
 
@@ -28,17 +36,14 @@ function ProductoExitoso({ exitosoOpen, mensaje, handleExitosoClose, productName
 }
 
 // Prop validation
-ProductoExitoso.propTypes = {
-    sujeto: PropTypes.string,
+AccionRestringida.propTypes = {
     exitosoOpen: PropTypes.bool.isRequired,
     handleExitosoClose: PropTypes.func.isRequired,
-    productName: PropTypes.string,
-    mensaje: PropTypes.string.isRequired
 };
 
 // Default prop values
-ProductoExitoso.defaultProps = {
+AccionRestringida.defaultProps = {
     exitosoOpen: false,
 };
 
-export default ProductoExitoso;
+export default AccionRestringida;

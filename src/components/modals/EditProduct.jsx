@@ -1,16 +1,32 @@
 // Importing components and assets
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import { Dialog, DialogBody, DialogFooter, DialogHeader, Button, InputSection, TextArea, ImageUpload, CategoriaSelector, SpinnerFAST } from "../index";
+import {
+     Dialog, 
+     DialogBody, 
+     DialogFooter, 
+     DialogHeader, 
+     Button, 
+     InputSection, 
+     TextArea, 
+     ImageUpload, 
+     CategoriaSelector, 
+     SpinnerFAST 
+    } 
+     from "../index";
 import foodIcon from '../../assets/img/fast-default-food-icon.png';
 import { useForm } from 'react-hook-form';
-import { handleImageFileChange, checkIfNumber, isBigger } from "../../utils/index";
+import {
+    handleImageFileChange, 
+    checkIfNumber, 
+    isBigger} 
+    from "../../utils/index";
 import { buscarXnombre, editarProducto } from "../../services/database";
 // importar el hook de useKiosk
 import { useKiosk } from '../../hooks/kiosko';
 
 // EditProduct component
-const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit }) => {
+const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit, tipo }) => {
     // Obtener el kiosko del contexto
     const { kiosko } = useKiosk();
     const { control, register, handleSubmit, setValue } = useForm();
@@ -31,9 +47,9 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
         setDescripcionProd(null);
         setFile(null);
         setImageUrl("");
-        setValue('nombreProducto', producto.nombre);
-        setValue('descripcionProducto', producto.descripcion);
-        setValue('precio', producto.precio);
+        setValue('nombreProducto', producto[1]);
+        setValue('descripcionProducto', producto[6]);
+        setValue('precio', producto[8]);
     }
     const uploadImage = (file) => { //Función para subir la imagen del producto
         handleImageFileChange(file, setImageUrl, setFile);
@@ -76,7 +92,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
             return;
         }
         if (handleValidacion(data, file)) {
-            const result = await editarProducto(producto.id, data, file);
+            const result = await editarProducto(producto[0], data, file);
             console.log('File en Resultado Producto:', file);
             if (result) {
                 //console.log("Producto editado exitosamente");
@@ -103,14 +119,14 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
         if (producto) {
             console.log('Producto:', producto);
             setLoading(false);
-            setValue('nombreProducto', producto.nombre);
-            setNombreActual(producto.nombre);
-            setValue('descripcionProducto', producto.descripcion);
-            setValue('precio', producto.precio);
-            setValue('categoria', producto.idCategoria);
-            setValue('foto', producto.imagen);
-            setImageUrl(producto.imagen);
-            setFile(producto.file);
+            setValue('nombreProducto', producto[1]);
+            setNombreActual(producto[1]);
+            setValue('descripcionProducto', producto[6]);
+            setValue('precio', producto[8]);
+            setValue('categoria', producto[2]);
+            setValue('foto', producto[5]);
+            setImageUrl(producto[5]);
+            setFile(producto[4]);
 
         }
     }, [producto, setValue]);
@@ -134,32 +150,60 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
                 <>
                     <DialogHeader>
                         <span className="mr-1.5">Editar Producto{' '}</span>
-                        <span className="text-FAST-Orange mr-4 font-bold">{producto.nombre}</span>
+                        <span className="text-FAST-Orange mr-4 font-bold">{producto[1]}</span>
                     </DialogHeader>
                     <DialogBody>
                         <form className="pl-[75px] grid grid-cols-2 gap-[70px] justify-center" onSubmit={handleSubmit(onSubmit)}>
                             <div>
                                 {showErrorMessage ? <span className="text-[#FF0400]">No se han llenado todos los campos</span> : null}
                                 {/* Nombre */}
-                                <InputSection tipo="text" frase="Nombre" etiqueta="Nombre del Producto" name="nombreProducto" register={register} mensaje={nombreUsed ? nombreUsed : ''} />
+                                <InputSection 
+                                tipo="text" 
+                                frase="Nombre" 
+                                etiqueta="Nombre del Producto" 
+                                name="nombreProducto" 
+                                register={register} 
+                                mensaje={nombreUsed ? nombreUsed : ''} />
+
                                 {/* Descripcion */}
-                                <TextArea frase="Descripcion" etiqueta="Descripcion del producto" name="descripcionProducto" register={register} mensaje={descripcionProd ? descripcionProd : ' '} />
+                                <TextArea 
+                                frase="Descripcion" 
+                                etiqueta="Descripcion del producto" 
+                                name="descripcionProducto" 
+                                register={register} 
+                                mensaje={descripcionProd ? descripcionProd : ' '} />
+
                                 {/* Precio */}
-                                <InputSection tipo="text" frase="Precio (C$)" etiqueta="Precio del producto" name="precio" register={register} mensaje={isNumber ? isNumber : ''} />
+                                <InputSection 
+                                tipo="text" 
+                                frase="Precio (C$)" 
+                                etiqueta="Precio del producto" 
+                                name="precio" 
+                                register={register} 
+                                mensaje={isNumber ? isNumber : ''} />
+
                                 {/* Categoria */}
-                                <CategoriaSelector name="categoria" control={control} />
+                                {tipo === "producto" && (<CategoriaSelector name="categoria" control={control} />)}
                             </div>
 
-                            <div>
-                                <ImageUpload defaultImageUrl={producto.imagen ? producto.imagen : foodIcon} onChange={uploadImage} name="foto" register={register} />
+                            <div className="mt-[44px] ml-[32px] mr-[32px]">
+                                <ImageUpload 
+                                defaultImageUrl={producto[5] ? producto[5] : foodIcon} 
+                                onChange={uploadImage} 
+                                name="foto" 
+                                register={register} />
                             </div>
                         </form>
                     </DialogBody>
 
                     <DialogFooter>
-                        <div className="space-x-8">
-                            <Button className="bg-[#ef4444] text-[#FFFFFF] hover:bg-[#FF6B6B]" onClick={handleCanceled}>Cancelar</Button>
-                            <Button className="bg-FAST-DarkBlue text-[#FFFFFF] hover:bg-[#2B3045]" onClick={handleSubmit(onSubmit)}>Guardar Cambios</Button>
+                        <div className="space-x-8 mr-[20px] 0">
+                            <Button 
+                            className="bg-[#ef4444] text-[#FFFFFF] hover:bg-[#FF6B6B]" 
+                            onClick={handleCanceled}>Cancelar</Button>
+                            <Button 
+                            className="bg-FAST-DarkBlue text-[#FFFFFF] hover:bg-[#2B3045]" 
+                            onClick={handleSubmit(onSubmit)}>Guardar Cambios</Button>
                         </div>
                     </DialogFooter>
                 </>
@@ -170,6 +214,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
 
 // Prop validation
 EditProduct.propTypes = {
+    tipo: PropTypes.string,
     editOpen: PropTypes.bool.isRequired,
     handleModalOpen: PropTypes.func.isRequired,
     producto: PropTypes.object.isRequired,

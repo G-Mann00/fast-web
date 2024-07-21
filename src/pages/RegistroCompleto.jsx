@@ -6,9 +6,17 @@ import { handleImageFileChange } from "../utils/index";
 import logo from "../assets/img/fast-logo.svg";
 import FASTKioskImage2 from '../assets/img/FASTKioskImage2.png';
 
-import { DocumentTitle, InputSection, ImageUpload } from "../components/index";
+import { 
+  DocumentTitle, 
+  InputSection, 
+  ImageUpload 
+} from "../components/index";
 import AlertCustomStyles from '../components/alerta';
-import { checkUser, checkKiosko, nombreUsuarioValido } from "../services/validacion/index";
+import { 
+  checkUser, 
+  checkKiosko, 
+  nombreUsuarioValido 
+} from "../services/validacion/index";
 import { createUser } from "../services/database/index";
 import { useUser } from '../hooks/user';
 
@@ -158,7 +166,10 @@ const RegistroCompleto = () => {
       <section className="w-full flex xl:flex-row flex-col justify-between h-[60px]">
         <div>
           <Link to="/">
-            <img src={logo} alt="Fast logo" className="h-[60px] w-[300px] pt-6" />
+            <img 
+            src={logo} 
+            alt="Fast logo" 
+            className="h-[60px] w-[300px] pt-6" />
           </Link>
         </div>
         <div className="flex pt-6">
@@ -174,30 +185,71 @@ const RegistroCompleto = () => {
           {userCreated ? <AlertCustomStyles mensaje="Usuario creado correctamente" /> : ''}
           <div className="pl-[75px] grid grid-cols-3 md:grid-cols-3 gap-[70px] w-auto" >
             <div>
-              <InputSection tipo="text" frase="Nombre" etiqueta="Nombre Completo" register={register} name="nombreCompleto" />
-              <InputSection tipo="email" frase="lia@gmail.com" etiqueta="Correo electrónico" register={register} name="email" mensaje={emailExist ? emailExist : ''} />
-              <InputSection tipo="password" frase="Contraseña" etiqueta="Contraseña" register={register} name="password" mensaje={passwordTooShort ? passwordTooShort : ''} />
+              <InputSection 
+              tipo="text" 
+              frase="Nombre" 
+              etiqueta="Nombre Completo" 
+              register={register} 
+              name="nombreCompleto" />
+
+              <InputSection 
+              tipo="email" 
+              frase="lia@gmail.com" 
+              etiqueta="Correo electrónico" 
+              register={register} 
+              name="email" 
+              mensaje={emailExist ? emailExist : ''} />
+
+              <InputSection 
+              tipo="password" 
+              frase="Contraseña" 
+              etiqueta="Contraseña" 
+              register={register} 
+              name="password" 
+              mensaje={passwordTooShort ? passwordTooShort : ''} />
             </div>
             <div>
+              <InputSection 
+              tipo="text" 
+              frase="Ene" 
+              etiqueta="Nombre de Usuario" 
+              register={register} 
+              name="nomUsuario" 
+              mensaje={mensajeUser ? mensajeUser : ''} />
 
-              <InputSection tipo="text" frase="Ene" etiqueta="Nombre de Usuario" register={register} name="nomUsuario" mensaje={mensajeUser ? mensajeUser : ''} />
-              <InputSection tipo="text" frase="Delicias Lia" etiqueta="Nombre del kiosko" register={register} name="nomKiosko" mensaje={kioskoExist ? kioskoExist : ''} />
-              <InputSection tipo="password" frase="Contraseña" etiqueta="Confirmar Contraseña" register={register} name="confirmarPassword" mensaje={passwordMismatch ? passwordMismatch : ''} />
+              <InputSection
+               tipo="text" 
+               frase="Delicias Lia" 
+               etiqueta="Nombre del kiosko" 
+               register={register} 
+               name="nomKiosko" 
+               mensaje={kioskoExist ? kioskoExist : ''} />
+
+              <InputSection 
+              tipo="password" 
+              frase="Contraseña" 
+              etiqueta="Confirmar Contraseña" 
+              register={register} 
+              name="confirmarPassword" 
+              mensaje={passwordMismatch ? passwordMismatch : ''} />
             </div>
             <div>
               {/* Use ImageUpload component */}
-              <ImageUpload defaultImageUrl={imageUrl || FASTKioskImage2} onChange={uploadImage} register={register} name="foto" />
+              <ImageUpload 
+              defaultImageUrl={imageUrl || FASTKioskImage2} 
+              onChange={uploadImage} register={register} 
+              name="foto" />
             </div>
           </div>
           {/*Button*/}
           <div className="pt-6 flex justify-center">
             <div className="grid items-center ">
-              <button type="submit" className="w-72 h-[40px] bg-FAST-Orange text-FAST-WhiteCream cursor-pointer hover:bg-[#ed6d1f] font-bold uppercase rounded-lg">Registrarme</button>
+              <button 
+              type="submit" 
+              className="w-72 h-[40px] bg-FAST-Orange text-FAST-WhiteCream cursor-pointer hover:bg-[#ed6d1f] font-bold uppercase rounded-lg">Registrarme</button>
               <p className={`pb-6 left-0 text-left text-[#FF0400] ${showErrorMessage ? '' : 'hidden'}`}>No todos los campos han sido llenados</p>
             </div>
           </div>
-
-
         </form>
       </section>
     </main>

@@ -1,35 +1,76 @@
-import { useUser } from '../../hooks/user';
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { DocumentTitle, ProductTable, SpinnerFAST } from "../../components/index";
-import { cargarProductosYmapear } from "../../services/database/index";
-import { useForm } from 'react-hook-form';
+import { 
+  useEffect, 
+  useRef, 
+  useState, 
+  useCallback 
+} from 'react';
+import { 
+  DocumentTitle, 
+  ProductTable, 
+  SpinnerFAST 
+} from "../../components/index";
+
+import { buscarRegistroCajero } from "../../services/database/index";
 import { useKiosk } from '../../hooks/kiosko';
 
 const Cajeros = () => {
   DocumentTitle("FAST - Cajeros");
   const { kiosko } = useKiosk();
-  const { user } = useUser();
-  const { register, handleSubmit } = useForm();
-  // Usa un useRef para almacenar el valor anterior de `user`
-  const previousUserRef = useRef();
   const [loadingS, setLoadingS] = useState(true);
+  //Estados para manejar la data que se va a cargar en la tabla de cajeros
+  const [cajerosArray, setCajerosArray] = useState([]);
   //Constante con las cabezeras de la tabla
-  const TABLE_HEAD = ['Nombre', 'Apellido','Contraseña', ' ', ' '];
+  const TABLE_HEAD = ['Usuario','Nombre', ' ','Apellido', ''];
   const titulos = ["Tus cajeros", "Estos son los cajeros que tienes registrados", "Buscar cajero", "Agregar cajero"];
+    //Estados para manejat los modales
+  const [createOpen, setCreateOpen] = useState(false); // Mostrar modal para crear producto
+  const [deleteOpen, setDeleteOpen] = useState(false); // Mostrar modal para eliminar producto
+  const [editOpen, setEditOpen] = useState(false); // Mostrar modal para editar producto
+  const modalStates = {
+    createOpen,
+    deleteOpen,
+    editOpen,
+  };
 
-  const manejarCargaProductos = useCallback(async () => {
-    const productos = await cargarProductosYmapear(kiosko.id);
-    setProductosArray(productos);
+  const handleModalOpen = (modalType) => {
+    if (modalType === 'create') {
+      setCreateOpen(!createOpen);
+      manejarCargaCajeros();
+    } else if (modalType === 'delete') {
+      setDeleteOpen(!deleteOpen);
+      manejarCargaCajeros();
+    } else if (modalType === 'edit') {
+      setEditOpen(!editOpen);
+      manejarCargaCajeros();
+    }
+    else if (modalType === 'openCreate') {
+      setCreateOpen(!createOpen);
+    } else if (modalType === 'openDelete') {
+      setDeleteOpen(!deleteOpen);
+    } else if (modalType === 'openEdit') {
+      setEditOpen(!editOpen);
+    }
+    else if (modalType === 'canceledCreate') {
+      setCreateOpen(false);
+    } else if (modalType === 'canceledDelete') {
+      setDeleteOpen(false);
+    } else if (modalType === 'canceledEdit') {
+      setEditOpen(false);
+    }
+  };
+  const manejarCargaCajeros = useCallback(async () => {
+    const cajeros = await buscarRegistroCajero(kiosko.id);
+    setCajerosArray(cajeros);
   }, [kiosko]);
 
   useEffect(() => {
     // Definimos una función asíncrona fetchProductos dentro del useEffect.
-    const fetchProductos = async () => {
+    const fetchCajeros = async () => {
       // Establecemos el estado de loadingS a true. Esto muestra un spinner en la interfaz de usuario.
       setLoadingS(true);
 
       // Esperamos a que se complete la función manejarCargaProductos. Esta función probablemente realiza una solicitud la base de datos para obtener datos de productos.
-      await manejarCargaProductos();
+      await manejarCargaCajeros();
 
       // Una vez que se han cargado los productos, establecemos el estado de loadingS a false. Esto oculta el indicador de carga en la interfaz de usuario.
       setLoadingS(false);
@@ -37,13 +78,13 @@ const Cajeros = () => {
 
     // Si kiosko es verdadero (indica que hay un objeto kiosko en el sistema), llamamos a la función fetchProductos.
     if (kiosko) {
-      fetchProductos();
+      fetchCajeros();
     }
 
     // El array de dependencias [kiosko, manejarCargaProductos] significa que este useEffect se ejecutará cada vez que el valor de kiosko o la referencia de la función manejarCargaProductos cambie.
-  }, [kiosko, manejarCargaProductos]);
+  }, [kiosko, manejarCargaCajeros]);
  
-  const [productosArray, setProductosArray] = useState([]);
+
 
 
   return (
@@ -58,7 +99,14 @@ const Cajeros = () => {
       {/* Tabla de productos */}
       <div className="px-4 py-5">
         <div style={{ position: 'relative' }}>
-          <ProductTable tableRows={productosArray} TABLE_HEAD={TABLE_HEAD} titulos={titulos} />
+          <ProductTable 
+          tableRows={cajerosArray} 
+          handleModalOpen={handleModalOpen} 
+          modalStates={modalStates}  
+          TABLE_HEAD={TABLE_HEAD} 
+          titulos={titulos} 
+          tipo='cajeros'
+          />
           { loadingS && (
             <div style={{
               position: 'absolute',

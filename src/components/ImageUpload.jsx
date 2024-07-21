@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 
 const ImageUpload = ({ defaultImageUrl, onChange, register = () => { }, name, mostrarBotones = true }) => {
     const [imageUrl, setImageUrl] = useState(defaultImageUrl);
-    console.log('ImageUpload useEffect: ', defaultImageUrl);
 
     useEffect(() => {
         const handleFileChange = (event) => {
@@ -29,8 +28,12 @@ const ImageUpload = ({ defaultImageUrl, onChange, register = () => { }, name, mo
 
     return (
         <div className="w-80 pt-6 pb-[35px] grid justify-items-center">
-            <img className='w-fit max-w-[250px] h-[250px] rounded-full mb-6' src={imageUrl || defaultImageUrl} alt="Uploaded" />
-            {mostrarBotones ? <label htmlFor={name} className="inline-block w-72 h-10 bg-FAST-Orange text-FAST-WhiteCream cursor-pointer hover:bg-[#ed6d1f] font-bold uppercase rounded-lg relative">
+            <img 
+            className='w-fit max-w-[250px] h-[250px] rounded-full mb-6' 
+            src={imageUrl || defaultImageUrl} alt="Uploaded" />
+            {mostrarBotones ? <label 
+            htmlFor={name} 
+            className="inline-block w-72 h-10 bg-FAST-Orange text-FAST-WhiteCream cursor-pointer hover:bg-[#ed6d1f] font-bold uppercase rounded-lg relative">
                 <span className="absolute left-0 right-0 top-0 bottom-0 z-10 flex items-center justify-center">Subir imagen</span>
                 <input id={name} className="pb-3 absolute opacity-0" type="file" accept="image/*" {...register(name)} />
             </label> : null}

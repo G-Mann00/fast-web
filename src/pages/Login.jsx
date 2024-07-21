@@ -37,10 +37,8 @@ const Login = () => {
         console.log('Usuario no encontrado');
         setErrorMessage(true);
       } else if (!await hasTiendaRecords(user.id)) {
-        console.log('Usuario no tiene tienda');
         setNoKiosko(true);
       } else {
-        console.log('Usuario encontrado login:', user);
         loginUser(user);
         navigate('/dashboard'); // Redirigir al dashboard
       }
@@ -61,13 +59,18 @@ const Login = () => {
           <p className="text-FAST-WhiteCream text-2xl font-bold sm:text-3xl">Te damos la bienvenida</p>
 
           {/*Contenedor del login*/}
-          <form className="flex size-full flex-col items-center justify-around rounded-3xl bg-FAST-WhiteCream p-5 text-left" onSubmit={handleSubmit(onSubmit)}>
+          <form 
+          className="flex size-full flex-col items-center justify-around rounded-3xl bg-FAST-WhiteCream p-5 text-left" 
+          onSubmit={handleSubmit(onSubmit)}
+          >
             <p className={`left-0 text-left text-[#FF0400] ${showErrorMessage ? '' : 'hidden'}`}>Correo o clave inválidos</p>
             <p className={`left-0 text-left text-[#FF0400] ${noKiosko ? '' : 'hidden'}`}>Este usuario no tiene kiosko</p>
             {/*Campo de correo electronico*/}
             <div className="flex w-full flex-col">
               <h2 className="text-left pb-1 font-bold">Correo electrónico</h2>
-              <input className="h-[40px] w-full rounded-lg bg-[#A0A5BA]/20 p-3" placeholder="fast@gmail.com" {...register("email")} />
+              <input 
+              className="h-[40px] w-full rounded-lg bg-[#A0A5BA]/20 p-3" 
+              placeholder="fast@gmail.com" {...register("email")} />
             </div>
 
             {/*Campo de clave*/}
