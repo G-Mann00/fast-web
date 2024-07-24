@@ -179,7 +179,7 @@ const RegistroCompleto = () => {
         </div>
       </section>
       <div className="pb-6 width-full grid justify-items-center">
-        <p className="text-FAST-WhiteCream text-2xl font-bold sm:text-3xl text-center">Registrate para empezar a administrar tu kiosko</p>
+        <p className="text-FAST-WhiteCream text-2xl font-bold sm:text-3xl text-center">Registrate para empezar a administrar tu kiosco</p>
       </div>
       <section className="pt-4 flex justify-center h-5/6">
         <form className="w-11/12 h-auto rounded-3xl bg-FAST-WhiteCream pt-6 pb-6" onSubmit={handleSubmit(onSubmit)}>
@@ -189,7 +189,7 @@ const RegistroCompleto = () => {
               <InputSection 
               tipo="text" 
               frase="Nombre" 
-              etiqueta="Nombre Completo" 
+              etiqueta="Nombre completo" 
               register={register} 
               name="nombreCompleto" />
 
@@ -213,7 +213,7 @@ const RegistroCompleto = () => {
               <InputSection 
               tipo="tel" 
               frase="Ene" 
-              etiqueta="Teléfono del Kiosco" 
+              etiqueta="Teléfono del kiosco" 
               register={register} 
               name="numeroTelefono" 
               mensaje={mensajeUser ? mensajeUser : ''} />
@@ -229,7 +229,7 @@ const RegistroCompleto = () => {
               <InputSection 
               tipo="password" 
               frase="Contraseña" 
-              etiqueta="Confirmar Contraseña" 
+              etiqueta="Confirmar contraseña" 
               register={register} 
               name="confirmarPassword" 
               mensaje={passwordMismatch ? passwordMismatch : ''} />

@@ -95,7 +95,6 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
         }
         if (handleValidacion(dataTrim, file)) {
             const result = await editarProducto(producto[0], dataTrim, file);
-            console.log('File en Resultado Producto:', file);
             if (result) {
                
                 handleSuccesOpenEdit();
@@ -161,7 +160,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
                                 <InputSection 
                                 tipo="text" 
                                 frase="Nombre" 
-                                etiqueta="Nombre del Producto" 
+                                etiqueta="Nombre del producto" 
                                 name="nombreProducto" 
                                 register={register} 
                                 mensaje={nombreUsed ? nombreUsed : ''} />

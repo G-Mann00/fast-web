@@ -239,7 +239,7 @@ const ConfigKiosko = () => {
                   <InputSection 
                   tipo="text" 
                   frase="FAST" 
-                  etiqueta="Nombre del kiosko" 
+                  etiqueta="Nombre del kiosco" 
                   register={register} 
                   name="nombreKiosko" 
                   isEditable={editable} 
@@ -250,7 +250,7 @@ const ConfigKiosko = () => {
                   <InputSection 
                   tipo="email" 
                   frase="fast@gmail.com" 
-                  etiqueta="Correo electrónico del kiosko" 
+                  etiqueta="Correo electrónico del kiosco" 
                   register={register} 
                   name="emailKiosko" 
                   isEditable={editable} 
@@ -275,7 +275,7 @@ const ConfigKiosko = () => {
                 <div className="flex flex-col pt-2 pl-[195px] w-[531px]">
                   <TextArea 
                   frase="FAST" 
-                  etiqueta="Descripción del Kiosko" 
+                  etiqueta="Descripción del kiosco" 
                   register={register} 
                   name="descripcionKiosko" 
                   isEditable={editable} 
