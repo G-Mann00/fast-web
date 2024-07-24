@@ -1,27 +1,44 @@
 import { useEffect } from 'react';
+
 import { DocumentTitle } from "../../components/index";
+
 import { useKiosk } from '../../hooks/kiosko';
-//import kioskoImage from '../../assets/img/FASTKioskImage.png';
+
 import editPencil from '../../assets/img/editIcon.png'
+
+import useSuccessState from '../../hooks/modal';
+
 import { 
   InputSection, 
   ImageUpload, 
-  TextArea } 
+  TextArea,
+  ProductoExitoso } 
   from '../../components/index';
-import { set, useForm } from 'react-hook-form';
+
+import { useForm } from 'react-hook-form';
+
 import { useState, useRef } from 'react';
+
 import { 
   generarUrlImagen, 
   handleImageFileChange, 
   isBigger } 
   from "../../utils/index";
+
 import { checkKiosko } from '../../services/validacion';
+
 import { 
   verificarNumero, 
   verificarEmail, 
   editarKiosko } 
   from '../../services/database/index';
-import { numberFormat, compareObjetcs, trimSpaces } from '../../utils/index';
+
+import { 
+  numberFormat, 
+  compareObjetcs, 
+  trimSpaces 
+} from '../../utils/index';
+
 
 const ConfigKiosko = () => {
   const { kiosko } = useKiosk();
@@ -39,6 +56,9 @@ const ConfigKiosko = () => {
   const [imageChange, setImageChange] = useState(false); //State to handle the change of the image
   ///States to handle the copy of the kiosko object
   const kioskoCopyRef = useRef(null);
+  const [mensajeModal, setMensajeModal] = useState(""); //estado para definir el mensaje del modal
+  const [succesOpenEdit, handleSuccesOpenEdit, handleSuccesCloseEdit] = useSuccessState(false, 'fue editado exitosamente', setMensajeModal);
+
 
   DocumentTitle("FAST - Ajustes del Kiosko");
 
@@ -137,7 +157,7 @@ const ConfigKiosko = () => {
     }
     const res = await editarKiosko(kiosko.id, dataTrim, file);
     if (res) {
-      setChangeM("Cambios guardados correctamente");
+      handleSuccesOpenEdit();
     }
   }; // Funcion para enviar los datos del formulario, aun tengo que implementarla para actualizar los datos del kiosko
 
@@ -189,22 +209,28 @@ const ConfigKiosko = () => {
     <div>
       {/* Encabezado de la pagina */}
       <div className="flex flex-col">
-        <h2 className="text-2xl pb-3 text-FAST-Text font-bold">Ajustes del kiosko</h2>
+        <h2 className="text-2xl pb-3 text-FAST-Text font-bold">Ajustes del kiosco</h2>
         <div className="flex items-center"> 
-          <p className="text-lg">Configura la foto del kiosko y sus datos aqui</p> 
+          <p className="text-lg">Configura la foto del kiosco y sus datos aqui</p> 
           <img 
           className="h-[20px] w-[20px] ml-2 cursor-pointer" 
           src={editPencil} alt="editar" onClick={handleImageClick} />  
           <span className="text-sm text-white bg-FAST-DarkBlue rounded opacity-0 hover:opacity-100 transition-opacity duration-200">Edita tu kiosko</span>
         </div> {/* Add this line */}
       </div>
-
+      <><ProductoExitoso 
+      sujeto={"kiosco"} 
+      exitosoOpen={succesOpenEdit} 
+      mensaje={mensajeModal} 
+      handleExitosoClose={handleSuccesCloseEdit} 
+      productName={kiosko.nombre} />
+      </>
       {/* Contenido de la pagina */}
       <div className="flex flex-col">
         {changeM ? <p className="text-[#FF0400]" >{changeM}</p> : null}
         {/* Formulario de datos del kiosko */}
         <form className="flex flex-col pt-10 pl-9" onSubmit={handleSubmit(onSubmit)}>
-          <h3 className= "text-xl text-FAST-Text font-bold">Datos del kiosko</h3>
+          <h3 className= "text-xl text-FAST-Text font-bold">Datos del kiosco</h3>
           <div className="flex justify-start mt-0">
             <div className="flex flex-col">
               {/* Primeros 2 campos */}
