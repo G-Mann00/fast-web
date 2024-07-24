@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import RegistroCompleto from "./RegistroCompleto";
 import { authenticateUser, hasTiendaRecords } from "../services/database/index";
 import { useUser } from '../hooks/user';
+import { trimSpaces } from "../utils";
 
 
 const Login = () => {
@@ -31,7 +32,8 @@ const Login = () => {
 
     try {
       // Intentar autenticar al usuario con el correo y contraseña proporcionados
-      const user = await authenticateUser(data.email, data.password);
+      const dataTrim = trimSpaces(data);
+      const user = await authenticateUser(dataTrim.email, dataTrim.password);
 
       if (!user) {
         console.log('Usuario no encontrado');

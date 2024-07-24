@@ -1,6 +1,6 @@
 import pb from './pocketbase';
 import { generateId } from '../../utils/randomId';
-
+import { capitalizeFirstLetter } from '../../utils/index';
 
 // globally disable auto cancellation
 pb.autoCancellation(false);
@@ -8,15 +8,18 @@ pb.autoCancellation(false);
 //funciones de registro
 //// eslint-disable-next-line no-unused-vars
 async function createKioskoDetails(userId, data, file) {
+    let nombreKiosko = capitalizeFirstLetter(data.nomKiosko);
     try {
-        // Crea un FormData para almacenar los datos de la tienda
-        const formData = new FormData();
-        formData.append('nombre', data.nomKiosko);
-        formData.append('imagen', file);  // Pasa el archivo de imagen
-        formData.append('userAdmin', userId);
+
+        const kioskoDetails = {
+            nombre : nombreKiosko,
+            telefono : data.numeroTelefono,
+            imagen: file,
+            userAdmin: userId,
+        }
 
         // Crea un nuevo registro en la colección 'tienda'
-        await pb.collection('tienda').create(formData);
+        await pb.collection('tienda').create(kioskoDetails);
         //alert('Kiosko creado exitosamente', 'success');
     } catch (error) {
         console.error('Error creating kiosko details:', error);
@@ -27,13 +30,13 @@ async function createKioskoDetails(userId, data, file) {
 
 export async function createUser(data, file) {
     let createdUser = null;
+    let nombreCompleto = capitalizeFirstLetter(data.nombreCompleto.trim());
     try {
         const uniqueId = generateId();
         const userDetails = {
             id: uniqueId,
-            username: data.nomUsuario,
             email: data.email,
-            name: data.nombreCompleto,
+            name: nombreCompleto,
             avatar: data.foto,
             password: data.password,
             passwordConfirm: data.confirmarPassword,
@@ -63,11 +66,11 @@ export async function createUser(data, file) {
 
 
 
-export async function isUsernameAvailable(username) {
+/*export async function isCellphoneAvailable(username) {
     try {
         // Realiza una consulta en la colección 'usersAdmin' para buscar el nombre de usuario
-        const results = await pb.collection('usersAdmin').getList(1, 1, {
-            filter: `username="${username}"` // Filtra por nombre de usuario
+        const results = await pb.collection('tienda').getList(1, 1, {
+            filter: `telefono="${username}"` // Filtra por nombre de usuario
         });
 
         // Si no hay registros encontrados, el nombre de usuario está disponible
@@ -77,14 +80,15 @@ export async function isUsernameAvailable(username) {
         console.error('Error verificando la disponibilidad del nombre de usuario:', error);
         return false; // En caso de error, asume que el nombre de usuario no está disponible
     }
-}
+}*/
 
 //Función para verificar si el nombre del kiosko ya está en uso
 export async function isKioskonameAvailable(nombre, type) {
+    const kioskoName = capitalizeFirstLetter(nombre);
     try {
         // Realiza una consulta en la colección 'usersAdmin' para buscar el nombre de usuario
         const results = await pb.collection('tienda').getList(1, 1, {
-            filter: `nombre="${nombre}"` // Filtra por nombre de usuario
+            filter: `nombre="${kioskoName}"` // Filtra por nombre de Kiosko
         });
 
         // Si no hay registros encontrados, el nombre de usuario está disponible

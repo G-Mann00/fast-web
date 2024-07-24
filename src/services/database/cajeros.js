@@ -1,5 +1,6 @@
 import pb from './pocketbase';
-import { capitalizeFirstLetter } from '../../utils';
+import { capitalizeFirstLetter } from '../../utils/index';
+
 
 // globally disable auto cancellation
 pb.autoCancellation(false);
@@ -13,8 +14,6 @@ export async function buscarRegistroCajero(tiendaId) {
         });
         // Verifica si existe al menos un registro
         if (records && records.length > 0) {
-            //console.log('Registro del usuario encontrado:', records);
-            //console.log("records of cashiers => ", records)
             const desireRecord = ["id","username","Kiosko","Lastname","collectionId","collectionName","collectionId","first_Name" ];
             const reorderRecords = records.map(record => 
                 desireRecord.map(key => record[key])
@@ -37,7 +36,6 @@ export async function buscarXnombreCajero(cajeroNombre, tiendaId, rol) {
         //console.log("arreglo de cajeros => ", arreglo);
         const resultado = arreglo.filter(cajero => cajero[7].toLowerCase() === cajeroNombre.toLowerCase());
         if (resultado.length > 0 && rol === "create") {
-            console.log("Cajero encontrado", resultado);
             return true;
         } else if (resultado.length === 1 && rol === "edit") {
             return true;
@@ -112,8 +110,7 @@ async function buscarXnombreCajeroUsuario(tiendaId) {
         return [];
     }
 }
-//Función para crear el nombre de usuario
-// Función para crear el nombre de usuario
+// Función para crear el nombre de usuario del cajero
 async function generateUserName(nombre, nomTienda, tiendaId) {
     let pos = 0;
     let userCajero = '';
@@ -130,3 +127,4 @@ async function generateUserName(nombre, nomTienda, tiendaId) {
     }
     return baseUserName;
 }
+

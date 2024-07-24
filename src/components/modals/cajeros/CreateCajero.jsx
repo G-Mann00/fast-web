@@ -6,7 +6,7 @@ import {
     Button, 
     InputSection, 
  } from "../../index";
-import { allFieldsFilled } from "../../../utils/index";
+import { allFieldsFilled, trimSpaces } from "../../../utils/index";
 import { useForm } from 'react-hook-form'; // Import `useForm` hook from 'react-hook-form' para manejar el proceso de registro de productos
 import { useState } from 'react';
 import  cajero_icon  from "../../../assets/img/fast-default-user-icon.png"
@@ -69,7 +69,8 @@ const CreateCajero = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombre
     };
 
     const onSubmit = async (data) => {
-        const cajero = await buscarXnombreCajero(data.nombreCajero, kiosko.id, "create");
+        const dataTrim = trimSpaces(data);
+        const cajero = await buscarXnombreCajero(dataTrim.nombreCajero, kiosko.id, "create");
         if (cajero) {
             setNombreUsed('Ya existe un cajero con ese nombre');
             return;

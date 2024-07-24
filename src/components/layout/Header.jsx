@@ -7,7 +7,6 @@ import { generarUrlImagen } from '../../utils/index';
 
 const Header = () => {
   const { user } = useUser();
-  //console.log('Objeto Usuario en Header:', user);
   const [imagenUrl, setImagenUrl] = useState(null);
   const [usuarioName, setUsuarioName] = useState(null);
 
@@ -15,7 +14,7 @@ const Header = () => {
     if (user) {
       const imagenUrl = generarUrlImagen(user, 'avatar');
       setImagenUrl(imagenUrl);
-      setUsuarioName(user.username);
+      setUsuarioName(user.name);
     }
   }
     , [user]);

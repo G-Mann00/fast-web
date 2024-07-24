@@ -9,16 +9,23 @@ import {
     ImageUpload, 
     TextArea } 
     from "../index";
+
 import foodIcon from '../../assets/img/fast-default-food-icon.png';
+
 import { useForm } from 'react-hook-form'; // Import `useForm` hook from 'react-hook-form' para manejar el proceso de registro de productos
+
 import { useState } from 'react';
+
 import { 
     handleImageFileChange, 
     checkIfNumber, 
     isBigger } 
     from "../../utils/index";
+
 import { agregarProducto, buscarXnombre } from "../../services/database/index";
-import { allFieldsFilled } from "../../utils/index";
+
+import { allFieldsFilled, trimSpaces } from "../../utils/index";
+
 import PropTypes from 'prop-types';
 // importar el hook de useKiosk
 import { useKiosk } from '../../hooks/kiosko';
@@ -88,15 +95,16 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
         handleModalOpen('create');
     };
     const onSubmit = async (data) => {
-        const producto = await buscarXnombre(data.nombreProducto, kiosko.id, "create");
+        const dataTrim = trimSpaces(data);
+        const producto = await buscarXnombre(dataTrim.nombreProducto, kiosko.id, "create");
         if (producto) {
             setNombreUsed('El nombre del producto ya existe');
             return;
         }
         if (handleValidacion(data, file)) {
-            const result = await agregarProducto(kiosko.id, data, file);
+            const result = await agregarProducto(kiosko.id, dataTrim, file);
             if (result) {
-                setNombreProd(data.nombreProducto);
+                setNombreProd(dataTrim.nombreProducto);
                 setTimeout(() => {
                     handleSuccessOpen();
                     handleSuccesClose();

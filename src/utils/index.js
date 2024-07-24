@@ -7,6 +7,8 @@ import { compareObjetcs } from './utilsValidaciones/compareObjects';
 import { copyObjects } from './copyObjects';
 import { capitalizeFirstLetter } from './capitalizeWords';
 import { allFieldsFilled } from './utilsValidaciones/allFieldsFill';
+import { trimSpaces } from './trimSpaces';
+import { capitalizeLongStrings } from './capitalizeLongStrings';
 
 export {
     generarUrlImagen,
@@ -17,6 +19,8 @@ export {
     compareObjetcs,
     copyObjects,
     capitalizeFirstLetter,
-    allFieldsFilled
+    allFieldsFilled,
+    trimSpaces,
+    capitalizeLongStrings
 };
 

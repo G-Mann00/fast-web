@@ -11,13 +11,19 @@ import {
   InputSection, 
   ImageUpload 
 } from "../components/index";
+
+import { trimSpaces } from "../utils/index";
+
 import AlertCustomStyles from '../components/alerta';
+
 import { 
   checkUser, 
   checkKiosko, 
-  nombreUsuarioValido 
+  numeroTelefonoValido 
 } from "../services/validacion/index";
+
 import { createUser } from "../services/database/index";
+
 import { useUser } from '../hooks/user';
 
 
@@ -39,11 +45,6 @@ const RegistroCompleto = () => {
 
   // State to store the file
   const [file, setFile] = useState(null);
-
-  /*const handleImageFileChange = (file) => {
-    setImageUrl(URL.createObjectURL(file)); // Opcional: para mostrar la imagen subida
-    setFile(file); // Guarda el archivo en el estado
-  };*/
 
   const uploadImage = (file) => {
     handleImageFileChange(file, setImageUrl, setFile);
@@ -90,10 +91,10 @@ const RegistroCompleto = () => {
 
   const checkNombres = async (data) => {
     // Verifica si el nombre de usuario está disponible
-    const userAvailable = await checkUser(data.nomUsuario);
+    const userAvailable = await checkUser(data.numeroTelefono);
     // Si el nombre de usuario ya existe, actualiza el estado de `setUserExist` a `true`
     if (!userAvailable) {
-      setMensajeUser("Nombre de usuario no disponible");
+      setMensajeUser("Este número de teléfono ya está relacionado con otro kiosco");
     }
 
     // Verifica si el nombre del kiosko está disponible
@@ -139,23 +140,23 @@ const RegistroCompleto = () => {
   };
 
   const onSubmit = async (data) => {
+    const dataTrimmed = trimSpaces(data);
     estadosFalsos();
-    const formatoValido = nombreUsuarioValido(data.nomUsuario);
-    console.log(data)
-    if (formatoValido) {
-      setMensajeUser("El nombre de usuario debe tener al menos 4 caracteres y no contener espacios");
+    const formatoValido = numeroTelefonoValido(dataTrimmed.numeroTelefono);
+    if (!formatoValido) {
+      setMensajeUser("El número de teléfono debe seguir el siguiente formato: 12345678");
       return;
     }
 
-    if (!validarCampos(data, file)) {
+    if (!validarCampos(dataTrimmed, file)) {
       // Si los campos no están llenos o falta el archivo, muestra un mensaje de error
       setErrorMessage(true);
       return;
     }
     if (passwordMatch(data)) {
-      const nombresDisponibles = await checkNombres(data);
+      const nombresDisponibles = await checkNombres(dataTrimmed);
       if (nombresDisponibles) {
-        await manejarCreacionUsuario(data, file);
+        await manejarCreacionUsuario(dataTrimmed, file);
       }
     }
   };
@@ -181,7 +182,7 @@ const RegistroCompleto = () => {
         <p className="text-FAST-WhiteCream text-2xl font-bold sm:text-3xl text-center">Registrate para empezar a administrar tu kiosko</p>
       </div>
       <section className="pt-4 flex justify-center h-5/6">
-        <form className="w-11/12 h-[550px] rounded-3xl bg-FAST-WhiteCream pt-6 pb-9" onSubmit={handleSubmit(onSubmit)}>
+        <form className="w-11/12 h-auto rounded-3xl bg-FAST-WhiteCream pt-6 pb-6" onSubmit={handleSubmit(onSubmit)}>
           {userCreated ? <AlertCustomStyles mensaje="Usuario creado correctamente" /> : ''}
           <div className="pl-[75px] grid grid-cols-3 md:grid-cols-3 gap-[70px] w-auto" >
             <div>
@@ -210,17 +211,17 @@ const RegistroCompleto = () => {
             </div>
             <div>
               <InputSection 
-              tipo="text" 
+              tipo="tel" 
               frase="Ene" 
-              etiqueta="Nombre de Usuario" 
+              etiqueta="Teléfono del Kiosco" 
               register={register} 
-              name="nomUsuario" 
+              name="numeroTelefono" 
               mensaje={mensajeUser ? mensajeUser : ''} />
 
               <InputSection
                tipo="text" 
                frase="Delicias Lia" 
-               etiqueta="Nombre del kiosko" 
+               etiqueta="Nombre del kiosco" 
                register={register} 
                name="nomKiosko" 
                mensaje={kioskoExist ? kioskoExist : ''} />

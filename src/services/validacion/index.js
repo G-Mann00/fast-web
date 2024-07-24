@@ -1,8 +1,8 @@
-import { checkUser, checkKiosko, nombreUsuarioValido } from './userValidation'
+import { checkUser, checkKiosko, numeroTelefonoValido } from './userValidation'
 
 
 export {
     checkUser,
     checkKiosko,
-    nombreUsuarioValido
+    numeroTelefonoValido
 }

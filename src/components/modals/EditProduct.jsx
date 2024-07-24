@@ -16,6 +16,7 @@ import {
      from "../index";
 import foodIcon from '../../assets/img/fast-default-food-icon.png';
 import { useForm } from 'react-hook-form';
+import { trimSpaces } from "../../utils/index";
 import {
     handleImageFileChange, 
     checkIfNumber, 
@@ -86,13 +87,14 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
 
     // Function to handle form submission
     const onSubmit = async (data) => {
-        const respuesta = await buscarXnombre(data.nombreProducto, kiosko.id, "edit");
-        if (respuesta && data.nombreProducto !== nombreActual) {
+        const dataTrim = trimSpaces(data);
+        const respuesta = await buscarXnombre(dataTrim.nombreProducto, kiosko.id, "edit");
+        if (respuesta && dataTrim.nombreProducto !== nombreActual) {
             setNombreUsed("El nombre del producto ya existe");
             return;
         }
-        if (handleValidacion(data, file)) {
-            const result = await editarProducto(producto[0], data, file);
+        if (handleValidacion(dataTrim, file)) {
+            const result = await editarProducto(producto[0], dataTrim, file);
             console.log('File en Resultado Producto:', file);
             if (result) {
                 //console.log("Producto editado exitosamente");
@@ -117,7 +119,6 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
     // Effect to set form values when producto and datosCargados change
     useEffect(() => {
         if (producto) {
-            console.log('Producto:', producto);
             setLoading(false);
             setValue('nombreProducto', producto[1]);
             setNombreActual(producto[1]);
