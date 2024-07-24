@@ -1,4 +1,7 @@
 import pb from './pocketbase';
+import { 
+    capitalizeFirstLetter,
+    capitalizeLongStrings } from '../../utils';
 
 export async function buscarRegistroUsuario(userId) {
     try {
@@ -26,8 +29,6 @@ export async function verificarNumero(numero) {
         const results = await pb.collection("tienda").getFullList({}, {
             filter: `telefono = "${numero}" `,
         });
-        console.log(results);
-        console.log('Resultados: ', results.length);
         const numeroAvailable = results.length === 0;
 
         return numeroAvailable;
@@ -43,8 +44,6 @@ export async function verificarEmail(email) {
         const results = await pb.collection("tienda").getFullList({}, {
             filter: `correo = "${email}" `,
         });
-        console.log(results);
-        console.log('Resultados: ', results.length);
         const emailAvailable = results.length === 0;
 
         return emailAvailable;
@@ -59,16 +58,20 @@ export async function verificarEmail(email) {
 
 export async function editarKiosko(id, kiosko, file) {
     try {
-        // Crea un FormData para almacenar los datos del kiosko
-        const formData = new FormData();
-        formData.append('nombre', kiosko.nombreKiosko);
-        formData.append('telefono', kiosko.telefonoKiosko);
-        formData.append('correo', kiosko.emailKiosko);
-        formData.append('direccion', kiosko.direccionKiosko);
-        formData.append('imagen', file);  // Pasa el archivo de imagen
+
+        const nombreKiosko = capitalizeFirstLetter(kiosko.nombreKiosko);
+        const descripcionKiosko = capitalizeLongStrings(kiosko.descripcionKiosko);
+
+        const detallesKiosko = {
+            nombre: nombreKiosko,
+            telefono: kiosko.telefonoKiosko,
+            correo: kiosko.emailKiosko,
+            descripcion: descripcionKiosko,
+            imagen: file,
+        }
 
         // Edita el kiosko con el id proporcionado
-        await pb.collection('tienda').update(id, formData);
+        await pb.collection('tienda').update(id, detallesKiosko);
 
         // Retorna true si el kiosko se editó correctamente
         return true;

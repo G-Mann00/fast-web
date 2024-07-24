@@ -1,7 +1,8 @@
 import pb from './pocketbase';
 import { 
     generarUrlImagen, 
-    capitalizeFirstLetter 
+    capitalizeFirstLetter,
+    capitalizeLongStrings 
 } from '../../utils/index';
 import { 
     obtenerCategorias } from '../database/index';
@@ -11,17 +12,20 @@ export async function agregarProducto(tiendaId, producto, file) {
     try {
         //capitalize the name of my product
         let capitalized_name = capitalizeFirstLetter(producto.nombreProducto);
-        // Crea un FormData para almacenar los datos del producto
-        const formData = new FormData();
-        formData.append('nombre', capitalized_name);
-        formData.append('descripcion', producto.descripcionProducto);
-        formData.append('precio', producto.precio);
-        formData.append('tienda', tiendaId);
-        formData.append('categoria', producto.categoria);
-        formData.append('Image', file);  // Pasa el archivo de imagen
+        let capitalized_description = capitalizeLongStrings(producto.descripcionProducto);
+
+        const productoDetalle = { 
+            nombre: capitalized_name,
+            descripcion: capitalized_description,
+            precio: producto.precio,
+            tienda: tiendaId,
+            categoria: producto.categoria,
+            Image: file,  
+            state: 1
+        };
 
         // Crea un nuevo registro en la colección 'producto'
-        await pb.collection('producto').create(formData);
+        await pb.collection('producto').create(productoDetalle);
 
         // Retorna true si el producto se creó correctamente
         return true;
@@ -71,7 +75,7 @@ async function mapearProductos(arreglo) {
             idCategoria: objeto.categoria[0], // Copiamos el id de la categoría del objeto original
             categoria: await obtenerCategorias(objeto.categoria[0]), // Obtenemos la categoría del objeto original
             file: objeto.Image, // Copiamos el archivo de imagen del objeto original
-            imagen: await generarUrlImagen(objeto, 'Image'), // Obtenemos la URL de la imagen mediante la función asincrónica generarUrlImagen
+            imagen: generarUrlImagen(objeto, 'Image'), // Obtenemos la URL de la imagen mediante la función asincrónica generarUrlImagen
             descripcion: objeto.descripcion, // Copiamos la descripción del objeto original
             descripcionCorta: checkIfLong(objeto.descripcion),// Si la descripción es mayor a 50 caracteres, la truncamos
             precio: objeto.precio, // Copiamos el precio del objeto original
@@ -126,17 +130,19 @@ export async function editarProducto(id, producto, file) {
     try {
         // Crea un FormData para almacenar los datos del producto
         let capitalized_name = capitalizeFirstLetter(producto.nombreProducto);
+        let capitalized_description = capitalizeLongStrings(producto.descripcionProducto);
 
-        const formData = new FormData();
-        formData.append('nombre', capitalized_name);
-        formData.append('descripcion', producto.descripcionProducto);
-        formData.append('precio', producto.precio);
-        formData.append('categoria', producto.categoria);
-        formData.append('Image', file);  // Pasa el archivo de imagen
-        formData.append('state', 2); // Cambia el estado a 2 (Editado)
+        const productoDetalle = { 
+            nombre: capitalized_name,
+            descripcion: capitalized_description,
+            precio: producto.precio,
+            categoria: producto.categoria,
+            Image: file,
+            state: 2
+        };
 
         // Edita el producto con el id proporcionado
-        await pb.collection('producto').update(id, formData);
+        await pb.collection('producto').update(id, productoDetalle);
 
         // Retorna true si el producto se editó correctamente
         return true;

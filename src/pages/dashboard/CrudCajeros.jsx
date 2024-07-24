@@ -3,6 +3,7 @@ import {
   useState, 
   useCallback 
 } from 'react';
+
 import { 
   DocumentTitle, 
   ProductTable, 
@@ -10,6 +11,7 @@ import {
 } from "../../components/index";
 
 import { buscarRegistroCajero } from "../../services/database/index";
+
 import { useKiosk } from '../../hooks/kiosko';
 
 const Cajeros = () => {

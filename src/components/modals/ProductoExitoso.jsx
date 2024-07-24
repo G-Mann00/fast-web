@@ -1,5 +1,11 @@
 import PropTypes from 'prop-types';
-import { Dialog, DialogHeader, DialogBody, DialogFooter, Button } from '../index'; // assuming these are the correct imports
+import { 
+    Dialog, 
+    DialogHeader, 
+    DialogBody, 
+    DialogFooter, 
+    Button 
+} from '../index'; // assuming these are the correct imports
 import exitoso from '../../assets/img/operacionExitosa.png';
 
 function ProductoExitoso({ exitosoOpen, mensaje, handleExitosoClose, productName, sujeto }) {

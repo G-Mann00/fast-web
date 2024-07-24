@@ -1,8 +1,8 @@
-import { isUsernameAvailable, isKioskonameAvailable } from "../database/index";
+import { verificarNumero, isKioskonameAvailable } from "../database/index";
 
-export const checkUser = async (nomUser) => {
+export const checkUser = async (telefono) => {
     // Verifica si el nombre de usuario ya existe
-    const isAvailable = await isUsernameAvailable(nomUser);
+    const isAvailable = await verificarNumero(telefono);
     if (isAvailable) {
         // El nombre de usuario está disponible
         return true;
@@ -25,9 +25,10 @@ export const checkKiosko = async (nomKiosko, type) => {
     }
 };
 
-export function nombreUsuarioValido(nomUsuario) {
+export function numeroTelefonoValido(numTelefono) {
     // Verifica si el nombre de usuario tiene más de 3 caracteres o contiene espacios
-    const esNombreUsuarioValido = nomUsuario.length < 3 || /\s/.test(nomUsuario);
+    const esNumeroTelefonoValido =  /^[0-9]{8}$/.test(numTelefono);
     // Retorna true si al menos una de las condiciones es válida, false en caso contrario
-    return esNombreUsuarioValido;
+    return esNumeroTelefonoValido;
 }
+

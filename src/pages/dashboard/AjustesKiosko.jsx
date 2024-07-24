@@ -8,7 +8,7 @@ import {
   ImageUpload, 
   TextArea } 
   from '../../components/index';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { useState, useRef } from 'react';
 import { 
   generarUrlImagen, 
@@ -21,7 +21,7 @@ import {
   verificarEmail, 
   editarKiosko } 
   from '../../services/database/index';
-import { numberFormat, compareObjetcs } from '../../utils/index';
+import { numberFormat, compareObjetcs, trimSpaces } from '../../utils/index';
 
 const ConfigKiosko = () => {
   const { kiosko } = useKiosk();
@@ -52,7 +52,7 @@ const ConfigKiosko = () => {
 
   const checkVacios = (data) => {
     if (data.nombreKiosko === "") {
-      setNombreK("El nombre del kiosko no puede quedar vacío");
+      setNombreK("El nombre del kiosco no puede quedar vacío");
       return;
     }
     setNombreK(null);
@@ -63,7 +63,7 @@ const ConfigKiosko = () => {
     const checkNumber = await verificarNumero(telefono);
     const fNumber = numberFormat(telefono, setNumeroK);
     if (!checkNumber && kiosko.telefono != telefono) {
-      setNumeroK("El número de teléfono ya existe");
+      setNumeroK("Este número de teléfono ya pertenece a otro kiosco");
       return false;
     } else if (fNumber) {
       return false;
@@ -75,15 +75,14 @@ const ConfigKiosko = () => {
   const checkEmailInput = async (email) => {
     const checkEmail = await verificarEmail(email);
     if (!checkEmail && kiosko.correo != email) {
-      setEmailK("El correo electrónico ya pertenece a otro kiosko");
+      setEmailK("El correo electrónico ya pertenece a otro kiosco");
       return false;
     }
     return true;
   }
 
-  const checkDireccionInput = (direccion) => {
-    const fDireccion = isBigger(direccion, "dirección", setDireccionK);
-    //console.log('Direccion: ', fDireccion);
+  const checkDescripcionInput = (descripcion) => {
+    const fDireccion = isBigger(descripcion, "descripcion", setDireccionK);
     if (fDireccion) {
       return false;
     }
@@ -93,15 +92,16 @@ const ConfigKiosko = () => {
     const respuesta = await checkKiosko(data.nombreKiosko, "edit");
     const checkedNumber = await checkNumberInput(data.telefonoKiosko);
     const checkedEmail = await checkEmailInput(data.emailKiosko);
-    const checkedDireccion = checkDireccionInput(data.direccionKiosko);
-    //console.log('Kiosko:', kiosko);
+    const checkedDescripcion = checkDescripcionInput(data.descripcionKiosko);
+
     if (respuesta && kiosko.nombre != data.nombreKiosko) {
       setNombreK("El nombre del kiosko ya existe");
+      return;
     } else if (!checkedNumber) {
       return;
     } else if (!checkedEmail) {
       return;
-    } else if (!checkedDireccion) {
+    } else if (!checkedDescripcion) {
       return;
     }
     else {
@@ -111,28 +111,31 @@ const ConfigKiosko = () => {
 
   function renombrarObjeto(objeto2, imageChange) {
     const objeto = {};
-    const { nombreKiosko, emailKiosko, telefonoKiosko, direccionKiosko } = objeto2;
+    const { nombreKiosko, emailKiosko, telefonoKiosko, descripcionKiosko } = objeto2;
     objeto.nombre = nombreKiosko;
     objeto.correo = emailKiosko;
     objeto.telefono = telefonoKiosko;
-    objeto.direccion = direccionKiosko;
+    objeto.descripcion = descripcionKiosko;
     objeto.imagen = imageChange;
     return objeto;
 
   }
 
   const onSubmit = async (data) => {
-    await checkCampos(data);
-    checkVacios(data);
-    const objeto = renombrarObjeto(data, imageChange);
+    setChangeM('');
+    const dataTrim = trimSpaces(data);
+    const resultado = await checkCampos(dataTrim);
+    if (!resultado) { 
+      return;
+    }
+    checkVacios(dataTrim);
+    const objeto = renombrarObjeto(dataTrim, imageChange);
     //console.log("kioskocurret: ", kioskoCopyRef.current);
     const result = compareObjetcs(objeto, kioskoCopyRef.current, setChangeM);
     if (!result) {
       return;
     }
-    const res = await editarKiosko(kiosko.id, data, file);
-    //console.log('ImageChange en Resultado:', imageChange);
-    //console.log('File en Resultado:', file);
+    const res = await editarKiosko(kiosko.id, dataTrim, file);
     if (res) {
       setChangeM("Cambios guardados correctamente");
     }
@@ -153,28 +156,26 @@ const ConfigKiosko = () => {
     setImageChange(file.name)
   }
   useEffect(() => {
-    console.log('Kiosko:', kiosko)
     if (kiosko && !kioskoCopyRef.current) {
-      //console.log('Objeto kiosko:', kiosko);
       //Copiar el objeto kiosko, por medio de una desestructuración, se crea una copia por valor del objeto, no una referencia
       const { 
         nombre, 
         correo, 
         telefono, 
-        direccion, 
+        descripcion, 
         imagen } = kiosko;
 
       kioskoCopyRef.current = { 
         nombre, 
         correo, 
         telefono, 
-        direccion, 
+        descripcion, 
         imagen };
-      //console.log('Copia:', kioskoCopyRef.current);
+  
       setValue('nombreKiosko', kiosko.nombre);
       setValue('emailKiosko', kiosko.correo);
       setValue('telefonoKiosko', kiosko.telefono);
-      setValue('direccionKiosko', kiosko.direccion);
+      setValue('descripcionKiosko', kiosko.descripcion);
       const imagenURL = generarUrlImagen(kiosko, 'imagen');
       setImageUrl(imagenURL);
       setImageChange(kiosko.imagen);
@@ -186,7 +187,6 @@ const ConfigKiosko = () => {
 
   return (
     <div>
-
       {/* Encabezado de la pagina */}
       <div className="flex flex-col">
         <h2 className="text-2xl pb-3 text-FAST-Text font-bold">Ajustes del kiosko</h2>
@@ -249,9 +249,9 @@ const ConfigKiosko = () => {
                 <div className="flex flex-col pt-2 pl-[195px] w-[531px]">
                   <TextArea 
                   frase="FAST" 
-                  etiqueta="Direccion" 
+                  etiqueta="Descripción del Kiosko" 
                   register={register} 
-                  name="direccionKiosko" 
+                  name="descripcionKiosko" 
                   isEditable={editable} 
                   mensaje={direccionK ? direccionK : " "} />
                 </div>
