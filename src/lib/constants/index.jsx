@@ -42,7 +42,7 @@ export const SIDEBAR_LINKS = [
     },
     {
         key: "kiosko",
-        label: "Kiosko",
+        label: "Kiosco",
         path: "/dashboard/kiosko",
         icon: <HiOutlineOfficeBuilding />
     }

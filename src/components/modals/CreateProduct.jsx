@@ -129,7 +129,7 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
                         <InputSection 
                         tipo="text" 
                         frase="Nombre" 
-                        etiqueta="Nombre del Producto" 
+                        etiqueta="Nombre del producto" 
                         name="nombreProducto" 
                         register={register} 
                         mensaje={nombreUsed ? nombreUsed : ''} />
@@ -137,7 +137,7 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
                         {/* Descripcion */}
                         <TextArea 
                         frase="Descripcion" 
-                        etiqueta="Descripción del Producto" 
+                        etiqueta="Descripción del producto" 
                         name="descripcionProducto" 
                         register={register} 
                         mensaje={descripcionProd ? descripcionProd : ' '} />
@@ -146,7 +146,7 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
                         <InputSection 
                         tipo="text" 
                         frase="Precio (C$)" 
-                        etiqueta="Precio del Producto" 
+                        etiqueta="Precio del producto" 
                         name="precio" register={register} 
                         mensaje={isNumber ? isNumber : ''} />
 
