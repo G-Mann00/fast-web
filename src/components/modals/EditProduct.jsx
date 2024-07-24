@@ -97,7 +97,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
             const result = await editarProducto(producto[0], dataTrim, file);
             console.log('File en Resultado Producto:', file);
             if (result) {
-                //console.log("Producto editado exitosamente");
+               
                 handleSuccesOpenEdit();
                 handleSuccesClose();
 

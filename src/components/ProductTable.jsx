@@ -22,7 +22,6 @@ import {
 } from "../components/index";
 import useSuccessState from '../hooks/modal';
 import EditProduct from "../components/modals/EditProduct";
-import { tab } from '@material-tailwind/react';
 
 const ProductTable = ({ tableRows, handleModalOpen, modalStates, TABLE_HEAD, titulos, tipo}) => { // Destructure tableRows properly here
 
