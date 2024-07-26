@@ -1,6 +1,8 @@
 import pb from './pocketbase';
 import { generateId } from '../../utils/randomId';
-import { capitalizeFirstLetter } from '../../utils/index';
+import { 
+    capitalizeFirstLetter, 
+    createPassword } from '../../utils/index';
 
 // globally disable auto cancellation
 pb.autoCancellation(false);
@@ -16,11 +18,10 @@ async function createKioskoDetails(userId, data, file) {
             telefono : data.numeroTelefono,
             imagen: file,
             userAdmin: userId,
+            state: 0,
         }
 
-        // Crea un nuevo registro en la colección 'tienda'
         await pb.collection('tienda').create(kioskoDetails);
-        //alert('Kiosko creado exitosamente', 'success');
     } catch (error) {
         console.error('Error creating kiosko details:', error);
         throw error;
@@ -31,6 +32,7 @@ async function createKioskoDetails(userId, data, file) {
 export async function createUser(data, file) {
     let createdUser = null;
     let nombreCompleto = capitalizeFirstLetter(data.nombreCompleto.trim());
+    let password = createPassword();
     try {
         const uniqueId = generateId();
         const userDetails = {
@@ -38,21 +40,19 @@ export async function createUser(data, file) {
             email: data.email,
             name: nombreCompleto,
             avatar: data.foto,
-            password: data.password,
-            passwordConfirm: data.confirmarPassword,
+            password: password,
+            passwordConfirm: password,
         };
 
         createdUser = await pb.collection('usersAdmin').create(userDetails);
 
         if (createdUser) {
-            // Create kiosko details
             const userId = createdUser.id;
             try {
                 await createKioskoDetails(userId, data, file);
                 return createdUser;
             }
             catch (error) {
-                //console.log(`Deleting user ${createdUser.id} due to kiosko creation error`);
                 await pb.collection('usersAdmin').delete(createdUser.id);
                 console.log('User deleted due to kiosko creation error');
             }
@@ -82,7 +82,7 @@ export async function createUser(data, file) {
     }
 }*/
 
-//Función para verificar si el nombre del kiosko ya está en uso
+
 export async function isKioskonameAvailable(nombre, type) {
     const kioskoName = capitalizeFirstLetter(nombre);
     try {

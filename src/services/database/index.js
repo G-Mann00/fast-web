@@ -34,7 +34,9 @@ import {
     buscarRegistroCajero, 
     eliminarCajero, 
     buscarXnombreCajero, 
-    createCajero
+    createCajero,
+    editarCajero,
+    editarCajeroContraseña
  } from './cajeros';
 
 
@@ -77,5 +79,7 @@ export {
     eliminarCajero,
     buscarXnombreCajero,
     createCajero,
+    editarCajero,
+    editarCajeroContraseña
 };
 

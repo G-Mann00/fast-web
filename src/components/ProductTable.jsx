@@ -18,15 +18,16 @@ import {
   ProductoExitoso,
   DeleteCajeros,
   CreateCajero,
+  EditCajero,
   NoMasCajeros
 } from "../components/index";
 import useSuccessState from '../hooks/modal';
 import EditProduct from "../components/modals/EditProduct";
 
-const ProductTable = ({ tableRows, handleModalOpen, modalStates, TABLE_HEAD, titulos, tipo}) => { // Destructure tableRows properly here
+const ProductTable = ({ tableRows, handleModalOpen, modalStates, TABLE_HEAD, titulos, tipo}) => { 
 
   const [producto, setProducto] = useState({});
-  const [mensajeModal, setMensajeModal] = useState(""); //estado para definir el mensaje del modal
+  const [mensajeModal, setMensajeModal] = useState(""); 
   const [showModalProduct, setShowModalProduct] = useState(false);
   const [showModalCajero, setShowModalCajero] = useState(false);
   const [sujetoState, setSujetoState] = useState("");
@@ -36,9 +37,8 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates, TABLE_HEAD, tit
   const [succesOpenProhibido, handleSuccessOpenProhibido ,handleSuccesCloseProhibido] = useSuccessState(false,'No tienes permitido agregar más cajeros',setMensajeModal);
   
   const [filteredRegistros, setFilteredRegistros] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(''); //estado para definir el termino de busqueda
+  const [searchTerm, setSearchTerm] = useState(''); 
 
-  //Variable global para saber la cantidad de elementos en un arreglo
   
   const modalOpen = (type, producto, modal) => { //Función para abrir el modal de edición o eliminación de producto
     setProducto(producto);
@@ -54,7 +54,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates, TABLE_HEAD, tit
   }
 
   const modalOpenAddCajero = (type, modal) => { //Función para abrir el modal de creación de un cajero
-    if (tableRows.length >= 1) {
+    if (tableRows.length >= 3) {
       handleSuccessOpenProhibido();
     } else {
       handleModalOpen(type);
@@ -115,6 +115,18 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates, TABLE_HEAD, tit
       handleSuccesOpenEdit={handleSuccesOpenEdit} 
       tipo={"producto"}/>
       </>)}
+
+      {
+        showModalCajero === "Edit" && (
+          <><EditCajero
+          editOpen={modalStates.editOpen}
+          handleModalOpen={handleModalOpen} 
+          producto={producto}
+          handleSuccesOpenEdit={handleSuccesOpenEdit}
+          tipo={"cajero"}
+          /></>
+        )
+      }
 
       {showModalProduct === "Delete" && 
       (<><DeleteProduct 
@@ -274,7 +286,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates, TABLE_HEAD, tit
                     <div className="flex items-center gap-3">
 
                       <button 
-                      onClick={() => modalOpen("openEdit", producto, "Edit")} 
+                      onClick={tipo == "productos" ? () => modalOpen('openEdit', producto, "Edit") : () => modalOpenCajeros('openEdit', producto, "Edit")} 
                       className="bg-FAST-DarkBlue text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#2B3045]">
                         <FiEdit size={20} />
                       </button>

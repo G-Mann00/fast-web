@@ -3,7 +3,7 @@ import { Input } from '@material-tailwind/react';
 
 const InputSection = ({ tipo, frase, etiqueta, mensaje = ' ', register = () => { }, name, isEditable }) => {
     return (
-        <div className='pt-6 pb-[22px] w-96'>
+        <div className='pt-6 w-96'>
             <h2 className="text-left font-bold text-FAST-Text">{etiqueta}</h2>
             <div>
                 <Input

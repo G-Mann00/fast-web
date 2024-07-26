@@ -15,7 +15,7 @@ const Productos = () => {
   //Estado para menejar el Spinner de carga
   const [loadingS, setLoadingS] = useState(true);
   const TABLE_HEAD = ["Producto", "Descripción", "Precio C$", "Categoria", ""]; // Encabezado de la tabla de productos
-  const titulos = ["Tu Catálogo", "Estos son los productos que tu kiosco ofrece", "Buscar Producto", "Agregar producto"];
+  const titulos = ["Gestión de productos", "Estos son los productos que tu kiosco ofrece", "Buscar Producto", "Agregar producto"];
   const modalStates = {
     createOpen,
     deleteOpen,
@@ -83,13 +83,6 @@ const Productos = () => {
 
   return (
     <div>
-
-      {/* Encabezado de la pagina */}
-      <div className="flex flex-col">
-        <h2 className="text-2xl pb-3 text-FAST-Text font-bold">Gestión de Productos</h2>
-        <p className="text-FAST-Text text-xl">Gestiona el catálogo de productos que ofrece tu kiosco</p>
-      </div>
-
       {/* Tabla de productos */}
       <div className="px-4 py-5">
         <div style={{ position: 'relative' }}>

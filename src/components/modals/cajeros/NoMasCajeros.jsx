@@ -6,7 +6,7 @@ import {
     DialogFooter, 
     Button 
 } from '../../index'; // assuming these are the correct imports
-import prohibido from '../../../assets/img/circulo-restriccion.png';
+import prohibido from '../../../assets/img/Permiso_Denegado.png';
 
 function AccionRestringida({ exitosoOpen, handleExitosoClose }) {
     // Modal de confirmación de producto agregado exitosamente

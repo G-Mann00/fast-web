@@ -22,7 +22,7 @@ const Cajeros = () => {
   const [cajerosArray, setCajerosArray] = useState([]);
   //Constante con las cabezeras de la tabla
   const TABLE_HEAD = ['Usuario','Nombre', ' ','Apellido', ''];
-  const titulos = ["Tus cajeros", "Estos son los cajeros que tienes registrados", "Buscar cajero", "Agregar cajero"];
+  const titulos = ["Gestión de cajeros", "Estos son los cajeros que tienes registrados", "Buscar cajero", "Agregar cajero"];
     //Estados para manejat los modales
   const [createOpen, setCreateOpen] = useState(false); // Mostrar modal para crear producto
   const [deleteOpen, setDeleteOpen] = useState(false); // Mostrar modal para eliminar producto
@@ -90,12 +90,6 @@ const Cajeros = () => {
 
   return (
     <div>
-
-      {/* Encabezado de la pagina */}
-      <div className="flex flex-col">
-        <h2 className="text-2xl pb-3 text-FAST-Text font-bold">Gestión de Cajeros</h2>
-        <p className="text-FAST-Text text-xl">Gestiona los datos de tus cajeros aquí</p>
-      </div>
 
       {/* Tabla de productos */}
       <div className="px-4 py-5">

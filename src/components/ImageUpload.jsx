@@ -29,7 +29,7 @@ const ImageUpload = ({ defaultImageUrl, onChange, register = () => { }, name, mo
     return (
         <div className="w-80 pt-6 pb-[35px] grid justify-items-center">
             <img 
-            className='w-fit max-w-[250px] h-[250px] rounded-full mb-6' 
+            className='w-[250px] h-[250px] rounded-full mb-6 object-cover' 
             src={imageUrl || defaultImageUrl} alt="Uploaded" />
             {mostrarBotones ? <label 
             htmlFor={name} 

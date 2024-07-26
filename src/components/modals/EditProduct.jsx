@@ -1,4 +1,3 @@
-// Importing components and assets
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import {
@@ -23,23 +22,23 @@ import {
     isBigger} 
     from "../../utils/index";
 import { buscarXnombre, editarProducto } from "../../services/database";
-// importar el hook de useKiosk
+
 import { useKiosk } from '../../hooks/kiosko';
 
-// EditProduct component
+
 const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit, tipo }) => {
-    // Obtener el kiosko del contexto
+
     const { kiosko } = useKiosk();
     const { control, register, handleSubmit, setValue } = useForm();
     const [loading, setLoading] = useState(true);
     // eslint-disable-next-line no-unused-vars
     const [imageUrl, setImageUrl] = useState(false);
-    const [nombreUsed, setNombreUsed] = useState(''); //estado para mostrar mensaje en caso de que el nombre del producto ya exista
-    const [nombreActual, setNombreActual] = useState(''); //estado para manejar el estado del nombre del producto
-    const [showErrorMessage, setErrorMessage] = useState(false); //estado para mostrar mensaje de error en caso de que no todos los campos hayan sido llenados
+    const [nombreUsed, setNombreUsed] = useState(''); 
+    const [nombreActual, setNombreActual] = useState(''); 
+    const [showErrorMessage, setErrorMessage] = useState(false); 
     const [isNumber, setIsNumber] = useState(false);
-    const [descripcionProd, setDescripcionProd] = useState(''); //estado para manejar la descripción del producto y mostrar mensaje en caso de que exceda los 150 caracteres
-    const [file, setFile] = useState(null); //estado para almacenar la imagen del producto
+    const [descripcionProd, setDescripcionProd] = useState(''); 
+    const [file, setFile] = useState(null); 
 
     const limpiarCampos = () => {
         setNombreUsed(null);
@@ -52,16 +51,16 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
         setValue('descripcionProducto', producto[6]);
         setValue('precio', producto[8]);
     }
-    const uploadImage = (file) => { //Función para subir la imagen del producto
+    const uploadImage = (file) => { 
         handleImageFileChange(file, setImageUrl, setFile);
 
     }
-    // Función para verificar si todos los campos han sido llenados
+  
     const allFieldsFilled = (data) => {
         return Object.values(data).every(value => value !== '' && value !== null);
     };
 
-    // Función para verificar si todos los campos están llenos y hay un archivo
+   
     const validarCampos = (data) => {
         const hola = allFieldsFilled(data);
         return hola;
@@ -85,7 +84,6 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
         }
     }
 
-    // Function to handle form submission
     const onSubmit = async (data) => {
         const dataTrim = trimSpaces(data);
         const respuesta = await buscarXnombre(dataTrim.nombreProducto, kiosko.id, "edit");
@@ -104,7 +102,6 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
         }
     }
 
-    // Function to handle cancellation
     const handleCanceled = () => {
         limpiarCampos();
         handleModalOpen('canceledEdit');

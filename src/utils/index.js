@@ -9,6 +9,7 @@ import { capitalizeFirstLetter } from './capitalizeWords';
 import { allFieldsFilled } from './utilsValidaciones/allFieldsFill';
 import { trimSpaces } from './trimSpaces';
 import { capitalizeLongStrings } from './capitalizeLongStrings';
+import { createPassword } from './passwordUtils/createPassword';
 
 export {
     generarUrlImagen,
@@ -21,6 +22,7 @@ export {
     capitalizeFirstLetter,
     allFieldsFilled,
     trimSpaces,
-    capitalizeLongStrings
+    capitalizeLongStrings,
+    createPassword
 };
 

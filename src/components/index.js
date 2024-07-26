@@ -26,6 +26,7 @@ import EditProduct from "./modals/EditProduct";
 import CreateCajero from "./modals/cajeros/CreateCajero";
 import DeleteCajeros from "./modals/cajeros/DeleteCajeros";
 import NoMasCajeros from "./modals/cajeros/NoMasCajeros";
+import EditCajero from "./modals/cajeros/EditCajero";
 
 //Loader
 import SpinnerFAST from "./deco/SpinnerFAST";
@@ -90,7 +91,8 @@ export {
 export {
     CreateCajero,
     DeleteCajeros,
-    NoMasCajeros
+    NoMasCajeros,
+    EditCajero
 
 }
 
