@@ -107,7 +107,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates, TABLE_HEAD, tit
       setNombreProd={setProducto} />
       </>)}
 
-      {showModalProduct === "Edit" && 
+      { showModalProduct === "Edit" && 
       (<><EditProduct 
       editOpen={modalStates.editOpen} 
       handleModalOpen={handleModalOpen} 
@@ -121,7 +121,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates, TABLE_HEAD, tit
           <><EditCajero
           editOpen={modalStates.editOpen}
           handleModalOpen={handleModalOpen} 
-          producto={producto}
+          cajero={producto}
           handleSuccesOpenEdit={handleSuccesOpenEdit}
           tipo={"cajero"}
           /></>

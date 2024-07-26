@@ -10,6 +10,7 @@ import { allFieldsFilled } from './utilsValidaciones/allFieldsFill';
 import { trimSpaces } from './trimSpaces';
 import { capitalizeLongStrings } from './capitalizeLongStrings';
 import { createPassword } from './passwordUtils/createPassword';
+import { separeteWordFromNumber } from './separeteWordFromNumber';
 
 export {
     generarUrlImagen,
@@ -23,6 +24,7 @@ export {
     allFieldsFilled,
     trimSpaces,
     capitalizeLongStrings,
-    createPassword
+    createPassword,
+    separeteWordFromNumber
 };
 

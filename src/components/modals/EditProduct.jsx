@@ -15,7 +15,9 @@ import {
      from "../index";
 import foodIcon from '../../assets/img/fast-default-food-icon.png';
 import { useForm } from 'react-hook-form';
-import { trimSpaces } from "../../utils/index";
+import { 
+    trimSpaces, 
+    allFieldsFilled } from "../../utils/index";
 import {
     handleImageFileChange, 
     checkIfNumber, 
@@ -56,11 +58,7 @@ const EditProduct = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit
 
     }
   
-    const allFieldsFilled = (data) => {
-        return Object.values(data).every(value => value !== '' && value !== null);
-    };
 
-   
     const validarCampos = (data) => {
         const hola = allFieldsFilled(data);
         return hola;

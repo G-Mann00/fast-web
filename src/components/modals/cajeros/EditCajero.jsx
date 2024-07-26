@@ -14,56 +14,89 @@ import  cajero_icon  from "../../../assets/img/fast-default-user-icon.png"
 import { set, useForm } from 'react-hook-form';
 import editPencil from '../../../assets/img/editIcon.png';
 import {
-    trimSpaces} 
+    trimSpaces,
+    allFieldsFilled
+       } 
     from "../../../utils/index";
 import { editarCajero, editarCajeroContraseña } from "../../../services/database";
 
 import { useKiosk } from '../../../hooks/kiosko';
+let simpleVariable = false;
 
-const EditCajero = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit }) => {
-
+const EditCajero = ({ editOpen, cajero, handleModalOpen, handleSuccesOpenEdit }) => {
+    
     const { kiosko } = useKiosk();
     const { control, register, handleSubmit, setValue } = useForm();
     const [loading, setLoading] = useState(true);
     // eslint-disable-next-line no-unused-vars
-    const [nombreActual, setNombreActual] = useState(''); 
-    const [editable, setIsEditable] = useState(false);
+    const [editable, setIsEditable] = useState(true);
     const [showErrorMessage, setErrorMessage] = useState(false);  
-    const [passwordMatch, setPasswordMatch] = useState('');
+    //const [cambioContraseña, setCambioContraseña] = useState(false);
 
     const limpiarCampos = () => {
-
+        setErrorMessage(false);
+        setIsEditable(true);
+        setValue('nombreCajero', cajero[7]);
+        setValue('apellidoCajero', cajero[3]);
+        setValue('oldPassword', '');
+        setValue('password', '');
+        setValue('passwordConfirm', '');
+        simpleVariable = false;
     }
 
     const validarCampos = (data) => {
-        const hola = true;
-        return hola;
+        const fieldsFilled = allFieldsFilled(data);
+        return fieldsFilled;
     };
 
     const handleValidacion = (data) => {
         if (!validarCampos(data)) {
-            setErrorMessage(true);
+            setErrorMessage("No se han llenado todos los campos");
             return false;
         } 
         else {
-            console.log("hola");
             return true;
         }
-    }
+    };
 
-    // Function to handle form submission
-    const onSubmit = async (data) => {
-        const dataTrim = trimSpaces(data);
-        if (handleValidacion(dataTrim )) {
-            const result = await editarCajeroContraseña(producto[0], dataTrim);
-            if (result) {
+    async function editCajeroSinContraseña (dataTrim) {
+            const result = await editarCajero(cajero[0], cajero[1], dataTrim, kiosko.nombre, kiosko.id);
+            if (result === true) {
                 handleSuccesOpenEdit();
                 handleSuccesClose();
-            }
+        } else {
+            setErrorMessage(result);
+        }
+    };
+
+    async function editCajeroConContraseña (dataTrim) { 
+            const result = await editarCajeroContraseña(cajero[0], cajero[2], dataTrim, kiosko.nombre, kiosko.id);
+            if (result === true) {
+                handleSuccesOpenEdit();
+                handleSuccesClose();
+        } else {
+            setErrorMessage(result);
         }
     }
 
+
+    const onSubmit = async (data) => {
+        const dataTrim = trimSpaces(data);
+        if (!simpleVariable) {
+            if (!handleValidacion({nombreCajero: dataTrim.nombreCajero, apellidoCajero: dataTrim.apellidoCajero})) {
+                return;
+            }
+            editCajeroSinContraseña(dataTrim);
+        } else {
+            if (!handleValidacion({nombreCajero: dataTrim.nombreCajero, apellidoCajero: dataTrim.apellidoCajero, oldPassword: dataTrim.oldPassword, password: dataTrim.password, passwordConfirm: dataTrim.passwordConfirm})) {
+                return;
+            }
+            editCajeroConContraseña(dataTrim);
+        }
+    };
+
     const handleImageClick = () => {
+        simpleVariable = 'true';
         setIsEditable(!editable);
       };
 
@@ -78,13 +111,12 @@ const EditCajero = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit 
         handleModalOpen('edit');
     };
 
-    // Effect to set form values when producto and datosCargados change
     useEffect(() => {
-        if (producto) {
+        if (cajero) {
             setLoading(false);
-
+            
         }
-    }, [producto, setValue]);
+    }, [cajero, setValue]);
 
     return (
         <Dialog open={editOpen} size="lg">
@@ -105,12 +137,12 @@ const EditCajero = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit 
                 <>
                     <DialogHeader>
                         <span className="mr-1.5">Editar Cajero{' '}</span>
-                        <span className="text-FAST-Orange mr-4 font-bold">{producto[1]}</span>
+                        <span className="text-FAST-Orange mr-4 font-bold">{cajero[1]}</span>
                     </DialogHeader>
                     <DialogBody>
                         <form className="pl-[75px] grid grid-cols-2 gap-[70px] justify-center" onSubmit={handleSubmit(onSubmit)}>
                             <div>
-                                {showErrorMessage ? <span className="text-[#FF0400]">No se han llenado todos los campos</span> : null}
+                                {showErrorMessage ? <span className="text-[#FF0400]">{showErrorMessage}</span> : null}
 
                                 <InputSection 
                                 tipo="text" 
@@ -128,25 +160,21 @@ const EditCajero = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit 
                                 register={register} 
                                  />
 
-                                <div className="flex flex-row">
-                                  <p className="text-lg">Editar contraseña</p> 
+                                <div className="flex flex-row mt-6">
+                                  <p className="text-lg text-FAST-DarkBlue">Editar contraseña</p> 
                                   <img 
                                   className="h-[20px] w-[20px] ml-2 cursor-pointer" 
                                   src={editPencil} alt="editar" 
                                   onClick={handleImageClick} /> 
-                                  <span  
-                                  className="text-sm text-gray-800 bg-[#D3D3D3] p-2 rounded opacity-0 hover:opacity-100 transition-opacity duration-200">
-                                    Editar contraseña</span>
                                 </div>
 
-                                {editable ? (      <div>
+                                <div>
                                <InputSection 
                                 tipo="password" 
                                 frase="Contraseña Actual" 
                                 etiqueta="Contraseña" 
                                 register={register} 
                                 name="oldPassword" 
-                                mensaje={passwordMatch} 
                                 isEditable={editable}/>
 
                                 <InputSection 
@@ -155,7 +183,6 @@ const EditCajero = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit 
                                 etiqueta="Contraseña" 
                                 register={register} 
                                 name="password" 
-                                mensaje={passwordMatch} 
                                 isEditable={editable} />
  
                                 <InputSection 
@@ -164,9 +191,8 @@ const EditCajero = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit 
                                 etiqueta="Confirmar Contraseña" 
                                 register={register} 
                                 name="passwordConfirm" 
-                                mensaje={passwordMatch} 
                                 isEditable={editable}/> 
-                               </div>) : null} 
+                               </div>
 
                             </div>
                             <div className="mt-[100px] ml-[32px]">
@@ -195,7 +221,7 @@ const EditCajero = ({ editOpen, producto, handleModalOpen, handleSuccesOpenEdit 
 EditCajero.propTypes = {
     editOpen: PropTypes.bool.isRequired,
     handleModalOpen: PropTypes.func.isRequired,
-    producto: PropTypes.object.isRequired,
+    cajero: PropTypes.object.isRequired,
     handleSuccesOpenEdit: PropTypes.func,
 };
 
