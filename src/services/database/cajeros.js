@@ -1,5 +1,8 @@
 import pb from './pocketbase';
-import { capitalizeFirstLetter } from '../../utils/index';
+import { 
+    capitalizeFirstLetter, 
+    separeteWordFromNumber
+    } from '../../utils/index';
 
 // globally disable auto cancellation
 pb.autoCancellation(false);
@@ -13,33 +16,30 @@ async function handleNombresCajeros(data, kioskoName, kioskoId) {
 
 export async function buscarRegistroCajero(tiendaId) {
     try {
-        //console.log('Buscando registro del usuario...', tiendaId);
-        // Consulta a la colección 'tienda' filtrando por el ID del usuario de 'userAdmin'
         const records = await pb.collection('cajeros').getFullList({
             filter: `Kiosko = "${tiendaId}" && state != 3`,
         });
-        // Verifica si existe al menos un registro
+        
         if (records && records.length > 0) {
-            const desireRecord = ["id","username","Kiosko","Lastname","collectionId","collectionName","collectionId","first_Name" ];
+            const desireRecord = ["id","username","Kiosko","Lastname","collectionId","collectionName","state","first_Name" ];
             const reorderRecords = records.map(record => 
                 desireRecord.map(key => record[key])
             );
             return reorderRecords; 
         };
-        return []; // Devuelve null si no se encuentra un registro
+        return []; 
     } catch (error) {
         console.error('Error al buscar el registro del cajero:', error);
-        // Propaga el error para que pueda ser manejado por el código que llame a esta función
+        
         throw error;
     }
 }
 
 //Funciones para agregar cajeros
-//Función para buscar un Cajero por su nombre, y checar que no haya otro cajero con el mismo nombre
+
 export async function buscarXnombreCajero(cajeroNombre, tiendaId, rol) {
     try {
         const arreglo = await buscarRegistroCajero(tiendaId);
-        //console.log("arreglo de cajeros => ", arreglo);
         const resultado = arreglo.filter(cajero => cajero[7].toLowerCase() === cajeroNombre.toLowerCase());
         if (resultado.length > 0 && rol === "create") {
             return true;
@@ -50,7 +50,7 @@ export async function buscarXnombreCajero(cajeroNombre, tiendaId, rol) {
             return false;
         }
     } catch (error) {
-        console.error('Error buscando el producto:', error);
+        console.error('Error buscando el cajero:', error);
         return [];
     }
 }
@@ -73,7 +73,7 @@ export async function createCajero(data, kioskoId, kioskoName) {
         return true;
 
     } catch (error) {
-        console.error('Error creando el usuario:', error);
+        console.error('Error creando el cajero:', error);
         return false;
     }
 }
@@ -90,7 +90,7 @@ export async function eliminarCajero(cajero) {
         return true;
 
     } catch (error) {
-        console.error('Error eliminando el producto:', error);
+        console.error('Error eliminando el cajero:', error);
         return null;
     }
 }
@@ -104,7 +104,7 @@ async function buscarXnombreCajeroUsuario(tiendaId) {
 
         return records || [];
     } catch (error) {
-        console.error('Error buscando el producto:', error);
+        console.error('Error buscando el cajero:', error);
         return [];
     }
 }
@@ -126,13 +126,24 @@ async function generateUserName(nombre, nomTienda, tiendaId) {
     return baseUserName;
 }
 
-export async function editarCajero(cajeroId, data, kioskoName, kioskoId) { 
+function compararUserNames(userCajeroActual, userCajeroNew) {
+    const actualCajero = separeteWordFromNumber(userCajeroActual);
+    const newCajero = separeteWordFromNumber(userCajeroNew);
+
+    if (actualCajero === newCajero) {
+        return userCajeroActual;
+    } else {    
+        return userCajeroNew;
+    }
+}
+
+export async function editarCajero(cajeroId, actualUserName ,data, kioskoName, kioskoId) { 
     try {
         const {userName, nom, ape} = await handleNombresCajeros(data, kioskoName, kioskoId);
-        console.log(cajeroId);  
-
+        let nombreUser = compararUserNames(actualUserName, userName);
+       
         const cajeroDetails = {
-            username: userName,
+            username: nombreUser,
             first_Name: nom,
             Lastname:  ape,
         };
@@ -142,29 +153,54 @@ export async function editarCajero(cajeroId, data, kioskoName, kioskoId) {
         return true;
 
     } catch (error) {
-        console.error('Error editando el producto:', error);
+        console.error('Error editando el cajero:', error);
         return null;
     }
 }
 
-export async function editarCajeroContraseña(cajeroId, data) { 
+function getError(errorData) {
+    let firstErrorMessage = '';
+    if (errorData.oldPassword && errorData.oldPassword.message) {
+        firstErrorMessage = 'La contraseña actual no es correcta';
+        return firstErrorMessage;
+    } else if (errorData.password && errorData.password.message) {
+        firstErrorMessage = 'La contraseña debe tener al menos 8 caracteres';
+        return firstErrorMessage;
+    } else if (errorData.passwordConfirm && errorData.passwordConfirm.message) {
+        firstErrorMessage = 'La confirmación de la contraseña no coincide';
+        return firstErrorMessage;
+    } else {
+        firstErrorMessage = 'Unknown error';
+        return firstErrorMessage;
+    }
+}
+
+export async function editarCajeroContraseña(cajeroId, actualUserName, data, kioskoName, kioskoId) { 
     try {
-        console.log(cajeroId);
-        console.log(data.oldPassword);
+        const {userName, nom, ape} = await handleNombresCajeros(data, kioskoName, kioskoId);
+        let nombreUser = compararUserNames(actualUserName, userName);
+
         const cajeroDetails = {
-            first_Name: data.nombreCajero,
-            Lastname: data.apellidoCajero,
+            username: nombreUser,
+            first_Name: nom,
+            Lastname: ape,
             password: data.password,
             passwordConfirm: data.passwordConfirm,
             oldPassword: data.oldPassword,
         };
 
-        await pb.collection('Cajeros').update(cajeroId, cajeroDetails);
+        const respuesta = await pb.collection('Cajeros').update(cajeroId, cajeroDetails);
 
         return true;
 
     } catch (error) {
-        console.error('Error editando el producto:', error);
+        if (error.response && error.response.data) {
+            const errorData = error.response.data;
+            const firstErrorMessage = getError(errorData);
+            return firstErrorMessage;
+        } else {
+            console.error('Error editando el cajero:', error);
+        }
         return null;
     }
 }
