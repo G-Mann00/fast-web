@@ -12,7 +12,7 @@ import { useState } from 'react';
 import  cajero_icon  from "../../../assets/img/fast-default-user-icon.png"
 import { 
     createCajero, 
-    buscarXnombreCajero } 
+ } 
     from "../../../services/database/index";
 import PropTypes from 'prop-types';
 // importar el hook de useKiosk
@@ -26,11 +26,9 @@ const CreateCajero = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombre
     const { kiosko } = useKiosk();
     //Estados necesarios para manejar la creación de un producto
     const [showErrorMessage, setErrorMessage] = useState(''); //estado para mostrar mensaje de error
-    const [nombreUsed, setNombreUsed] = useState(''); //estado para mostrar mensaje en caso de que el nombre del producto ya exista 
     const [passwordMatch, setPasswordMatch] = useState(''); //estado para mostrar mensaje en caso de que las contraseñas no coincidan
     const limpiarCampos = () => {
         setErrorMessage('');
-        setNombreUsed('');
         setValue('nombreCajero', null);
         setValue('apellidoCajero', null);
         setValue('password', null);
@@ -58,7 +56,6 @@ const CreateCajero = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombre
         else {
             setErrorMessage('');
             setPasswordMatch('');
-            setNombreUsed(false);
             return true;
         }
     }
@@ -70,11 +67,6 @@ const CreateCajero = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombre
 
     const onSubmit = async (data) => {
         const dataTrim = trimSpaces(data);
-        const cajero = await buscarXnombreCajero(dataTrim.nombreCajero, kiosko.id, "create");
-        if (cajero) {
-            setNombreUsed('Ya existe un cajero con ese nombre');
-            return;
-        }
         if (handleValidacion(data)) {
             const result = await createCajero(data, kiosko.id, kiosko.nombre);
             if (result) {
@@ -100,17 +92,15 @@ const CreateCajero = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombre
                     {/* Campos del cajero */}
                     <div>
                         {showErrorMessage ? <span className="text-[#FF0400]">{showErrorMessage}</span> : null}
-                        {/* Primer Nombre */}
+
                         <InputSection 
                         tipo="text" 
                         frase="Primer Nombre" 
                         etiqueta="Primer Nombre" 
                         name="nombreCajero" 
                         register={register} 
-                        mensaje={nombreUsed ? nombreUsed : ''} 
                         />
-                        
-                        {/* Primer Apellido */}
+
                         <InputSection 
                         tipo="text" 
                         frase="Primer Apellido" 
@@ -137,10 +127,11 @@ const CreateCajero = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombre
                         mensaje={passwordMatch} 
                         />
                     </div>
-                    {/* Imagen del producto */}
+
                     <div className="mt-[100px] ml-[32px]">
                         <img src={cajero_icon} alt="Cajero icon"></img>
                     </div>
+                    
                 </form>
             </DialogBody>
 

@@ -13,6 +13,7 @@ import Ordenes from "./pages/dashboard/Ordenes";
 import ConfigKiosko from "./pages/dashboard/AjustesKiosko";
 import Ajustes from "./pages/dashboard/Ajustes";
 import Cajeros from "./pages/dashboard/CrudCajeros";
+import SolicitudEnviada from "./pages/solicitudEnviada";
 import { UserProvider } from "./context/userContext";
 import { KioskoProvider } from "./context/kioskoContext"; // Importar KioskoProvider
 import { useUser } from '../src/hooks/user'; // Importar el hook useUser
@@ -63,6 +64,9 @@ function App() {
 
         {/* Enrutamiento a la página de acceso denegado */}
         <Route path="/Denegado" element={<AccesoDenegado />} />
+
+        {/* Enrutamiento a la página de solicitud enviada */}
+        <Route path="/SolicitudEnviada" element={<SolicitudEnviada />} />
 
         {/* Enrutamiento al dashboard y sus rutas hijas */}
         <Route path="/dashboard" element={

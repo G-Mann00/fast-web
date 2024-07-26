@@ -19,7 +19,7 @@ const Header = () => {
   }
     , [user]);
   return (
-    <div className="bg-[#FFFFFF] h-16 px-4 flex items-center border-b border-[#ebedef] justify-between">
+    <div className="bg-[#FFFFFF] h-16 w-auto px-4 flex items-center border-b border-[#ebedef] justify-between">
 
       <div className="flex flex-col relative">
         <p className="text-FAST-Orange font-medium text-xl">Hola {usuarioName ? usuarioName : "Usuario"}</p>

@@ -53,7 +53,7 @@ const Login = () => {
 
   return (
     <>
-      <main className="flex h-svh bg-FAST-DarkBlue justify-center px-2 py-6 sm:px-8 sm:py-10">
+      <main className="flex h-svh bg-FAST-DarkBlue justify-center items-center px-2 py-6 sm:px-8 sm:py-10">
         <div className="flex max-h-[500px] flex-col items-center space-y-6">
           <Link to="/">
             <img className='w-fit max-w-[220px] h-fit max-h-[60px]' src={logo} alt="Fast logo" />
@@ -62,13 +62,13 @@ const Login = () => {
 
           {/*Contenedor del login*/}
           <form 
-          className="flex size-full flex-col items-center justify-around rounded-3xl bg-FAST-WhiteCream p-5 text-left" 
+          className="flex h-max flex-col items-center justify-around rounded-3xl bg-FAST-WhiteCream pt-6 pb-6 pl-9 pr-9 text-left" 
           onSubmit={handleSubmit(onSubmit)}
           >
             <p className={`left-0 text-left text-[#FF0400] ${showErrorMessage ? '' : 'hidden'}`}>Correo o clave inválidos</p>
             <p className={`left-0 text-left text-[#FF0400] ${noKiosko ? '' : 'hidden'}`}>Este usuario no tiene kiosko</p>
             {/*Campo de correo electronico*/}
-            <div className="flex w-full flex-col">
+            <div className="flex w-full flex-col mt-6">
               <h2 className="text-left pb-1 font-bold">Correo electrónico</h2>
               <input 
               className="h-[40px] w-full rounded-lg bg-[#A0A5BA]/20 p-3" 
@@ -76,17 +76,17 @@ const Login = () => {
             </div>
 
             {/*Campo de clave*/}
-            <div className="flex w-full flex-col">
+            <div className="flex w-full flex-col mt-6">
               <h2 className="text-left pb-1 font-bold">Contraseña</h2>
               <PasswordInput onPasswordChange={handlePasswordChange} register={register} />
-              <a className="right-0 text-right text-FAST-Orange pt-1 hover:underline cursor-pointer">Olvide mi contraseña</a>
+              <a className="right-0 text-right text-FAST-Orange pt-1 hover:underline cursor-pointer mt-4">Olvide mi contraseña</a>
             </div>
 
-            <button className='h-[40px] w-full rounded-lg bg-FAST-Orange font-bold uppercase text-[#FFFFFF] cursor-pointer hover:bg-[#ed6d1f]' disabled={isLoading} type='submit'>{isLoading ? "Cargando" : "Entrar"}</button>
+            <button className='h-[40px] w-full mt-6 rounded-lg bg-FAST-Orange font-bold uppercase text-[#FFFFFF] cursor-pointer hover:bg-[#ed6d1f]' disabled={isLoading} type='submit'>{isLoading ? "Cargando" : "Entrar"}</button>
 
             {/*Registro de nueva cuenta*/}
-            <div className="flex justify-center">
-              <p className="text-base text-[#646982] pb-1.5">¿No tienes una cuenta?</p>
+            <div className="flex justify-center mt-6 mb-6">
+              <p className="text-base text-[#646982]">¿No tienes una cuenta?</p>
               <Link to="/Registro" element={<RegistroCompleto />} className="font-bold uppercase text-FAST-Orange pl-1 hover:underline cursor-pointer ">Registrate</Link>
             </div>
           </form>

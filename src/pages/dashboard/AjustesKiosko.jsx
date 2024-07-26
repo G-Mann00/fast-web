@@ -46,17 +46,17 @@ const ConfigKiosko = () => {
   const [mostrarBotones, setMostrarBotones] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   //States to handle the inputs
-  const [editable, setIsEditable] = useState(true);  //Estado para determinar si los inputs son editables o no
+  const [editable, setIsEditable] = useState(true);  
   const [file, setFile] = useState(null);
   const [nombreK, setNombreK] = useState(false);
   const [emailK, setEmailK] = useState(false);
   const [numeroK, setNumeroK] = useState(false);
   const [direccionK, setDireccionK] = useState(false);
-  const [changeM, setChangeM] = useState(false); //State to handle the change of the data 
-  const [imageChange, setImageChange] = useState(false); //State to handle the change of the image
+  const [changeM, setChangeM] = useState(false); 
+  const [imageChange, setImageChange] = useState(false); 
   ///States to handle the copy of the kiosko object
   const kioskoCopyRef = useRef(null);
-  const [mensajeModal, setMensajeModal] = useState(""); //estado para definir el mensaje del modal
+  const [mensajeModal, setMensajeModal] = useState(""); 
   const [succesOpenEdit, handleSuccesOpenEdit, handleSuccesCloseEdit] = useSuccessState(false, 'fue editado exitosamente', setMensajeModal);
 
 
@@ -161,7 +161,7 @@ const ConfigKiosko = () => {
     }
   }; // Funcion para enviar los datos del formulario, aun tengo que implementarla para actualizar los datos del kiosko
 
-  const handleImageClick = () => {
+  function enableOrNotEnable( ) {
     limpiarCampos();
     if (mostrarBotones) {
       setMostrarBotones(false);
@@ -170,11 +170,24 @@ const ConfigKiosko = () => {
       setMostrarBotones(true);
       setIsEditable(false);
     }
-  };
-  const uploadImage = (file) => { //Función para subir la imagen del producto
-    handleImageFileChange(file, setImageUrl, setFile);
-    setImageChange(file.name)
   }
+
+  const handleImageClick = () => {
+    enableOrNotEnable();
+
+  };
+
+  const uploadImage = (file) => { 
+    console.log("file: ", file);
+    handleImageFileChange(file, setImageUrl, setFile);
+    setImageChange(file.name);
+  };
+
+   const cancelarOperacion = () =>  { 
+    enableOrNotEnable();
+    cargarDatosKiosko();
+    }
+
   useEffect(() => {
     if (kiosko && !kioskoCopyRef.current) {
       //Copiar el objeto kiosko, por medio de una desestructuración, se crea una copia por valor del objeto, no una referencia
@@ -191,19 +204,28 @@ const ConfigKiosko = () => {
         telefono, 
         descripcion, 
         imagen };
-  
-      setValue('nombreKiosko', kiosko.nombre);
-      setValue('emailKiosko', kiosko.correo);
-      setValue('telefonoKiosko', kiosko.telefono);
-      setValue('descripcionKiosko', kiosko.descripcion);
-      const imagenURL = generarUrlImagen(kiosko, 'imagen');
-      setImageUrl(imagenURL);
-      setImageChange(kiosko.imagen);
-      setFile(kiosko.imagen);
 
-      ///Obtener valor original de los inputs
+        cargarDatosKiosko();
+
     }
   }, [kiosko, setValue]);
+
+  useEffect(() => {
+    const imagenURL = generarUrlImagen(kiosko, 'imagen');
+    setImageUrl(imagenURL);
+    setImageChange(kiosko.imagen);
+   }, [imageChange]);
+
+  function cargarDatosKiosko() {
+    setValue('nombreKiosko', kiosko.nombre);
+    setValue('emailKiosko', kiosko.correo);
+    setValue('telefonoKiosko', kiosko.telefono);
+    setValue('descripcionKiosko', kiosko.descripcion);
+    const imagenURL = generarUrlImagen(kiosko, 'imagen');
+    setImageUrl(imagenURL);
+    setImageChange(kiosko.imagen);
+    console.log("kiosko: ", kiosko.image);
+  }
 
   return (
     <div>
@@ -215,8 +237,8 @@ const ConfigKiosko = () => {
           <img 
           className="h-[20px] w-[20px] ml-2 cursor-pointer" 
           src={editPencil} alt="editar" onClick={handleImageClick} />  
-          <span className="text-sm text-white bg-FAST-DarkBlue rounded opacity-0 hover:opacity-100 transition-opacity duration-200">Edita tu kiosko</span>
-        </div> {/* Add this line */}
+          <span className="text-sm bg-#D3D3D3 rounded p-2 opacity-0 hover:opacity-100 transition-opacity duration-200">Edita tu kiosko</span>
+        </div> 
       </div>
       <><ProductoExitoso 
       sujeto={"kiosco"} 
@@ -229,7 +251,7 @@ const ConfigKiosko = () => {
       <div className="flex flex-col">
         {changeM ? <p className="text-[#FF0400]" >{changeM}</p> : null}
         {/* Formulario de datos del kiosko */}
-        <form className="flex flex-col pt-10 pl-9" onSubmit={handleSubmit(onSubmit)}>
+        <form className="flex flex-col pt-10 pl-9 size-fit" onSubmit={handleSubmit(onSubmit)}>
           <h3 className= "text-xl text-FAST-Text font-bold">Datos del kiosco</h3>
           <div className="flex justify-start mt-0">
             <div className="flex flex-col">
@@ -282,7 +304,7 @@ const ConfigKiosko = () => {
                   mensaje={direccionK ? direccionK : " "} />
                 </div>
               </div>
-            </div> {/* Add this line */}
+            </div>
 
             {/* Imagen del kiosko */}
             <div className="grid place-items-center pb-4 pl-[150px]">
@@ -295,7 +317,10 @@ const ConfigKiosko = () => {
             </div>
           </div>
           {mostrarBotones ?
-            <button className="h-[40px] w-[230px] bg-FAST-DarkBlue rounded-lg font-bold text-[10x] text-[#FFFFFF] hover:bg-[#2B3045] mx-auto" onClick={handleSubmit(onSubmit)}>Guardar Cambios</button> : null
+          <div className='flex w-auto self-center'>
+            <button className="h-[40px] w-[230px] bg-FAST-DarkBlue rounded-lg font-bold text-[10x] text-[#FFFFFF]" onClick={handleSubmit(onSubmit)}>Guardar Cambios</button> 
+            <button className="h-[40px] w-[230px] bg-FAST-Orange rounded-lg font-bold text-[10x] text-[#FFFFFF] ml-4" onClick={cancelarOperacion}>Cancelar</button> </div>
+            : null
           }
         </form>
       </div>

@@ -14,8 +14,6 @@ import {
 
 import { trimSpaces } from "../utils/index";
 
-import AlertCustomStyles from '../components/alerta';
-
 import { 
   checkUser, 
   checkKiosko, 
@@ -43,7 +41,6 @@ const RegistroCompleto = () => {
   const { loginUser } = useUser(); // Importar el hook `useUser` del contexto de usuario
   const navigate = useNavigate();
 
-  // State to store the file
   const [file, setFile] = useState(null);
 
   const uploadImage = (file) => {
@@ -51,28 +48,26 @@ const RegistroCompleto = () => {
   }
 
   useEffect(() => {
-    // Cleanup function
+
     return () => {
       setImageUrl(null);
     };
   }, []);
 
-  // Efecto de React para manejar la navegación al dashboard cuando `userCreated` cambie
   useEffect(() => {
     if (userCreated) {
-      // Espera un momento antes de redirigir al usuario
       setTimeout(() => {
-        navigate('/dashboard');
-      }, 2000); // Tiempo en milisegundos (2 segundos)
+        navigate('/SolicitudEnviada');
+      }, 500); 
     }
   }, [userCreated, navigate]);
 
-  // Función para verificar si todos los campos han sido llenados
+
   const allFieldsFilled = (data) => {
     return Object.values(data).every(value => value !== '' && value !== null);
   };
 
-  // Función para verificar si las contraseñas coinciden
+  
   function passwordMatch(data) {
     if (data.password.length < 5) {
       setPasswordTooShort('La contraseña es demasiado corta (mínimo 5 caracteres)');
@@ -90,44 +85,38 @@ const RegistroCompleto = () => {
   }
 
   const checkNombres = async (data) => {
-    // Verifica si el nombre de usuario está disponible
+    
     const userAvailable = await checkUser(data.numeroTelefono);
-    // Si el nombre de usuario ya existe, actualiza el estado de `setUserExist` a `true`
+    
     if (!userAvailable) {
       setMensajeUser("Este número de teléfono ya está relacionado con otro kiosco");
     }
 
-    // Verifica si el nombre del kiosko está disponible
+    
     const kioskoAvailable = await checkKiosko(data.nomKiosko, 'create');
-    // Si el nombre del kiosko ya existe, actualiza el estado de `setKioskoExist` a `true`
+
     if (!kioskoAvailable) {
       setKioskoExist('Nombre de kiosko no disponible');
     }
 
-    // Retorna `true` solo si ambos `userAvailable` y `kioskoAvailable` son `true`
     return userAvailable && kioskoAvailable;
   };
 
-  // Función para verificar si todos los campos están llenos y hay un archivo
   const validarCampos = (data, file) => {
     return allFieldsFilled(data) && file;
   };
 
-  // Función para manejar la creación del usuario
   const manejarCreacionUsuario = async (data, file) => {
     try {
-      // Crea el usuario y obtiene los datos del usuario recién creado
       const newUser = await createUser(data, file);
-      // Si `newUser` se crea con éxito, actualiza el contexto del usuario
       if (newUser) {
         loginUser(newUser);
         setUserCreated(true);
       } else {
-        // Si `createUser` retorna false, cambia el estado de `setEmailExist` a true
         setEmailExist('Este email ya está relacionado con otro usuario');
       }
     } catch (error) {
-      // Si hay un error creando el usuario, muestra un mensaje de error
+
       console.error('Error creando el usuario:', error);
     }
   };
@@ -142,54 +131,51 @@ const RegistroCompleto = () => {
   const onSubmit = async (data) => {
     const dataTrimmed = trimSpaces(data);
     estadosFalsos();
+    if (!validarCampos(dataTrimmed, file)) {
+      setErrorMessage(true);
+      return;
+    }
+
     const formatoValido = numeroTelefonoValido(dataTrimmed.numeroTelefono);
+    const nombresDisponibles = await checkNombres(dataTrimmed);
+
     if (!formatoValido) {
       setMensajeUser("El número de teléfono debe seguir el siguiente formato: 12345678");
       return;
     }
-
-    if (!validarCampos(dataTrimmed, file)) {
-      // Si los campos no están llenos o falta el archivo, muestra un mensaje de error
-      setErrorMessage(true);
-      return;
-    }
-    if (passwordMatch(data)) {
-      const nombresDisponibles = await checkNombres(dataTrimmed);
-      if (nombresDisponibles) {
+    else if (nombresDisponibles) {
         await manejarCreacionUsuario(dataTrimmed, file);
       }
-    }
   };
 
   return (
-    <main className="flex flex-col align-center h-screen w-screen bg-FAST-DarkBlue px-2 py-6 sm:px-8 sm:py-10">
+    <main className="h-svh flex flex-col align-center justify-center bg-FAST-DarkBlue">
       {/*logo y mensaje de si y tienes cuenta registrate*/}
-      <section className="w-full flex xl:flex-row flex-col justify-between h-[60px]">
-        <div>
+      <section className="w-full flex xl:flex-row flex-col justify-between">
+        <div className="mb-14">
           <Link to="/">
             <img 
             src={logo} 
             alt="Fast logo" 
-            className="h-[60px] w-[300px] pt-6" />
+            className="h-[60px] w-[200px] ml-6" />
           </Link>
         </div>
-        <div className="flex pt-6">
+        <div className="flex mr-10 mt-6">
           <p className="text-FAST-WhiteCream font-bold">¿Ya tienes una cuenta?</p>
           <a href="/Login" className="font-bold uppercase text-FAST-Orange pl-1 cursor-pointer hover:underline">Iniciar sesión →</a>
         </div>
       </section>
-      <div className="pb-6 width-full grid justify-items-center">
+      <div className="mt-0">
         <p className="text-FAST-WhiteCream text-2xl font-bold sm:text-3xl text-center">Registrate para empezar a administrar tu kiosco</p>
       </div>
-      <section className="pt-4 flex justify-center h-5/6">
-        <form className="w-11/12 h-auto rounded-3xl bg-FAST-WhiteCream pt-6 pb-6" onSubmit={handleSubmit(onSubmit)}>
-          {userCreated ? <AlertCustomStyles mensaje="Usuario creado correctamente" /> : ''}
-          <div className="pl-[75px] grid grid-cols-3 md:grid-cols-3 gap-[70px] w-auto" >
-            <div>
+      <section className="mt-4 flex justify-center h-fit">
+        <form className="w-auto h-max rounded-3xl bg-FAST-WhiteCream p-6" onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex w-auto2 mb-6" >
+            <div className="ml-4">
               <InputSection 
               tipo="text" 
               frase="Nombre" 
-              etiqueta="Nombre completo" 
+              etiqueta="Nombre del propietario" 
               register={register} 
               name="nombreCompleto" />
 
@@ -200,16 +186,6 @@ const RegistroCompleto = () => {
               register={register} 
               name="email" 
               mensaje={emailExist ? emailExist : ''} />
-
-              <InputSection 
-              tipo="password" 
-              frase="Contraseña" 
-              etiqueta="Contraseña" 
-              register={register} 
-              name="password" 
-              mensaje={passwordTooShort ? passwordTooShort : ''} />
-            </div>
-            <div>
               <InputSection 
               tipo="tel" 
               frase="Ene" 
@@ -225,30 +201,24 @@ const RegistroCompleto = () => {
                register={register} 
                name="nomKiosko" 
                mensaje={kioskoExist ? kioskoExist : ''} />
-
-              <InputSection 
-              tipo="password" 
-              frase="Contraseña" 
-              etiqueta="Confirmar contraseña" 
-              register={register} 
-              name="confirmarPassword" 
-              mensaje={passwordMismatch ? passwordMismatch : ''} />
+              
             </div>
-            <div>
+            <div className="ml-28">
               {/* Use ImageUpload component */}
               <ImageUpload 
               defaultImageUrl={imageUrl || FASTKioskImage2} 
-              onChange={uploadImage} register={register} 
+              onChange={uploadImage} 
+              register={register} 
               name="foto" />
             </div>
           </div>
           {/*Button*/}
-          <div className="pt-6 flex justify-center">
+          <div className="flex justify-center">
             <div className="grid items-center ">
               <button 
               type="submit" 
               className="w-72 h-[40px] bg-FAST-Orange text-FAST-WhiteCream cursor-pointer hover:bg-[#ed6d1f] font-bold uppercase rounded-lg">Registrarme</button>
-              <p className={`pb-6 left-0 text-left text-[#FF0400] ${showErrorMessage ? '' : 'hidden'}`}>No todos los campos han sido llenados</p>
+              <p className={`left-0 text-left text-[#FF0400] ${showErrorMessage ? '' : 'hidden'}`}>No todos los campos han sido llenados</p>
             </div>
           </div>
         </form>
