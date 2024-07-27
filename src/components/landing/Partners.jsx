@@ -16,10 +16,26 @@ const Partners = () => {
 
         {/* Partners Logos */}
         <div className="flex justify-around mt-7 space-x-10">
-            <img className='w-200 h-200' src={multicentro} alt='multicentro las americas'/>
-            <img className='w-200 h-200' src={metrocentro} alt='metrocentro'/>
-            <img className='w-200 h-200' src={galerias} alt='galerias santo domingo'/>
-            <img className='w-200 h-200' src={ccmanagua} alt='centro comercial managua'/>
+            <img 
+             className='w-200 h-200' 
+             src={multicentro} 
+             alt='multicentro las americas'
+            />
+            <img 
+             className='w-200 h-200' 
+             src={metrocentro} 
+             alt='metrocentro'
+            />
+            <img 
+             className='w-200 h-200' 
+             src={galerias} 
+             alt='galerias santo domingo'
+            />
+            <img 
+             className='w-200 h-200' 
+             src={ccmanagua} 
+             alt='centro comercial managua'
+            />
         </div>
     </div>
   )
