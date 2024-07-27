@@ -54,7 +54,7 @@ const ProductTable = ({ tableRows, handleModalOpen, modalStates, TABLE_HEAD, tit
   }
 
   const modalOpenAddCajero = (type, modal) => { //Función para abrir el modal de creación de un cajero
-    if (tableRows.length >= 3) {
+    if (tableRows.length >= 1) {
       handleSuccessOpenProhibido();
     } else {
       handleModalOpen(type);

@@ -26,7 +26,7 @@ return (
             href="/Registro"
             className="bg-FAST-Orange text-xl font-medium text-FAST-WhiteCream py-3 px-4 mx-3 rounded-lg hover:bg-[#ed6d1f]"
             >
-            Registrate ya
+            Solicitar registro
             </a>
 
             <a 

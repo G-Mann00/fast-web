@@ -8,7 +8,11 @@ const Navbar = () => {
 
                 {/* Logo */}
                 <div className="flex items-center flex-shrink-0">
-                    <img className= 'mr-2 mt-3 mb-3 w-fit max-w-[200px] h-fit max-h-[200px]' src={logo} alt="Fast logo"/>
+                    <img 
+                     className= 'mr-2 mt-3 mb-3 w-fit max-w-[200px] h-fit max-h-[200px]'
+                     src={logo} 
+                     alt="Fast logo"
+                    />
                 </div>
 
                 {/* Navbar Links */}
