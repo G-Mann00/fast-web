@@ -7,7 +7,7 @@ import {
 import { 
     authenticateUser, 
     hasTiendaRecords,
-     obtenerDatosActualizadosUsuario 
+    obtenerDatosActualizadosUsuario 
     } from './users';
 
 import { 
@@ -39,6 +39,17 @@ import {
     editarCajeroContraseña
  } from './cajeros';
 
+import {
+    obtenerOrdenes,
+    updateStateOrder,
+    obtenerOrdenesProceso,
+    obtenerOrdenesRealTime,
+} from './gestionOrdenes/gestionOrdenes';
+
+import {
+    marcarRealTime,
+    updateOrder,
+} from './gestionOrdenes/funcionesOrdenes';
 
 // Exportar todas las funciones necesarias del usuario
 export {
@@ -82,4 +93,16 @@ export {
     editarCajero,
     editarCajeroContraseña
 };
+
+export {
+    obtenerOrdenes,
+    updateStateOrder,
+    obtenerOrdenesProceso,
+    obtenerOrdenesRealTime,
+}
+
+export { 
+    marcarRealTime,
+    updateOrder,
+}
 

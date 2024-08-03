@@ -1,16 +1,13 @@
 import DocumentTitle from "../../components/DocumentTitle";
+import { OrdenesTabs } from "../../components/ordenes/OrdenesTabs";
 
 const Ordenes = () => {
   DocumentTitle("FAST - Ordenes");
   return (
     <div>
-
-      {/* Encabezado de la pagina */}
-      <div className="flex flex-col">
-        <h2 className="text-2xl pb-3 text-FAST-Text font-bold">Gestión de Órdenes</h2>
-        <p className="text-FAST-Text text-xl">Gestiona los pedidos que llegan a tu Kiosco</p>
-      </div>
-
+       <h2 className="text-2xl pb-3 text-FAST-Text font-bold">Gestión de ordenes</h2>
+      {/* Tabs de ordenes */}
+      <OrdenesTabs />
     </div>
   )
 }
