@@ -46,7 +46,7 @@ export async function obtenerOrdenesRealTime(obtenerOrdenes) {
       console.log("Real time Event");
       console.log(event.action);
       console.log(event.record);
-      if (event.action === 'update') {
+      if (event.action === 'update' || event.action === 'create' || event.action === 'delete') {
         obtenerOrdenes();
       }
     });   
