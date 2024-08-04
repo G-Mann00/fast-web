@@ -9,7 +9,6 @@ export const marcarRealTime = async (getOrdenes) => {
   };
   
 export const updateOrder = async (id, state) => {
-    console.log("id", id);
     try {
       await updateStateOrder(id, state);
     } catch (error) {

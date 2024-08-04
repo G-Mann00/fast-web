@@ -42,7 +42,7 @@ const ProcesoTable = () => {
           <CardHeader floated={false} shadow={false} className="rounded-none">
             <div className="mb-6 flex flex-col justify-between gap-8 md:flex-row md:items-center">
               <div className="flex w-full shrink-0 gap-2 md:w-max">
-                <div className="w-full md:w-72">
+                <div className="w-full mt-2 md:w-72">
                   <Input
                     icon={<HiOutlineMagnifyingGlass size={20} />}
                     label={titulos[2]}

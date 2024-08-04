@@ -44,6 +44,7 @@ import {
     updateStateOrder,
     obtenerOrdenesProceso,
     obtenerOrdenesRealTime,
+    obtenerDetalleFactura,
 } from './gestionOrdenes/gestionOrdenes';
 
 import {
@@ -99,6 +100,7 @@ export {
     updateStateOrder,
     obtenerOrdenesProceso,
     obtenerOrdenesRealTime,
+    obtenerDetalleFactura,
 }
 
 export { 

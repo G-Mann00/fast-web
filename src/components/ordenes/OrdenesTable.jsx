@@ -6,18 +6,22 @@ import {
     Input, 
   } from "../../components/index";
 
+import { OrdenesModal } from "../../components/modals/ordenesModales/DetallesOrdenes";
+
 import { useEffect, useState } from "react";
 import { useKiosk } from '../../hooks/kiosko';
 import { obtenerOrdenes, updateOrder, marcarRealTime } from "../../services/database";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
-import { get } from "react-hook-form";
+
 
 let titulos = ["Gestión de Órdenes", "Gestiona los pedidos que llegan a tu Kiosco", "Buscar orden", "Nueva orden"];
-let TABLE_HEAD = ["Nº de orden", "Usuario","Detalles Orden","Precio","Acciones"];	
+let TABLE_HEAD = ["Nº de orden", "Usuario","Detalles Orden","Total","Acciones"];	
 
 const OrdenesTable = () => { 
     const { kiosko } = useKiosk();
     const [ordenes, setOrdenes] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(''); 
+    const [filteredRegistros, setFilteredRegistros] = useState([]);
 
     const getOrdenes = async () => {
       try {
@@ -27,11 +31,28 @@ const OrdenesTable = () => {
         console.error('Error fetching ordenes:', error);
       }
     };
+
+    const handleSearchChange = (event) => {
+      setSearchTerm(event.target.value);
+     };
+
+     useEffect(() => {
+      let registrosFiltrados;
+      registrosFiltrados = ordenes.filter((registro) => {
+        return registro.name.toLowerCase().includes(searchTerm.toLowerCase());
+      }); 
+      setFilteredRegistros(registrosFiltrados);
+      }, [searchTerm]);
   
     useEffect(() => {
       getOrdenes();
       marcarRealTime(getOrdenes);
      }, []);
+
+     useEffect(() => { 
+      setFilteredRegistros(ordenes);
+      console.log('ordenes:', filteredRegistros);
+     }, [ordenes]);
 
     return (
       <div>
@@ -41,11 +62,12 @@ const OrdenesTable = () => {
           <CardHeader floated={false} shadow={false} className="rounded-none">
             <div className="mb-6 flex flex-col justify-between gap-8 md:flex-row md:items-center">
               <div className="flex w-full shrink-0 gap-2 md:w-max">
-                <div className="w-full md:w-72">
+                <div className="w-full mt-2 md:w-72">
                   <Input
                     icon={<HiOutlineMagnifyingGlass size={20} />}
                     label={titulos[2]}
                     className="rounded-lg"
+                    onChange={handleSearchChange}
                   />
                 </div>
               </div>
@@ -76,7 +98,7 @@ const OrdenesTable = () => {
               {/* Cuerpo de la tabla */}
               <tbody>
                 {/* Obteniendo las filas de la tabla */}
-                {ordenes.map((orden) => ( 
+                {filteredRegistros.map((orden) => ( 
                   <tr key={orden.id} className="even:bg-blue-gray-50/50">
                     {/* orden */}
                     <td className="p-4">
@@ -101,11 +123,7 @@ const OrdenesTable = () => {
                       <Typography 
                       variant="small" 
                       className="text-FAST-Text font-normal">
-                        <button 
-                           onClick={getOrdenes}
-                           className="bg-FAST-DarkBlue text-FAST-WhiteCream font-bold py-2 px-8 rounded-lg cursor-pointer hover:bg-[#2B3045]">
-                           Ver
-                        </button>
+                      <OrdenesModal idFactura={orden.id}/>
                       </Typography>
                     </td>
                     {/*Precio */}
@@ -129,7 +147,7 @@ const OrdenesTable = () => {
   
                         <button onClick={() => updateOrder(orden.id, 5)} 
                           className="bg-[#ef4444] text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#FF6B6B]">
-                          cancelar
+                          Cancelar
                         </button>
   
                       </div>
