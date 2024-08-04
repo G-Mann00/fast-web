@@ -9,6 +9,9 @@ module.exports = withMT ({
     extend: {
       fontFamily: {
         sans: ['Roboto', 'sans-serif']
+      },
+      boxShadow: {
+        sm: "2px 2px 6px 5px rgb(211, 211, 211)",
       }
     },
 

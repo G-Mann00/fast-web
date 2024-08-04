@@ -32,7 +32,7 @@ import EditCajero from "./modals/cajeros/EditCajero";
 import SpinnerFAST from "./deco/SpinnerFAST";
 
 //TextArea
-import TextArea from "./TextArea";
+import TextArea from "./TextArea"; 
 
 //Material Tailwind Components
 import {
@@ -47,7 +47,7 @@ import {
     DialogHeader,
     DialogFooter
 } from "@material-tailwind/react";
-
+import ProductoCard from "./ordenes/cards";
 
 export {
     DocumentTitle,
@@ -105,3 +105,9 @@ export {
 export {
     ProductTable
 }
+
+//Card
+export {
+    ProductoCard
+}
+
