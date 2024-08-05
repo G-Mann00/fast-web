@@ -6,33 +6,52 @@ import {
     Input, 
   } from "../../components/index";
 
+import { OrdenesModal } from "../../components/modals/ordenesModales/DetallesOrdenes";
+import { obtenerOrdenes } from "../../services/database";
 import { useEffect, useState } from "react";
 import { useKiosk } from '../../hooks/kiosko';
-import { obtenerOrdenesProceso } from "../../services/database";
 import { marcarRealTime, updateOrder } from "../../services/database";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 
 let titulos = ["Gestión de Órdenes", "Gestiona los pedidos que llegan a tu Kiosco", "Buscar orden", "Nueva orden"];
-let TABLE_HEAD = ["Nº de orden", "Usuario","Detalles Orden","Precio","Acciones"];	
 
-const ProcesoTable = () => { 
+
+const ProcesoTable = ({actualState, newState, acciones, last }) => { 
+   let TABLE_HEAD = ["Nº de orden", "Usuario","Detalles Orden","Precio",last];	
     const { kiosko } = useKiosk();
     const [ordenes, setOrdenes] = useState([]);
+    const [filteredRegistros, setFilteredRegistros] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(''); 
 
     const getOrdenes = async () => {
       try {
-        let ordenes_resultados = await obtenerOrdenesProceso(kiosko.id);
+        let ordenes_resultados = await obtenerOrdenes(kiosko.id, actualState);
         setOrdenes(ordenes_resultados);
       } catch (error) {
         console.error('Error fetching ordenes:', error);
       }
     };
   
+    const handleSearchChange = (event) => {
+      setSearchTerm(event.target.value);
+     };
+
+     useEffect(() => {
+      let registrosFiltrados;
+      registrosFiltrados = ordenes.filter((registro) => {
+        return registro.name.toLowerCase().includes(searchTerm.toLowerCase());
+      }); 
+      setFilteredRegistros(registrosFiltrados);
+      }, [searchTerm]);
+
     useEffect(() => {
         getOrdenes();
         marcarRealTime(getOrdenes);
-
       }, []);
+
+    useEffect(() => { 
+        setFilteredRegistros(ordenes);
+      }, [ordenes]);
 
     return (
       <div>
@@ -47,6 +66,7 @@ const ProcesoTable = () => {
                     icon={<HiOutlineMagnifyingGlass size={20} />}
                     label={titulos[2]}
                     className="rounded-lg"
+                    onChange={handleSearchChange}
                   />
                 </div>
               </div>
@@ -77,7 +97,7 @@ const ProcesoTable = () => {
               {/* Cuerpo de la tabla */}
               <tbody>
                 {/* Obteniendo las filas de la tabla */}
-                {ordenes.map((orden) => ( 
+                {filteredRegistros.map((orden) => ( 
                   <tr key={orden.id} className="even:bg-blue-gray-50/50">
                     {/* orden */}
                     <td className="p-4">
@@ -102,11 +122,7 @@ const ProcesoTable = () => {
                       <Typography 
                       variant="small" 
                       className="text-FAST-Text font-normal">
-                        <button 
-                           onClick={getOrdenes}
-                           className="bg-FAST-DarkBlue text-FAST-WhiteCream font-bold py-2 px-8 rounded-lg cursor-pointer hover:bg-[#2B3045]">
-                           Ver
-                        </button>
+                      <OrdenesModal idFactura={orden.id}/>
                       </Typography>
                     </td>
                     {/*Precio */}
@@ -120,20 +136,27 @@ const ProcesoTable = () => {
   
                     {/* Botones de accion */}
                     <td className="p-4">
-                      <div className="flex items-center gap-3">
-  
+                    {
+                      actualState != 4 ? (
+                       <div className="flex items-center gap-3">
+                         <button 
+                           onClick={() => updateOrder(orden.id, newState)} 
+                           className="bg-[#008000] text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#74c365]">
+                           {acciones[0]}
+                         </button>
+
                         <button 
-                        onClick={() => updateOrder(orden.id, 3)} 
-                        className="bg-[#008000] text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#74c365]">
-                          Finalizada
+                         onClick={() => updateOrder(orden.id, 1)} 
+                         className="bg-[#ef4444] text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#FF6B6B]">
+                         {acciones[1]}
                         </button>
-  
-                        <button onClick={() => updateOrder(orden.id, 1)} 
-                          className="bg-[#ef4444] text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#FF6B6B]">
-                          Rechazar
-                        </button>
-  
                       </div>
+                     ) : (
+                      <div className="flex items-center gap-3">
+                         {orden.updated}
+                      </div>
+                        )
+                      }
                     </td>
                   </tr>
               ))}

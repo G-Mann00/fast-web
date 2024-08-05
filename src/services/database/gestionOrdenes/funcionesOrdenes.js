@@ -3,6 +3,7 @@ import { obtenerOrdenesRealTime, updateStateOrder } from './gestionOrdenes';
 export const marcarRealTime = async (getOrdenes) => { 
     try {
       await obtenerOrdenesRealTime(getOrdenes);
+      console.log('marcarRealTime:');
     } catch (error) {
       console.error('Error fetching ordenes:', error);
     } 
