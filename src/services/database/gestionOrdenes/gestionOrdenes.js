@@ -1,14 +1,19 @@
 import pb from '../pocketbase';
 
-export async function obtenerOrdenes(tiendaId) {
+export async function obtenerOrdenes(tiendaId, estado) {
     try {
         const records = await pb.collection('VwFactura').getFullList({
-            filter: `idTienda = "${tiendaId}" && Estado = 1`,
+            filter: `idTienda = "${tiendaId}" && Estado = ${estado}`,
         });
-            // Sort the records by the 'created' attribute
-        records.sort((a, b) => new Date(a.created) - new Date(b.created));
+        if (estado === 1) {
+            records.sort((a, b) => new Date(a.created) - new Date(b.created));
+            return records || [];
+        } else { 
+            records.sort((a, b) => new Date(a.updated) - new Date(b.updated));
+            return records || [];
+        }
 
-        return records || [];
+        
     } catch (error) {
         console.error('Error al buscar el registro del cajero:', error);
         
@@ -32,10 +37,10 @@ export async function obtenerDetalleFactura(facturaId) {
     }
 }
 
-export async function obtenerOrdenesProceso(tiendaId) {
+export async function obtenerOrdenesProceso(tiendaId, estado) {
     try {
         const records = await pb.collection('VwFactura').getFullList({
-            filter: `idTienda = "${tiendaId}" && Estado = 2`,
+            filter: `idTienda = "${tiendaId}" && Estado = ${estado}`,
         });
 
         records.sort((a, b) => new Date(a.created) - new Date(b.created));
@@ -66,7 +71,7 @@ export async function obtenerOrdenesRealTime(obtenerOrdenes) {
       //console.log("Real time Event");
       //console.log(event.action);
       //console.log(event.record);
-      if (event.action === 'update' || event.action === 'create' || event.action === 'delete') {
+      if (event.action === "create" || event.action === "update" || event.action === "delete") {
         obtenerOrdenes();
       }
     });   

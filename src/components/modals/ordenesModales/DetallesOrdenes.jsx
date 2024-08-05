@@ -16,7 +16,6 @@ export function OrdenesModal({idFactura}) {
   const catchDetalleFactura = async (idFactura) => { 
     const respuesta = await obtenerDetalleFactura(idFactura);
     setProductosDetalle(respuesta);
-    console.log(productosDetalle);
 
   };
 

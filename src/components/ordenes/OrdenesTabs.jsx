@@ -6,7 +6,6 @@ import {
     TabPanel,
   } from "@material-tailwind/react";
 
-import OrdenesTable from "./OrdenesTable";
 import ProcesoTable from "./ProcesoTable";
    
   export function OrdenesTabs() {
@@ -14,21 +13,47 @@ import ProcesoTable from "./ProcesoTable";
       {
         label: "Ordenes Entrantes",
         value: "entrantes",
-        component: <OrdenesTable />,
+        component: 
+        <ProcesoTable  
+          actualState={1} 
+          newState={2} 
+          acciones={["Aceptar", "Rechazar"]} 
+          last={"Acctiones"} 
+         />,
       },
       {
         label: "Ordenes en Proceso",
         value: "proceso",
-        component: <ProcesoTable />,
+        component: 
+         <ProcesoTable  
+          actualState={2} 
+          newState={3} 
+          acciones={["Finalizada", "Cancelar"]} 
+          last={"Acctiones"} 
+         />,
       },
       {
         label: "Ordenes Finalizadas",
         value: "finalizadas",
+        component: 
+         <ProcesoTable  
+          actualState={3} 
+          newState={4} 
+          acciones={["Entregada", "Cancelar"]} 
+          last={"Acctiones"} 
+         />,
       },
    
       {
         label: "Ordenes Entregadas",
         value: "entregadas",
+        component: 
+         <ProcesoTable  
+          actualState={4} 
+          newState={0} 
+          acciones={["Aceptar", "Eliminar"]} 
+          last={"Fecha de entrega"} 
+         />,
       },
 
     ];
