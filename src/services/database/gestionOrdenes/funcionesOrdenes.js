@@ -1,9 +1,16 @@
-import { obtenerOrdenesRealTime, updateStateOrder } from './gestionOrdenes';
+import { obtenerOrdenesRealTime, updateStateOrder, obtenerOrdenesRealTimeUpdate } from './gestionOrdenes';
 
 export const marcarRealTime = async (getOrdenes) => { 
     try {
       await obtenerOrdenesRealTime(getOrdenes);
-      console.log('marcarRealTime:');
+    } catch (error) {
+      console.error('Error fetching ordenes:', error);
+    } 
+  };
+
+export const marcarRealTimeUpdate = async (getOrdenes) => { 
+    try {
+      await obtenerOrdenesRealTimeUpdate(getOrdenes);
     } catch (error) {
       console.error('Error fetching ordenes:', error);
     } 

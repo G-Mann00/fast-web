@@ -10,13 +10,12 @@ import { OrdenesModal } from "../../components/modals/ordenesModales/DetallesOrd
 import { obtenerOrdenes } from "../../services/database";
 import { useEffect, useState } from "react";
 import { useKiosk } from '../../hooks/kiosko';
-import { marcarRealTime, updateOrder } from "../../services/database";
+import { marcarRealTime, updateOrder, marcarRealTimeUpdate } from "../../services/database";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 
 let titulos = ["Gestión de Órdenes", "Gestiona los pedidos que llegan a tu Kiosco", "Buscar orden", "Nueva orden"];
 
-
-const ProcesoTable = ({actualState, newState, acciones, last }) => { 
+const ProcesoTable = ({actualState, newState, acciones, last}) => { 
    let TABLE_HEAD = ["Nº de orden", "Usuario","Detalles Orden","Precio",last];	
     const { kiosko } = useKiosk();
     const [ordenes, setOrdenes] = useState([]);
@@ -46,12 +45,26 @@ const ProcesoTable = ({actualState, newState, acciones, last }) => {
 
     useEffect(() => {
         getOrdenes();
-        marcarRealTime(getOrdenes);
+        marcarRealTimeUpdate(getOrdenes);
       }, []);
 
     useEffect(() => { 
         setFilteredRegistros(ordenes);
       }, [ordenes]);
+
+      const [visibleModalId, setVisibleModalId] = useState(null);
+      const [visibleModal, setVisibleModal] = useState(false);
+
+
+      const handleButtonClick = (id) => {
+        setVisibleModalId(id);
+        setVisibleModal(!visibleModal);
+      };
+
+      const handleModalClose = () => { 
+        setVisibleModal(!visibleModal);
+        console.log("se supone que acá debe de cerrar el modal");
+      };
 
     return (
       <div>
@@ -122,14 +135,26 @@ const ProcesoTable = ({actualState, newState, acciones, last }) => {
                       <Typography 
                       variant="small" 
                       className="text-FAST-Text font-normal">
-                      <OrdenesModal idFactura={orden.id}/>
+                  <button 
+                   onClick={() => handleButtonClick(orden.id)} 
+                   className="bg-FAST-DarkBlue text-FAST-WhiteCream font-bold py-2 px-8 rounded-lg cursor-pointer hover:bg-[#2B3045]"
+                   >Ver
+                   </button>
+                  {visibleModalId === orden.id && (
+                    <OrdenesModal 
+                     idFactura={orden.id} 
+                     open={visibleModal} 
+                     handleOpen={() => handleModalClose()} 
+                    />
+                  )}
                       </Typography>
                     </td>
                     {/*Precio */}
                     <td className="p-4">
                       <Typography 
                       variant="small" 
-                      color="blue-gray" className="font-normal">
+                      color="blue-gray" 
+                      className="font-normal">
                         {orden.montoTotal}
                       </Typography>
                     </td>
