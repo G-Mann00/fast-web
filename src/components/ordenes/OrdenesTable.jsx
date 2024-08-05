@@ -10,7 +10,7 @@ import { OrdenesModal } from "../../components/modals/ordenesModales/DetallesOrd
 
 import { useEffect, useState } from "react";
 import { useKiosk } from '../../hooks/kiosko';
-import { obtenerOrdenes, updateOrder, marcarRealTime } from "../../services/database";
+import { obtenerOrdenes, updateOrder, marcarRealTime, obtenerOrdenesProceso } from "../../services/database";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 
 
@@ -25,7 +25,7 @@ const OrdenesTable = () => {
 
     const getOrdenes = async () => {
       try {
-        let ordenes_resultados = await obtenerOrdenes(kiosko.id);
+        let ordenes_resultados = await obtenerOrdenesProceso(kiosko.id, 1);
         setOrdenes(ordenes_resultados);
       } catch (error) {
         console.error('Error fetching ordenes:', error);
@@ -51,8 +51,20 @@ const OrdenesTable = () => {
 
      useEffect(() => { 
       setFilteredRegistros(ordenes);
-      console.log('ordenes:', filteredRegistros);
      }, [ordenes]);
+
+     const [visibleModalId, setVisibleModalId] = useState(null);
+     const [visibleModal, setVisibleModal] = useState(false);
+
+
+     const handleButtonClick = (id) => {
+       setVisibleModalId(id);
+       setVisibleModal(!visibleModal);
+     };
+
+     const handleModalClose = () => { 
+       setVisibleModal(!visibleModal);
+     };
 
     return (
       <div>
@@ -123,14 +135,27 @@ const OrdenesTable = () => {
                       <Typography 
                       variant="small" 
                       className="text-FAST-Text font-normal">
-                      <OrdenesModal idFactura={orden.id}/>
+                      <button 
+                       onClick={() => handleButtonClick(orden.id)} 
+                       className="bg-FAST-DarkBlue text-FAST-WhiteCream font-bold py-2 px-8 rounded-lg cursor-pointer hover:bg-[#2B3045]"
+                      >Ver
+                      </button>
+                      {visibleModalId === orden.id && (
+                       <OrdenesModal 
+                        idFactura={orden.id} 
+                        open={visibleModal} 
+                        handleOpen={() => handleModalClose()} 
+                       />
+                      )}
                       </Typography>
                     </td>
+
                     {/*Precio */}
                     <td className="p-4">
                       <Typography 
                       variant="small" 
-                      color="blue-gray" className="font-normal">
+                      color="blue-gray" 
+                      className="font-normal">
                         {orden.montoTotal}
                       </Typography>
                     </td>

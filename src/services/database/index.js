@@ -20,9 +20,9 @@ import {
 import { 
     agregarProducto, 
     eliminarProducto,
-     buscarXnombre, 
-     cargarProductosYmapear, 
-     editarProducto 
+    buscarXnombre, 
+    cargarProductosYmapear, 
+    editarProducto 
     } from './products';
 
 import { 
@@ -49,6 +49,7 @@ import {
 
 import {
     marcarRealTime,
+    marcarRealTimeUpdate,
     updateOrder,
 } from './gestionOrdenes/funcionesOrdenes';
 
@@ -106,5 +107,6 @@ export {
 export { 
     marcarRealTime,
     updateOrder,
+    marcarRealTimeUpdate,
 }
 
