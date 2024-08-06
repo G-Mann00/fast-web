@@ -55,7 +55,7 @@ export function OrdenesTabs() {
   ];
 
   return (
-    <Tabs id="custom-animation" value="ordenes">
+    <Tabs id="custom-animation" value="entrantes">
       <TabsHeader >
         {data.map(({ label, value}) => (
           <Tab key={value} value={value} >
