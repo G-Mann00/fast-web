@@ -25,8 +25,7 @@ import {
     editarProducto 
     } from './products';
 
-import { 
-    obtenerCategorias,
+import {
     obtenerCategoriasCompletas 
 } from './categorias';
 
@@ -83,7 +82,6 @@ export {
 
 // Exportar las funciones de las categorias
 export {
-    obtenerCategorias,
     obtenerCategoriasCompletas
 };
 

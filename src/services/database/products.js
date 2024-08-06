@@ -4,8 +4,7 @@ import {
     capitalizeFirstLetter,
     capitalizeLongStrings 
 } from '../../utils/index';
-import { 
-    obtenerCategorias } from '../database/index';
+
 
 //Función para crear un producto
 export async function agregarProducto(tiendaId, producto, file) {
@@ -38,8 +37,9 @@ export async function agregarProducto(tiendaId, producto, file) {
 //Función para cargar todos los productos y mostrarlos en la tabla
 async function cargarProductos(tiendaId) {
 
+    
     try {
-        const results = await pb.collection('producto').getFullList({}, {
+        const results = await pb.collection('VwProductos').getFullList({}, {
             filter: `tienda = "${tiendaId}" && state != 3 `,
         });
         return results;
@@ -65,25 +65,22 @@ export async function cargarProductosYmapear(tiendaId) {
 }
 //Función que mapea sobre los productos para poder mostrar la imagen y la categoría en la tabla
 async function mapearProductos(arreglo) {
-    // Utilizamos Promise.all para ejecutar todas las transformaciones de manera simultánea
     const objetosMapeados = await Promise.all(
-        // Utilizamos el método map para iterar sobre cada objeto del arreglo
         arreglo.map(async objeto => ({
-            // Mapeamos las propiedades del objeto original al nuevo objeto
-            id: objeto.id, // Copiamos el id del objeto original
-            nombre: objeto.nombre, // Copiamos el nombre del objeto original
-            idCategoria: objeto.categoria[0], // Copiamos el id de la categoría del objeto original
-            categoria: await obtenerCategorias(objeto.categoria[0]), // Obtenemos la categoría del objeto original
-            file: objeto.Image, // Copiamos el archivo de imagen del objeto original
-            imagen: generarUrlImagen(objeto, 'Image'), // Obtenemos la URL de la imagen mediante la función asincrónica generarUrlImagen
-            descripcion: objeto.descripcion, // Copiamos la descripción del objeto original
-            descripcionCorta: checkIfLong(objeto.descripcion),// Si la descripción es mayor a 50 caracteres, la truncamos
-            precio: objeto.precio, // Copiamos el precio del objeto original
-            tienda: objeto.tienda, // Copiamos la tienda del objeto original
-            //estado: objeto.state, // Copiamos el estado del objeto original
+            id: objeto.id, 
+            nombre: objeto.nombre, 
+            idCategoria: objeto.categoria,
+            categoria: objeto.nombreCategoria, 
+            file: objeto.Image, 
+            imagen: generarUrlImagen(objeto, 'Image'),
+            descripcion: objeto.descripcion,
+            descripcionCorta: checkIfLong(objeto.descripcion),
+            precio: objeto.precio,
+            tienda: objeto.tienda,
+            //estado: objeto.state, 
         }))
     );
-
+    
     // Devolvemos el arreglo de objetos mapeados
     return objetosMapeados;
 }
@@ -94,7 +91,6 @@ export async function eliminarProducto(id) {
         const formData = new FormData();
         formData.append('state', 3);
         await pb.collection('producto').update(id, formData);
-        // Retorna true si el producto se eliminó correctamente (cambio de estado a 3)
         return true;
 
     } catch (error) {

@@ -52,32 +52,23 @@ const Productos = () => {
   const manejarCargaProductos = useCallback(async () => {
     const productos = await cargarProductosYmapear(kiosko.id);
     const prods = productos.map(producto => Object.values(producto) );
-
     setProductosArray(prods);
 
   }, [kiosko]);
 
-  // useEffect es un hook de React que permite realizar efectos secundarios en componentes funcionales.
-  // Se ejecuta después de que se hayan realizado todas las mutaciones del DOM.
   useEffect(() => {
-    // Definimos una función asíncrona fetchProductos dentro del useEffect.
     const fetchProductos = async () => {
-      // Establecemos el estado de loadingS a true. Esto muestra un spinner en la interfaz de usuario.
       setLoadingS(true);
 
-      // Esperamos a que se complete la función manejarCargaProductos. Esta función probablemente realiza una solicitud la base de datos para obtener datos de productos.
       await manejarCargaProductos();
-
-      // Una vez que se han cargado los productos, establecemos el estado de loadingS a false. Esto oculta el indicador de carga en la interfaz de usuario.
       setLoadingS(false);
     };
 
-    // Si kiosko es verdadero (indica que hay un objeto kiosko en el sistema), llamamos a la función fetchProductos.
+    
     if (kiosko) {
       fetchProductos();
     }
 
-    // El array de dependencias [kiosko, manejarCargaProductos] significa que este useEffect se ejecutará cada vez que el valor de kiosko o la referencia de la función manejarCargaProductos cambie.
   }, [kiosko, manejarCargaProductos]);
 
 

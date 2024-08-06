@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const TextArea = ({ tipo, frase, etiqueta, register = () => { }, name, mensaje, isEditable }) => (
 
-    <div className="pt-6 pb-[22px] w-96">
+    <div className="pt-6 pb-[10px] w-96">
         <h2 className="text-left font-bold text-FAST-Text">{etiqueta}</h2>
         <Textarea
             className="h-[40px] w/[410px] rounded-lg border-[#FFFFFF]  text-[#181C2E] text-lg p-3"
