@@ -10,9 +10,8 @@ import { OrdenesModal } from "../../components/modals/ordenesModales/DetallesOrd
 
 import { useEffect, useState } from "react";
 import { useKiosk } from '../../hooks/kiosko';
-import { obtenerOrdenes, updateOrder, marcarRealTime, obtenerOrdenesProceso } from "../../services/database";
+import { updateOrder, marcarRealTime, obtenerOrdenesProceso } from "../../services/database";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
-
 
 let titulos = ["Gestión de Órdenes", "Gestiona los pedidos que llegan a tu Kiosco", "Buscar orden", "Nueva orden"];
 let TABLE_HEAD = ["Nº de orden", "Usuario","Detalles Orden","Total","Acciones"];	
@@ -68,6 +67,7 @@ const OrdenesTable = () => {
 
     return (
       <div>
+
         {/* Tabla de ordens */}
         <Card className="h-[500px] w-full overflow-y-auto rounded-lg">
           {/* Encabezado del componente */}
@@ -85,7 +85,6 @@ const OrdenesTable = () => {
               </div>
             </div>
           </CardHeader>
-  
           {/* Cuerpo del componente */}
           <CardBody className="h-[500px] w-full overflow-y-auto p-0">
             {/* Aqui es donde empieza la tabla */}
@@ -102,6 +101,8 @@ const OrdenesTable = () => {
                       >
                         {head}
                       </Typography>
+
+
                     </th>
                   ))}
                 </tr>
