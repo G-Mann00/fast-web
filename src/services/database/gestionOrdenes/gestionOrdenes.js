@@ -1,4 +1,5 @@
 import pb from '../pocketbase';
+import { playAudio } from '../../../utils/playSound/newOrderSound';
 
 export async function obtenerOrdenes(tiendaId, estado) {
     async function exponentialBackoff(attempt, delay) {
@@ -47,7 +48,6 @@ export async function obtenerOrdenes(tiendaId, estado) {
             return records || [];
         } catch (error) {
             if (error.status === 429 && attempt < 5 || error.status === null && attempt < 5) {
-                // Rate-limited, retry with exponential backoff
                 retries += 1;
                 console.warn(`Rate limit hit, retrying... (${retries}/${maxRetries})`);
                 await backoff(2 ** retries * 1000); // Exponential backoff
@@ -75,6 +75,8 @@ export async function obtenerOrdenesProceso(tiendaId, estado) {
         });
   
         records.sort((a, b) => new Date(a.created) - new Date(b.created));
+
+
   
         return records || [];
       } catch (error) {
@@ -107,22 +109,22 @@ export async function updateStateOrder(orderId, state) {
 
 export async function obtenerOrdenesRealTime(obtenerOrdenes) {
     pb.collection('factura').subscribe('*', function (event) {
-      //console.log("Real time Event");
-      //console.log(event.action);
-      //console.log(event.record);
-      if (event.action === "create" || event.action === "update" || event.action === "delete") {
+      if (event.action === "create" ) {
         setTimeout(() => {
           obtenerOrdenes();
-        }, 1000); // Delay in milliseconds (1000ms = 1 second)
+          playAudio();
+        }, 1000); 
+      }
+      else if (event.action === "update" || event.action === "delelte") {
+        setTimeout(() => {
+          obtenerOrdenes();
+        }, 1000); 
       }
     });   
   }
 
   export async function obtenerOrdenesRealTimeUpdate(obtenerOrdenes) {
     pb.collection('factura').subscribe('*', function (event) {
-      //console.log("Real time Event");
-      //console.log(event.action);
-      //console.log(event.record);
       if (event.action === "update" || event.action === "delete") {
         setTimeout(() => {
           obtenerOrdenes();
