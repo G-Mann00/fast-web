@@ -153,7 +153,6 @@ const CreateProduct = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombr
                         {/* Categoria */}
                         <CategoriaSelector name="categoria" control={control} />
                     </div>
-
                     {/* Imagen del producto */}
                     <div className="mt-[44px] ml-[32px] mr-[32px]">
                         <ImageUpload 

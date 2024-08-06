@@ -23,8 +23,8 @@ const CategoriaSelector = ({ control, name }) => {
         name={name}
         control={control}
         render={({ field }) => (
-          <select {...field} className="text-FAST-Text block w-full h-10 text-base bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-FAST-DarkBlue focus:border-FAST-DarkBlue sm:text-sm" placeholder="Categorias">
-            <option value="">Selecciona una categoría</option>
+          <select {...field} className="text-FAST-Text block w-full h-10 pl-2 text-base bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-FAST-DarkBlue focus:border-FAST-DarkBlue sm:text-sm" placeholder="Categorias">
+            <option value="" className="p-10">Selecciona una categoría</option>
             {categorias.map((categoria) => (
               <option key={categoria.id} value={categoria.id}>
                 {categoria.nombreCategoria}
