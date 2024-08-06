@@ -10,7 +10,7 @@ import { OrdenesModal } from "../../components/modals/ordenesModales/DetallesOrd
 import { obtenerOrdenes } from "../../services/database";
 import { useEffect, useState } from "react";
 import { useKiosk } from '../../hooks/kiosko';
-import { marcarRealTime, updateOrder, marcarRealTimeUpdate } from "../../services/database";
+import { updateOrder, marcarRealTimeUpdate, changeDateFormat } from "../../services/database";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 
 let titulos = ["Gestión de Órdenes", "Gestiona los pedidos que llegan a tu Kiosco", "Buscar orden", "Nueva orden"];
@@ -21,6 +21,8 @@ const ProcesoTable = ({actualState, newState, acciones, last}) => {
     const [ordenes, setOrdenes] = useState([]);
     const [filteredRegistros, setFilteredRegistros] = useState([]);
     const [searchTerm, setSearchTerm] = useState(''); 
+    const [visibleModalId, setVisibleModalId] = useState(null);
+    const [visibleModal, setVisibleModal] = useState(false);
 
     const getOrdenes = async () => {
       try {
@@ -52,10 +54,6 @@ const ProcesoTable = ({actualState, newState, acciones, last}) => {
         setFilteredRegistros(ordenes);
       }, [ordenes]);
 
-      const [visibleModalId, setVisibleModalId] = useState(null);
-      const [visibleModal, setVisibleModal] = useState(false);
-
-
       const handleButtonClick = (id) => {
         setVisibleModalId(id);
         setVisibleModal(!visibleModal);
@@ -63,7 +61,6 @@ const ProcesoTable = ({actualState, newState, acciones, last}) => {
 
       const handleModalClose = () => { 
         setVisibleModal(!visibleModal);
-        console.log("se supone que acá debe de cerrar el modal");
       };
 
     return (
@@ -178,7 +175,7 @@ const ProcesoTable = ({actualState, newState, acciones, last}) => {
                       </div>
                      ) : (
                       <div className="flex items-center gap-3">
-                         {orden.updated}
+                         {changeDateFormat(orden.updated)}
                       </div>
                         )
                       }

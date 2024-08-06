@@ -51,6 +51,7 @@ import {
     marcarRealTime,
     marcarRealTimeUpdate,
     updateOrder,
+    changeDateFormat,
 } from './gestionOrdenes/funcionesOrdenes';
 
 // Exportar todas las funciones necesarias del usuario
@@ -108,5 +109,6 @@ export {
     marcarRealTime,
     updateOrder,
     marcarRealTimeUpdate,
+    changeDateFormat
 }
 
