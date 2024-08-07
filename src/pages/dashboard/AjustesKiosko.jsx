@@ -318,8 +318,19 @@ const ConfigKiosko = () => {
           </div>
           {mostrarBotones ?
           <div className='flex w-auto self-center'>
-            <button className="h-[40px] w-[230px] bg-FAST-DarkBlue rounded-lg font-bold text-[10x] text-[#FFFFFF]" onClick={handleSubmit(onSubmit)}>Guardar Cambios</button> 
-            <button className="h-[40px] w-[230px] bg-FAST-Orange rounded-lg font-bold text-[10x] text-[#FFFFFF] ml-4" onClick={cancelarOperacion}>Cancelar</button> </div>
+            <button 
+             className="h-[40px] w-[230px] bg-FAST-DarkBlue rounded-lg font-bold text-[10x] text-[#FFFFFF]" 
+             onClick={handleSubmit(onSubmit)}
+            >
+              Guardar Cambios
+            </button> 
+            <button 
+             className="h-[40px] w-[230px] bg-FAST-Orange rounded-lg font-bold text-[10x] text-[#FFFFFF] ml-4" 
+             onClick={cancelarOperacion}
+            >
+              Cancelar
+            </button> 
+          </div>
             : null
           }
         </form>

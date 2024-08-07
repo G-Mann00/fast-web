@@ -171,7 +171,7 @@ const RegistroCompleto = () => {
       <section className="mt-4 flex justify-center h-fit">
         <form className="w-auto h-max rounded-3xl bg-FAST-WhiteCream p-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex w-auto2 mb-6" >
-            <div className="ml-4">
+            <div className="flex flex-col ml-4 gap-[15px] ">
               <InputSection 
               tipo="text" 
               frase="Nombre" 
@@ -203,7 +203,7 @@ const RegistroCompleto = () => {
                mensaje={kioskoExist ? kioskoExist : ''} />
               
             </div>
-            <div className="ml-28">
+            <div className="ml-28 mt-6">
               {/* Use ImageUpload component */}
               <ImageUpload 
               defaultImageUrl={imageUrl || FASTKioskImage2} 

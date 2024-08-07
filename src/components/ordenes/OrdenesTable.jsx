@@ -5,7 +5,6 @@ import {
     CardBody, 
     Input, 
   } from "../../components/index";
-
 import { OrdenesModal } from "../../components/modals/ordenesModales/DetallesOrdenes";
 
 import { useEffect, useState } from "react";
@@ -49,7 +48,7 @@ const OrdenesTable = () => {
      }, []);
 
      useEffect(() => { 
-      setFilteredRegistros(ordenes);
+      setFilteredRegistros(ordenes);  
      }, [ordenes]);
 
      const [visibleModalId, setVisibleModalId] = useState(null);
@@ -101,8 +100,6 @@ const OrdenesTable = () => {
                       >
                         {head}
                       </Typography>
-
-
                     </th>
                   ))}
                 </tr>
