@@ -56,7 +56,7 @@ export function OrdenesModal({idFactura, open, handleOpen}) {
         <button 
           onClick={handleOpen} 
           className="bg-[#008000] text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer  hover:bg-[#74c365]">
-          Aceptar
+          Regresar
         </button>
         </DialogFooter>
       </Dialog>

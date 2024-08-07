@@ -3,7 +3,7 @@ import { Input } from '@material-tailwind/react';
 
 const InputSection = ({ tipo, frase, etiqueta, mensaje = ' ', register = () => { }, name, isEditable }) => {
     return (
-        <div className='pt-6 w-96'>
+        <div className='pt-2 w-96'>
             <h2 className="text-left font-bold text-FAST-Text">{etiqueta}</h2>
             <div>
                 <Input
@@ -20,13 +20,13 @@ const InputSection = ({ tipo, frase, etiqueta, mensaje = ' ', register = () => {
 };
 
 InputSection.propTypes = {
-    tipo: PropTypes.string.isRequired, // Tipo de input (requerido)
-    frase: PropTypes.string.isRequired, // Placeholder del input (requerido)
-    etiqueta: PropTypes.string.isRequired, // Etiqueta del input (requerido)
-    register: PropTypes.func, // Función de registro (opcional)
-    name: PropTypes.string.isRequired, // Nombre del input (requerido)
-    mensaje: PropTypes.string, // Mensaje de ayuda (opcional)
-    isEditable: PropTypes.bool, // Estado de si el input es editable o no (opcional, valor predeterminado es false)
+    tipo: PropTypes.string,
+    frase: PropTypes.string,
+    etiqueta: PropTypes.string, 
+    register: PropTypes.func, 
+    name: PropTypes.string.isRequired,
+    mensaje: PropTypes.string, 
+    isEditable: PropTypes.bool, 
 };
 
 export default InputSection;

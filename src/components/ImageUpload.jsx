@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { 
+     useState, 
+     useEffect 
+    } from 'react';
 
 const ImageUpload = ({ defaultImageUrl, onChange, register = () => { }, name, mostrarBotones = true }) => {
     const [imageUrl, setImageUrl] = useState(defaultImageUrl);
@@ -27,7 +30,7 @@ const ImageUpload = ({ defaultImageUrl, onChange, register = () => { }, name, mo
     }, [onChange, name]);
 
     return (
-        <div className="w-80 pt-6 pb-[35px] grid justify-items-center">
+        <div className="w-80 grid justify-items-center">
             <img 
             className='w-[250px] h-[250px] rounded-full mb-6 object-cover' 
             src={imageUrl || defaultImageUrl} alt="Uploaded" />
@@ -43,9 +46,9 @@ const ImageUpload = ({ defaultImageUrl, onChange, register = () => { }, name, mo
 
 ImageUpload.propTypes = {
     defaultImageUrl: PropTypes.string, // URL de imagen predeterminada
-    onChange: PropTypes.func.isRequired, // Función de cambio de imagen
+    onChange: PropTypes.func, // Función de cambio de imagen
     register: PropTypes.func, // Función de registro de formularios
-    name: PropTypes.string.isRequired, // Nombre del input (usado como ID)
+    name: PropTypes.string, // Nombre del input (usado como ID)
     mostrarBotones: PropTypes.bool, // Mostrar botones
 };
 
