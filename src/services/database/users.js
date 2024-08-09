@@ -8,7 +8,6 @@ import {
 pb.autoCancellation(false);
 
 //funciones de registro
-//// eslint-disable-next-line no-unused-vars
 async function createKioskoDetails(userId, data, file) {
     let nombreKiosko = capitalizeFirstLetter(data.nomKiosko);
     try {
@@ -63,25 +62,6 @@ export async function createUser(data, file) {
         return false;
     }
 }
-
-
-
-/*export async function isCellphoneAvailable(username) {
-    try {
-        // Realiza una consulta en la colección 'usersAdmin' para buscar el nombre de usuario
-        const results = await pb.collection('tienda').getList(1, 1, {
-            filter: `telefono="${username}"` // Filtra por nombre de usuario
-        });
-
-        // Si no hay registros encontrados, el nombre de usuario está disponible
-        return results.totalItems === 0;
-
-    } catch (error) {
-        console.error('Error verificando la disponibilidad del nombre de usuario:', error);
-        return false; // En caso de error, asume que el nombre de usuario no está disponible
-    }
-}*/
-
 
 export async function isKioskonameAvailable(nombre, type) {
     const kioskoName = capitalizeFirstLetter(nombre);
@@ -175,4 +155,33 @@ export async function obtenerDatosActualizadosUsuario(userId) {
     }
 }
 
+export async function editarUsuario(userId, user, file ) {
+    try {
+        let userDetails = {};
+        const nombreCompleto = capitalizeFirstLetter(user.nameUser);
+        if (file != null ){
+             userDetails = {
+                name: nombreCompleto,
+                avatar: file,
+            };
+        } else {
+            userDetails = {
+                name: nombreCompleto,
+            };
+        }
+        
+        const res = await pb.collection('usersAdmin').update(userId, userDetails);
+        console.log('Usuario actualizado:', res);
+        return res;
+
+
+    } catch (error) { 
+        if (error.response && error.response.data) {
+            console.log(error.response.data);
+            return false;
+         }
+        return null;
+    }
+
+}
 

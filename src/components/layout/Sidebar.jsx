@@ -56,13 +56,13 @@ const Sidebar = () => {
   }, [user, loginKiosko, navigate]);
 
   return (
-    <div className="bg-FAST-DarkBlue w-60 p-3 flex flex-col text-FAST-WhiteCream">
+    <div className="bg-FAST-DarkBlue w-[250px] pl-3 flex flex-col text-FAST-WhiteCream">
 
       {/* Perfil del Kiosko */}
-      <div className="flex flex-col items-center justify-center p-8 gap-3 h-[31vh]">
+      <div className="flex flex-col items-center justify-center mt-5 mr-8 gap-3 h-[32vh]">
         <img
           src={imageUrl ? imageUrl : FASTKioskImage}
-          className="w-40 h-40 object-cover rounded-full ring-8 ring-FAST-Orange"
+          className="w-[150px] h-[150px] object-cover rounded-full ring-8 ring-FAST-Orange"
           alt="Profile"
         />
         <h1 className="text-xl text-FAST-WhiteCream font-medium text-center pt-2">{nombreKiosko ? nombreKiosko : "Kiosko FAST"}</h1>

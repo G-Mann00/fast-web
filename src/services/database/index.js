@@ -7,7 +7,8 @@ import {
 import { 
     authenticateUser, 
     hasTiendaRecords,
-    obtenerDatosActualizadosUsuario 
+    obtenerDatosActualizadosUsuario,
+    editarUsuario, 
     } from './users';
 
 import { 
@@ -61,6 +62,7 @@ export {
     authenticateUser,
     hasTiendaRecords,
     obtenerDatosActualizadosUsuario,
+    editarUsuario
 };
 
 // Exportar las funciones del kiosko

@@ -39,6 +39,7 @@ import {
   trimSpaces 
 } from '../../utils/index';
 
+let imagenNombre = null;
 
 const ConfigKiosko = () => {
   const { kiosko } = useKiosk();
@@ -149,8 +150,7 @@ const ConfigKiosko = () => {
       return;
     }
     checkVacios(dataTrim);
-    const objeto = renombrarObjeto(dataTrim, imageChange);
-    //console.log("kioskocurret: ", kioskoCopyRef.current);
+    const objeto = renombrarObjeto(dataTrim, imagenNombre);
     const result = compareObjetcs(objeto, kioskoCopyRef.current, setChangeM);
     if (!result) {
       return;
@@ -158,6 +158,8 @@ const ConfigKiosko = () => {
     const res = await editarKiosko(kiosko.id, dataTrim, file);
     if (res) {
       handleSuccesOpenEdit();
+      kioskoCopyRef.current = objeto;
+      enableOrNotEnable();
     }
   }; // Funcion para enviar los datos del formulario, aun tengo que implementarla para actualizar los datos del kiosko
 
@@ -174,13 +176,11 @@ const ConfigKiosko = () => {
 
   const handleImageClick = () => {
     enableOrNotEnable();
-
   };
 
   const uploadImage = (file) => { 
-    console.log("file: ", file);
     handleImageFileChange(file, setImageUrl, setFile);
-    setImageChange(file.name);
+    imagenNombre = file.name;
   };
 
    const cancelarOperacion = () =>  { 
@@ -208,6 +208,7 @@ const ConfigKiosko = () => {
         cargarDatosKiosko();
 
     }
+    imagenNombre = kiosko.imagen;
   }, [kiosko, setValue]);
 
   useEffect(() => {
@@ -224,7 +225,6 @@ const ConfigKiosko = () => {
     const imagenURL = generarUrlImagen(kiosko, 'imagen');
     setImageUrl(imagenURL);
     setImageChange(kiosko.imagen);
-    console.log("kiosko: ", kiosko.image);
   }
 
   return (
