@@ -4,9 +4,10 @@ import {
      useEffect 
     } from 'react';
 
+import userIcon from '../assets/img/fast-default-user-icon.png';
+
 const ImageUpload = ({ defaultImageUrl, onChange, register = () => { }, name, mostrarBotones = true }) => {
     const [imageUrl, setImageUrl] = useState(defaultImageUrl);
-
     useEffect(() => {
         const handleFileChange = (event) => {
             const file = event.target.files[0];
@@ -33,7 +34,7 @@ const ImageUpload = ({ defaultImageUrl, onChange, register = () => { }, name, mo
         <div className="w-80 grid justify-items-center">
             <img 
             className='w-[250px] h-[250px] rounded-full mb-6 object-cover' 
-            src={imageUrl || defaultImageUrl} alt="Uploaded" />
+            src={imageUrl || defaultImageUrl || userIcon} alt="Uploaded" />
             {mostrarBotones ? <label 
             htmlFor={name} 
             className="inline-block w-72 h-10 bg-FAST-Orange text-FAST-WhiteCream cursor-pointer hover:bg-[#ed6d1f] font-bold uppercase rounded-lg relative">
