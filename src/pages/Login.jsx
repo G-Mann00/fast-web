@@ -36,7 +36,6 @@ const Login = () => {
       const user = await authenticateUser(dataTrim.email, dataTrim.password);
 
       if (!user) {
-        console.log('Usuario no encontrado');
         setErrorMessage(true);
       } else if (!await hasTiendaRecords(user.id)) {
         setNoKiosko(true);
