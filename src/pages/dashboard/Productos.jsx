@@ -1,12 +1,22 @@
 import DocumentTitle from "../../components/DocumentTitle";
-import { ProductTable, SpinnerFAST } from "../../components/index"
+import { 
+  ProductTable, 
+  SpinnerFAST 
+} from "../../components/index"
 import { cargarProductosYmapear } from "../../services/database/index";
 import { useKiosk } from '../../hooks/kiosko';
-import { useEffect, useCallback, useState } from 'react';
+import { useCategoria } from "../../hooks/categoria"; 
+import { obtenerCategoriasCompletas } from "../../services/database/index";
+import { 
+  useEffect, 
+  useCallback, 
+  useState 
+} from 'react';
 
 const Productos = () => {
   DocumentTitle("FAST - Productos");
   const { kiosko } = useKiosk();
+  const { setCategoria } = useCategoria();
   const [productosArray, setProductosArray] = useState([]);
   //Estados para manejat los modales
   const [createOpen, setCreateOpen] = useState(false); // Mostrar modal para crear producto
@@ -59,7 +69,8 @@ const Productos = () => {
   useEffect(() => {
     const fetchProductos = async () => {
       setLoadingS(true);
-
+      const categorias = await obtenerCategoriasCompletas();
+      setCategoria(categorias);
       await manejarCargaProductos();
       setLoadingS(false);
     };
@@ -67,6 +78,7 @@ const Productos = () => {
     
     if (kiosko) {
       fetchProductos();
+      
     }
 
   }, [kiosko, manejarCargaProductos]);

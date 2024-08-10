@@ -1,5 +1,12 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
-import { useEffect, useState } from 'react';
+import { 
+  Routes, 
+  Route, 
+  useNavigate 
+} from "react-router-dom";
+import { 
+  useEffect, 
+  useState 
+} from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
 import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
@@ -17,6 +24,7 @@ import SolicitudEnviada from "./pages/solicitudEnviada";
 import { UserProvider } from "./context/userContext";
 import { KioskoProvider } from "./context/kioskoContext"; // Importar KioskoProvider
 import { useUser } from '../src/hooks/user'; // Importar el hook useUser
+import { CategoriaProvider } from "./context/categoriasContext";
 
 
 function ProtectedRoute({ component: Component, ...rest }) {
@@ -75,7 +83,8 @@ function App() {
           </KioskoProvider>
         }>
           <Route index element={<Inicio />} />
-          <Route path="/dashboard/productos" element={<Productos />} />
+         
+          <Route path="/dashboard/productos" element={ <CategoriaProvider> <CategoriaProvider/><Productos /></CategoriaProvider> } />
           <Route path="/dashboard/ordenes" element={<Ordenes />} />
           <Route path="/dashboard/kiosko" element={<ConfigKiosko />} />
           <Route path="/dashboard/cajeros" element={<Cajeros />} />
