@@ -1,5 +1,5 @@
 import pb from '../pocketbase';
-import { playAudio } from '../../../utils/playSound/newOrderSound';
+import { playAudio } from '../../../utils';
 
 export async function obtenerOrdenes(tiendaId, estado) {
     async function exponentialBackoff(attempt, delay) {
@@ -96,7 +96,6 @@ export async function obtenerOrdenesProceso(tiendaId, estado) {
 
 export async function updateStateOrder(orderId, state) {
     try {
-        console.log('orderId:', orderId);
         await pb.collection('factura').update(orderId, {
             Estado: state,
         });
@@ -112,7 +111,6 @@ export async function obtenerOrdenesRealTime(obtenerOrdenes) {
       if (event.action === "create" ) {
         setTimeout(() => {
           obtenerOrdenes();
-          playAudio();
         }, 1000); 
       }
       else if (event.action === "update" || event.action === "delelte") {
