@@ -11,6 +11,7 @@ import { trimSpaces } from './trimSpaces';
 import { capitalizeLongStrings } from './capitalizeLongStrings';
 import { createPassword } from './passwordUtils/createPassword';
 import { separeteWordFromNumber } from './separeteWordFromNumber';
+import { playAudio } from './playSound/newOrderSound';
 
 export {
     generarUrlImagen,
@@ -25,6 +26,7 @@ export {
     trimSpaces,
     capitalizeLongStrings,
     createPassword,
-    separeteWordFromNumber
+    separeteWordFromNumber,
+    playAudio
 };
 

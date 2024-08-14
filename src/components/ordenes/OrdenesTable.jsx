@@ -6,7 +6,7 @@ import {
     Input, 
   } from "../../components/index";
 import { OrdenesModal } from "../../components/modals/ordenesModales/DetallesOrdenes";
-
+import { playAudio } from "../../utils/index";
 import { useEffect, useState } from "react";
 import { useKiosk } from '../../hooks/kiosko';
 import { updateOrder, marcarRealTime, obtenerOrdenesProceso } from "../../services/database";
@@ -14,7 +14,7 @@ import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 
 let titulos = ["Gestión de Órdenes", "Gestiona los pedidos que llegan a tu Kiosco", "Buscar orden", "Nueva orden"];
 let TABLE_HEAD = ["Nº de orden", "Usuario","Detalles Orden","Total","Acciones"];	
-
+let numOrdenes = 0;
 const OrdenesTable = () => { 
     const { kiosko } = useKiosk();
     const [ordenes, setOrdenes] = useState([]);
@@ -24,11 +24,26 @@ const OrdenesTable = () => {
     const getOrdenes = async () => {
       try {
         let ordenes_resultados = await obtenerOrdenesProceso(kiosko.id, 1);
+        numOrdenes = ordenes_resultados.length;
         setOrdenes(ordenes_resultados);
       } catch (error) {
         console.error('Error fetching ordenes:', error);
       }
     };
+
+    const getOrdenesRealTime = async () => {
+      try {
+        let ordenes_resultados = await obtenerOrdenesProceso(kiosko.id, 1);
+        if (ordenes_resultados.length > numOrdenes) { 
+          playAudio();
+        }
+        numOrdenes = ordenes_resultados.length;
+        setOrdenes(ordenes_resultados);
+      } catch (error) {
+        console.error('Error fetching ordenes:', error);
+      }
+    };
+
 
     const handleSearchChange = (event) => {
       setSearchTerm(event.target.value);
@@ -44,7 +59,7 @@ const OrdenesTable = () => {
   
     useEffect(() => {
       getOrdenes();
-      marcarRealTime(getOrdenes);
+      marcarRealTime(getOrdenesRealTime);
      }, []);
 
      useEffect(() => { 
