@@ -168,7 +168,7 @@ const ProcesoTable = ({actualState, newState, acciones, last}) => {
                          </button>
 
                         <button 
-                         onClick={() => updateOrder(orden.id, 1)} 
+                         onClick={() => updateOrder(orden.id, -1)} 
                          className="bg-[#ef4444] text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#FF6B6B]">
                          {acciones[1]}
                         </button>
