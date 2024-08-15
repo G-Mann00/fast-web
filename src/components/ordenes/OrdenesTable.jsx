@@ -183,7 +183,7 @@ const OrdenesTable = () => {
                           Aceptar
                         </button>
   
-                        <button onClick={() => updateOrder(orden.id, 5)} 
+                        <button onClick={() => updateOrder(orden.id, -1)} 
                           className="bg-[#ef4444] text-FAST-WhiteCream font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-[#FF6B6B]">
                           Cancelar
                         </button>
