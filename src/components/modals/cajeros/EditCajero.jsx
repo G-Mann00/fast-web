@@ -11,7 +11,7 @@ import {
     } 
      from "../../index";
 import  cajero_icon  from "../../../assets/img/fast-default-user-icon.png"
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import editPencil from '../../../assets/img/editIcon.png';
 import {
     trimSpaces,
@@ -114,7 +114,9 @@ const EditCajero = ({ editOpen, cajero, handleModalOpen, handleSuccesOpenEdit })
     useEffect(() => {
         if (cajero) {
             setLoading(false);
-            
+            setValue('nombreCajero', cajero[7]);
+           setValue('apellidoCajero', cajero[3]);
+
         }
     }, [cajero, setValue]);
 

@@ -110,7 +110,6 @@ const Ajustes = () => {
     const dataTrim = trimSpaces(data);
     const objeto = renombrarObjeto(dataTrim, imagenUsuario);
     const result = compareObjetcs(previousUserRef.current, objeto, setChangeM);
-    console.log(result);
     if (!result) {
       return;
     }

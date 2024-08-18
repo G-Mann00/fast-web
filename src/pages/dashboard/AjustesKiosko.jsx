@@ -8,6 +8,8 @@ import editPencil from '../../assets/img/editIcon.png'
 
 import useSuccessState from '../../hooks/modal';
 
+import FASTKioskImage2 from '../../assets/img/FASTKioskImage2.png';
+
 import { 
   InputSection, 
   ImageUpload, 

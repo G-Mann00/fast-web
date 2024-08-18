@@ -159,6 +159,7 @@ export async function editarUsuario(userId, user, file ) {
     try {
         let userDetails = {};
         const nombreCompleto = capitalizeFirstLetter(user.nameUser);
+        
         if (file != null ){
              userDetails = {
                 name: nombreCompleto,
@@ -171,7 +172,6 @@ export async function editarUsuario(userId, user, file ) {
         }
         
         const res = await pb.collection('usersAdmin').update(userId, userDetails);
-        console.log('Usuario actualizado:', res);
         return res;
 
 

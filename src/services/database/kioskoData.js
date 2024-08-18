@@ -61,15 +61,20 @@ export async function editarKiosko(id, kiosko, file) {
 
         const nombreKiosko = capitalizeFirstLetter(kiosko.nombreKiosko);
         const descripcionKiosko = capitalizeLongStrings(kiosko.descripcionKiosko);
-
-        const detallesKiosko = {
+        let detallesKiosko  = {
             nombre: nombreKiosko,
             telefono: kiosko.telefonoKiosko,
             correo: kiosko.emailKiosko,
-            descripcion: descripcionKiosko,
-            imagen: file,
-        }
+            descripcion: descripcionKiosko 
+        };
 
+        if (file != null){
+            detallesKiosko = {
+                ...detallesKiosko, //spread operator: takes all the existing properties of detallesKiosko and copies them into a new object.
+                imagen: file 
+            };
+        } 
+ 
         // Edita el kiosko con el id proporcionado
         await pb.collection('tienda').update(id, detallesKiosko);
 
