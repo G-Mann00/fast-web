@@ -49,10 +49,14 @@ const CreateCajero = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombre
             setErrorMessage('Por favor llena todos los campos');
             return false;
         } 
+        else if (data.password.length < 6) { 
+            setErrorMessage('La contraseña debe tener al menos 8 caracteres');
+            return false;
+        }
         else if (!checkPasswordMatch(data.password, data.passwordConfirm)) { 
             setPasswordMatch('Las contraseñas no coinciden');
             return false;
-        }
+        } 
         else {
             setErrorMessage('');
             setPasswordMatch('');
@@ -67,10 +71,11 @@ const CreateCajero = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombre
 
     const onSubmit = async (data) => {
         const dataTrim = trimSpaces(data);
+        setErrorMessage('');
+        setPasswordMatch('');
         if (handleValidacion(data)) {
             const result = await createCajero(data, kiosko.id, kiosko.nombre);
             if (result) {
-                console.log("Cajero creado con éxito");
                 setNombreProd(data.nombreCajero);
                 setTimeout(() => {
                     handleSuccessOpen();
@@ -128,7 +133,7 @@ const CreateCajero = ({ stateOpen, handleModalOpen, handleSuccessOpen, setNombre
                         />
                     </div>
 
-                    <div className="mt-[100px] ml-[32px]">
+                    <div className="mt-[10px] mb-[50px] ml-[32px]">
                         <img src={cajero_icon} alt="Cajero icon"></img>
                     </div>
                     
