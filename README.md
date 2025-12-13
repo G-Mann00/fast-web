@@ -3,20 +3,19 @@
 
 ## Descripción
 
-Una versión web complementaria de FAST (Food Accessible for Swift Takeout) desarrollada con React y Tailwind CSS, ofreciendo a los propietarios de kioskos herramientas administrativas avanzadas, el usuario que administra el kiosko puede realizar las siguientes funciones:
-- Gestión del catálogo del kiosko (Productos)
+Una versión web complementaria de FAST (Food Accessible for Swift Takeout) desarrollada con React y Tailwind CSS, ofreciendo a los propietarios de kioscos herramientas administrativas avanzadas, el usuario que administra el kiosco puede realizar las siguientes funciones:
+- Revisión de métricas y datos del negocio
+- Gestión del catálogo del kiosco (Productos)
 - Gestión de órdenes
-- Gestión de los datos del kiosko
+- Gestión de los datos del kiosco
 - Ajustes del perfil que administra el kiosko
 
 ## Vista Previa
-
-![fast-landingpage](https://github.com/G-Mann00/fast-web/assets/103607877/f997bde3-47c3-44f9-8487-b653e767b7ab)
-<hr>
-
-![image](https://github.com/G-Mann00/fast-web/assets/103607877/f40e0ae9-5866-4a10-8723-490f05bae195)
-
-
+<img width="1898" height="907" alt="Screenshot 2025-12-13 001120" src="https://github.com/user-attachments/assets/a06796ed-3aec-4ddc-af14-425a6892c2fa" />
+<img width="1919" height="867" alt="Screenshot 2025-12-13 001400" src="https://github.com/user-attachments/assets/74fa9299-8bc7-47ed-ba15-fc7500af1053" />
+<img width="1902" height="862" alt="image" src="https://github.com/user-attachments/assets/c00f3ce2-d3d5-4391-a536-973ad3e953ae" />
+<img width="1919" height="865" alt="Screenshot 2025-12-13 001509" src="https://github.com/user-attachments/assets/691a6361-f597-44c1-adba-0ed27e08b752" />
+<img width="1919" height="863" alt="Screenshot 2025-12-13 001554" src="https://github.com/user-attachments/assets/fbc09e20-5112-4c54-8080-9c264766c3ba" />
 
 ## Uso del proyecto
 
@@ -28,17 +27,8 @@ Este proyecto fue creado mediante la herramienta de construcción (build tool) *
 - React Icons
 - Classnames
 - React Hook Form
-
-## Alcance Minimo (24/04/2024)
-- Conexion a la base de datos a travez de una API hosteada
-- Sincronizacion con aplicacion movil de FAST
-- Denegacion de Permiso y Error404 customizado
-- Registro de Kiosko
-- Inicio de Sesion con autentificacion
-- Visualizacion del catalogo del Kiosko
-- Sidebar con opcion de agregar nuevas opciones
-- Pantallas de Producto, Kiosko y Ajuste de Usuario
-- Crear y eliminar productos
+- Toastify JS
+- Recharts
 
 ### Manual de Usuario
 https://drive.google.com/file/d/1PfApvTSsvW93eYTY-rDAgG-ygC0qkg0i/view
@@ -65,4 +55,3 @@ El proyecto FAST ha sido desarrollado por:
 - Henry Noel Reyes Duarte (@Noelby13)
 - Luswi Danilo Torres Pomarez (@G-Mann00)
 - Maria Paula Lopez Garcia (@garcia-lopez)
-- Emanuel Antonio Leite Hernandez (@Nana1423)
