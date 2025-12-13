@@ -24,7 +24,8 @@ const Hero = () => {
           </a>
 
           <a
-            href="https://docs.google.com/document/d/1BTF859wrmj2FItA_RM5SjaNdsuu_ggZ74tNq4qYjsVc/edit?usp=sharing"
+            href="https://drive.google.com/file/d/1mzaewQ8HCuLEYkvOCHbVoh2_YQ1_-ReF/view"
+            target="_blank"
             className="bg-FAST-DarkBlue text-base sm:text-lg md:text-xl font-medium text-FAST-WhiteCream py-3 px-6 rounded-lg hover:bg-[#2B3045] transition"
           >
             Conocer más
